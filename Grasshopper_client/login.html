@@ -122,7 +122,8 @@
 					statusBarBackground: '#f7f7f7'
 				});
 			
-				
+				//页面请求全局路径
+				window.path="http://localhost:8080/Grasshopper_server/";
 				
 				//给登录按钮绑定点击事件
 				var btn = document.getElementById("login");
@@ -146,7 +147,7 @@
 							console.log(data);
 						}
 					});*/
-						mui.post('http://localhost:8080/Grasshopper_server/TestServlet',{
+						mui.post(window.path+'TestServlet',{
 							method:"test",
 							account:account,
 							password:password

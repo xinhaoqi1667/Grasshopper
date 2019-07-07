@@ -59,11 +59,13 @@
 	-->
 	<script src="js/template-web.js"></script>
 	<script>
+		//页面请求全局路径
+		window.path="http://localhost:8080/Grasshopper_server/";
 		mui.init({
 			swipeBack:true //启用右滑关闭功能
 		});
 		
-		mui.get('http://localhost:8080/Grasshopper_server/TestServlet?method=GetData',function(data){
+		mui.get(window.path+'TestServlet?method=GetData',function(data){
 			//console.log(data);
 		//获得服务器响应
 		var html = template("test",data);
