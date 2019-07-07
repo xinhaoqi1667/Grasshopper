@@ -1,5 +1,4 @@
-# Grasshopper
-蝈蝈是由大数据一班和软信等一批优秀的年轻人创始的前后端分离的项目，希望能更新走得更远。
+﻿蝈蝈是由大数据一班和软信等一批优秀的年轻人创始的前后端分离的项目，希望能更新走得更远。
 
 ＃设计模式，前后端分离（服务端工程名:Grasshopper_server 客户端工程名:Grasshopper_client）
 前端开发框架采取MUI数据渲染采用JS模板引擎
@@ -14,7 +13,8 @@
 http://aui.github.io/art-template/zh-cn/docs/syntax.html
 https://www.cnblogs.com/shiyou00/p/6841801.html
 https://blog.csdn.net/qq_40147863/article/details/82857401
-
+#DBUtils 查询操作的九种结果集处理
+https://blog.csdn.net/joker_mikeli/article/details/78710135?from=singlemessage&isappinstalled=0
 
 #后端serlvet请求路径自行分发。其中对外暴露接口的控制器文件只能在com.hp.controller包下面，并且命名必须采取的是XXservlet开头。
 #注意：
