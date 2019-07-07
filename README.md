@@ -24,7 +24,7 @@ https://blog.csdn.net/qq_40147863/article/details/82857401
 
 3.数据表给字段注释，其中注释和数据设计文档以及其他相关资料上传至doc文件夹下
 
-#统一返回格式：{
+#服务端统一返回格式：{
 	"result": {
 		"resultCode": "200",
 		"reason": "请求成功！"
