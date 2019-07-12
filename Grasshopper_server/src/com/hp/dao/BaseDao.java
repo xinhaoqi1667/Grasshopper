@@ -6,6 +6,7 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
@@ -31,6 +32,22 @@ public class BaseDao {
 		}
 		return null;
 	}
+	//·µ»Ø¹Ø×¢id
+		public <T>  List<T> QueryFocus(String sql,Class<T>  t,Object[] params)
+		{
+			T query=null;
+			 DataSource dataSource = JDBCUtils.getDataSource();
+			QueryRunner queryRunner = new QueryRunner(dataSource);
+			try {
+				
+				  query =  (T) queryRunner.query(sql, new BeanListHandler<T>(t),params);
+				 return  (List<T>) query;
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return null;
+		}
 }
 
 
