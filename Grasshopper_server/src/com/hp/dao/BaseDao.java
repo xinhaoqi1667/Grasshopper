@@ -49,7 +49,7 @@ public class BaseDao {
 			}
 			return null;
 		}
-<<<<<<< HEAD
+
 		//修改
 		public  boolean updateBy(String sql,Object[] params)
 		{
@@ -60,7 +60,13 @@ public class BaseDao {
 				
 				  int query =  queryRunner.update(sql, params);
 				 return query>0?true:false;
-=======
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return false;
+			}
+
 		
 		//返回搜索的用户以及用户信息
 	public <T> List<T> search(String sql,Class<T> t,Object[] params)
@@ -70,16 +76,13 @@ public class BaseDao {
 			try {
 				List<T> list = queryRunner.query(sql,new BeanListHandler<T>(t),params);
 				return list;
->>>>>>> 40dd71c21590ffecb0582cade1aa9f7d44d5c2fd
+
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-<<<<<<< HEAD
-			return false;
-=======
 			return null;
->>>>>>> 40dd71c21590ffecb0582cade1aa9f7d44d5c2fd
+
 		}
 }
 
