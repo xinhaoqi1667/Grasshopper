@@ -7,6 +7,7 @@ import javax.sql.DataSource;
 
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.ResultSetHandler;
+import org.apache.commons.dbutils.handlers.ArrayListHandler;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
@@ -42,6 +43,21 @@ public class BaseDao {
 				
 				  query =  (T) queryRunner.query(sql, new BeanListHandler<T>(t),params);
 				 return  (List<T>) query;
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return null;
+		}
+		
+		//返回搜索的用户以及用户信息
+	public <T> List<T> search(String sql,Class<T> t,Object[] params)
+		{
+			 DataSource dataSource = JDBCUtils.getDataSource();
+			QueryRunner queryRunner = new QueryRunner(dataSource);
+			try {
+				List<T> list = queryRunner.query(sql,new BeanListHandler<T>(t),params);
+				return list;
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
