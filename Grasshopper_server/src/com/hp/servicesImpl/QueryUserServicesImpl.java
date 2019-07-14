@@ -10,7 +10,7 @@ import com.hp.services.QueryUserServices;
 public class QueryUserServicesImpl implements QueryUserServices{
 	private QueryUserDao q = new QueryUserDao();
 	
-	//查看
+	//根据用户名查询个人信息返回Result对象
 	@Override
 	public Result getData(String user_name) {
 		Result result = null;
@@ -23,7 +23,7 @@ public class QueryUserServicesImpl implements QueryUserServices{
 		return result;
 	}
 
-	//提供数据
+	//提供用户个人信息数据
 	@Override
 	public List<TestUser> getUser(String name) {
 		return q.getUser(name);
