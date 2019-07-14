@@ -28,11 +28,12 @@ import com.hp.servicesImpl.TestServicesImpl;
 @WebServlet("/TestServlet")
 public class TestServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-  
+	private String user_name = null;
 
 	
 	protected void service(HttpServletRequest request, javax.servlet.http.HttpServletResponse response)
 			throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
 		System.out.println("测试");
 		try {
 			String method = request.getParameter("method");
@@ -43,7 +44,6 @@ public class TestServlet extends HttpServlet {
 			case "GetData":
 				this.GetData(request,response);
 				break;
-
 			default:
 				break;
 			}
@@ -58,8 +58,7 @@ public class TestServlet extends HttpServlet {
 	}
 	//测试传递参数
 	protected void test(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	{
-		
+	{			
 				TestServices TestServicesImpl = new TestServicesImpl();
 				//使用Gson序列化	
 				Gson gson=new Gson();
@@ -67,8 +66,8 @@ public class TestServlet extends HttpServlet {
 				PrintWriter out=null;
 				try {
 					String account=request.getParameter("account");
-					 String password=request.getParameter("password");
-					 
+					String password=request.getParameter("password");
+					user_name = account;
 					
 						System.out.println("接收过来的值是"+account+"\t"+password);
 						//将java对象转为json格式的的字符串
@@ -111,6 +110,7 @@ public class TestServlet extends HttpServlet {
 					 Map map=new HashMap<>();
 					 map.put("result",result);
 					 map.put("resultData",list);
+					 map.put("name",user_name);
 					 json=gson.toJson(map);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -123,6 +123,7 @@ public class TestServlet extends HttpServlet {
 				System.out.println(json);
 				//将结果以json形式暴露返回出去
 				out.write(json);
+				
 			}
 	}
 
