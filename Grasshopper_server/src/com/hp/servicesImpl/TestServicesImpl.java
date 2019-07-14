@@ -11,7 +11,6 @@ import com.hp.entity.Result;
 import com.hp.services.TestServices;
 //接口实现类（存放具体业务逻辑操作）
 public class TestServicesImpl implements TestServices {
-
 	private TestDao dao=new TestDao();
 	
 	//测试实例
@@ -35,7 +34,7 @@ public class TestServicesImpl implements TestServices {
 		{
 			result = new Result("1001","对不起，该用户不存在！");
 		}
-		
+	
 		return result;
 		
 		
@@ -58,5 +57,4 @@ public class TestServicesImpl implements TestServices {
 		 
 		 return list;
 	}
-
 }
