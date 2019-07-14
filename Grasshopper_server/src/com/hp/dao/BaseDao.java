@@ -50,6 +50,7 @@ public class BaseDao {
 			return null;
 		}
 
+
 		//修改
 		public  boolean updateBy(String sql,Object[] params)
 		{
@@ -67,6 +68,7 @@ public class BaseDao {
 			return false;
 			}
 
+
 		
 		//返回搜索的用户以及用户信息
 	public <T> List<T> search(String sql,Class<T> t,Object[] params)
@@ -82,7 +84,6 @@ public class BaseDao {
 				e.printStackTrace();
 			}
 			return null;
-
 		}
 }
 
