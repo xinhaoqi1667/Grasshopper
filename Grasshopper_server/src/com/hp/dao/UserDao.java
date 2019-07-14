@@ -9,14 +9,9 @@ import com.hp.servicesImpl.UserServicesImpl;
 public class UserDao extends BaseDao{
 public static void main(String[] args) {
 	UserServices userServices=new UserServicesImpl();
-	 String s=userServices.Focus(1);
-	 List list=userServices.idFocus(s);
+	 userServices.deleteFocus(4, 1);
 	
-	 for(int i=0;i<list.size();i++){
-		 System.out.println(list.get(i));
-	 }
-	
-	 System.out.println(s);
+	 
 }
 	
 	public List idFocus(String idFocus){
@@ -39,4 +34,31 @@ public static void main(String[] args) {
 		return super.QueryBy(sql, "focus", params);
 	}
 
+	public boolean deleteFocus(int idFocus,int id){
+		UserServices userServices=new UserServicesImpl();
+		 String s=userServices.Focus(id);
+		 List list=userServices.idFocus(s);
+		 StringBuffer s1=new StringBuffer();
+		 for(int i=0;i<list.size();i++){
+			 User user=(User)list.get(i);
+			 if(user.getId()!=idFocus){
+				 s1.append(user.getId()+",");
+			 }
+		
+			
+			 
+		 }
+		 s1.deleteCharAt(s1.lastIndexOf(","));
+		Object[] params={s1.toString(),id};
+		String sql="update user set focus=? where id=?";
+		return super.updateBy(sql, params);
+	}
+	public boolean addFocus(int idFocus,int id){
+		UserServices userServices=new UserServicesImpl();
+		 String s=userServices.Focus(id);
+		 String s1=s+","+idFocus;
+		Object[] params={s1,id};
+		String sql="update user set focus=? where id=?";
+		return super.updateBy(sql, params);
+	}
 }

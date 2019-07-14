@@ -20,4 +20,16 @@ UserDao userDao=new UserDao();
 		return userDao.Focus(id);
 	}
 
+	@Override
+	public boolean addFocus(int idFocus, int id) {
+		// TODO Auto-generated method stub
+		return userDao.addFocus(idFocus, id);
+	}
+
+	@Override
+	public boolean deleteFocus(int idFocus, int id) {
+		// TODO Auto-generated method stub
+		return userDao.deleteFocus(idFocus, id);
+	}
+
 }

@@ -24,24 +24,16 @@
 	<body>
 		<header class="mui-bar mui-bar-nav">
 			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
-			<h1 class="mui-title">media list（图文列表测试）</h1>
+			<h1 class="mui-title">个人信息</h1>
 		</header>
 		<div class="mui-content">
-			<div class="title">
-				缩略图居左
-			</div>
+	
 			<ul class="mui-table-view" id="content">
 			<script id="test" type="text/html">	
-				{{each resultData}} <!-- resultData和服务端返回的名字必须一致-->
-				<li class="mui-table-view-cell mui-media">
-					<a href="javascript:;">
-						<img class="mui-media-object mui-pull-left" src={{$value.imgurl}}>
-						<div class="mui-media-body">
-							{{$value.title}}
-							<p class='mui-ellipsis'>{{$value.content}}</p>
-						</div>
-					</a>
-				</li>
+				{{each resultUser}}
+				<p>用户名:<a>{{$value.name}}</a></p>
+				<p>学院:<a>{{$value.college_name}}</a></p>
+				<p>专业:<a>{{$value.major_name}}</a></p>
 				{{/each}}
 			</script>
 			</ul>
@@ -63,12 +55,11 @@
 			swipeBack:true //启用右滑关闭功能
 		});
 		
-		mui.get(window.path+'TestServlet?method=GetData',function(data){
+		mui.get(window.path+'QueryUserServlet?method=GetUser',function(data){
 			console.log(data);
 		//获得服务器响应
 		var html = template("test",data);
 		document.getElementById('content').innerHTML = html;
-		
 	},'json'
 	
 	); 

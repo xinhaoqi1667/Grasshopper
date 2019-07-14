@@ -18,6 +18,11 @@
 				color: #6d6d72;
 				font-size: 15px;
 			}
+			.user{
+				display: block;
+				width: 50px;	
+				cursor: pointer;
+			}
 		</style>
 	</head>
 
@@ -27,9 +32,7 @@
 			<h1 class="mui-title">media list（图文列表测试）</h1>
 		</header>
 		<div class="mui-content">
-			<div class="title">
-				缩略图居左
-			</div>
+			用户名:<a class="user" id="user_name"></a>
 			<ul class="mui-table-view" id="content">
 			<script id="test" type="text/html">	
 				{{each resultData}} <!-- resultData和服务端返回的名字必须一致-->
@@ -67,11 +70,65 @@
 			console.log(data);
 		//获得服务器响应
 		var html = template("test",data);
+		//从Servlet返回的响应中获取存入的用户名并且赋值到id命名的a标签中
+		document.getElementById('user_name').innerText = data.name;
 		document.getElementById('content').innerHTML = html;
 		
 	},'json'
 	
 	); 
-		
+	
+	//给a标签按钮绑定点击事件
+	var a = document.getElementById("user_name");
+	//触发a标签的点击事件
+	mui.trigger(a,'tap');
+	//监听点击事件
+	a.addEventListener("tap",function () {
+					//获取用户名
+				var user_name=document.getElementById("user_name").text;
+	
+						
+								
+					//服务器中接口的地址			
+					/*mui.ajax('http://localhost/api/MyServlet',{
+						//向服务器发送数据
+					
+						dataType:'json',//服务器返回json格式数据
+						type:'get',//HTTP请求类型
+						success:function(data){
+							//获得服务器响应，获取服务响应的数据
+							console.log(data);
+						}
+					});*/
+						mui.post(window.path+'QueryUserServlet',{
+							method:"quer",
+							//把用户名作为条件,并中请求Servlet时获取作为查询条件
+							user_name:user_name,
+						},function(data){
+							console.log(data);
+							if(data.resultCode=="200")
+							{
+								alert("查看成功！");
+								
+								//原生的js跳转页面
+								//window.location.href="xxx.html";
+								
+								
+								//mui框架的跳转
+								mui.openWindow({
+									    url: 'queryuser.html', 
+									    show:{
+									      autoShow:false
+									    }
+  								});
+								
+							}else{
+								alert("查看失败!");
+							}
+						},'json'
+					);
+				
+				});
+					
 	</script>
 </html>
