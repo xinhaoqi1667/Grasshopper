@@ -26,14 +26,12 @@
 			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
 			<h1 class="mui-title">media list（图文列表测试）</h1>
 		</header>
-		
 		<div class="mui-content">
-		
 			<div class="title">
 				缩略图居左
 			</div>
 			<ul class="mui-table-view" id="content">
-			<script id="test" type="text/html">
+			<script id="test" type="text/html">	
 				{{each resultData}} <!-- resultData和服务端返回的名字必须一致-->
 				<li class="mui-table-view-cell mui-media">
 					<a href="javascript:;">
@@ -66,7 +64,7 @@
 		});
 		
 		mui.get(window.path+'TestServlet?method=GetData',function(data){
-			//console.log(data);
+			console.log(data);
 		//获得服务器响应
 		var html = template("test",data);
 		document.getElementById('content').innerHTML = html;
