@@ -70,6 +70,7 @@
 			console.log(data);
 		//获得服务器响应
 		var html = template("test",data);
+		//从Servlet返回的响应中获取存入的用户名并且赋值到id命名的a标签中
 		document.getElementById('user_name').innerText = data.name;
 		document.getElementById('content').innerHTML = html;
 		
@@ -83,7 +84,7 @@
 	mui.trigger(a,'tap');
 	//监听点击事件
 	a.addEventListener("tap",function () {
-					//获取账号和密码
+					//获取用户名
 				var user_name=document.getElementById("user_name").text;
 	
 						
@@ -101,6 +102,7 @@
 					});*/
 						mui.post(window.path+'QueryUserServlet',{
 							method:"quer",
+							//把用户名作为条件,并中请求Servlet时获取作为查询条件
 							user_name:user_name,
 						},function(data){
 							console.log(data);
