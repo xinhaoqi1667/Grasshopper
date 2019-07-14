@@ -28,7 +28,6 @@ import com.hp.servicesImpl.TestServicesImpl;
 @WebServlet("/TestServlet")
 public class TestServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private String user_name = null;
 
 	
 	protected void service(HttpServletRequest request, javax.servlet.http.HttpServletResponse response)
@@ -67,8 +66,6 @@ public class TestServlet extends HttpServlet {
 				try {
 					String account=request.getParameter("account");
 					String password=request.getParameter("password");
-					user_name = account;
-					
 						System.out.println("接收过来的值是"+account+"\t"+password);
 						//将java对象转为json格式的的字符串
 						json = gson.toJson(TestServicesImpl.getData(account,password));
@@ -110,7 +107,6 @@ public class TestServlet extends HttpServlet {
 					 Map map=new HashMap<>();
 					 map.put("result",result);
 					 map.put("resultData",list);
-					 map.put("name",user_name);
 					 json=gson.toJson(map);
 				} catch (Exception e) {
 					e.printStackTrace();
