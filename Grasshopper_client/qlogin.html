@@ -117,7 +117,6 @@
 		<script src="js/mui.enterfocus.js"></script>
 		<script src="js/app.js"></script>
 		<script>
-		
 				mui.init({
 					statusBarBackground: '#f7f7f7'
 				});
@@ -133,9 +132,7 @@
 				btn.addEventListener("tap",function () {
 					//获取账号和密码
 				var account=document.getElementById("account").value;
-				var password=document.getElementById("password").value;
-						
-								
+				var password=document.getElementById("password").value;	
 					//服务器中接口的地址			
 					/*mui.ajax('http://localhost/api/MyServlet',{
 						//向服务器发送数据
@@ -147,6 +144,7 @@
 							console.log(data);
 						}
 					});*/
+					var detailPage = null;
 						mui.post(window.path+'TestServlet',{
 							method:"test",
 							account:account,
@@ -159,10 +157,8 @@
 								
 								//原生的js跳转页面
 								//window.location.href="xxx.html";
-								
-								
 								//mui框架的跳转
-								mui.openWindow({
+								mui.openWindow({						
 									    url: 'qinfo.html', 
 									    show:{
 									      autoShow:false
@@ -175,9 +171,7 @@
 						},'json'
 					);
 				
-				});
-				
-				
+				});	
 		</script>
 	</body>
 
