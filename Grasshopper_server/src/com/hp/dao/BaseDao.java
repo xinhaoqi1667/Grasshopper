@@ -49,6 +49,26 @@ public class BaseDao {
 			}
 			return null;
 		}
+
+
+		//修改
+		public  boolean updateBy(String sql,Object[] params)
+		{
+			
+			 DataSource dataSource = JDBCUtils.getDataSource();
+			QueryRunner queryRunner = new QueryRunner(dataSource);
+			try {
+				
+				  int query =  queryRunner.update(sql, params);
+				 return query>0?true:false;
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return false;
+			}
+
+
 		
 		//返回搜索的用户以及用户信息
 	public <T> List<T> search(String sql,Class<T> t,Object[] params)
@@ -58,6 +78,7 @@ public class BaseDao {
 			try {
 				List<T> list = queryRunner.query(sql,new BeanListHandler<T>(t),params);
 				return list;
+
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
