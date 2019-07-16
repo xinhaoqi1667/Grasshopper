@@ -57,4 +57,21 @@ public class TestServicesImpl implements TestServices {
 		 
 		 return list;
 	}
+
+	@Override
+	public Result getDate(List list) {
+
+		Result result = null;
+		if(!list.isEmpty())
+		{
+			
+				result = new Result("200","查询成功！");
+			
+		}else
+		{
+			result = new Result("1001","对不起，没有该数值！");
+		}
+	
+		return result;
+	}
 }

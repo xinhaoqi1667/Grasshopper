@@ -22,6 +22,20 @@
 		            <!--
                     	这里是综合里的内容
                     -->
+            <ul class="mui-table-view" id="content">
+			<script id="test" type="text/html">	
+				{{each resultData}} <!-- resultData和服务端返回的名字必须一致-->
+				<li class="mui-table-view-cell mui-media">
+					<a href="javascript:;">
+						<div class="mui-media-body">
+							{{$value.title}}
+							<p class='mui-ellipsis'>{{$value.content}}</p>
+						</div>
+					</a>
+				</li>
+				{{/each}}
+			</script>
+			</ul>
 		        </div>
 		        <div id="item2" class="mui-slider-item mui-control-content">
 		            <!--
@@ -51,8 +65,26 @@
 
 				</nav>
 
-		<script src="js/mui.min.js"></script>
-
+	<script src="js/mui.min.js"></script>
+	<script src="js/template-web.js"></script>
+	<script>
+		//页面请求全局路径
+		window.path="http://localhost:8080/Grasshopper_server/";
+		mui.init({
+			swipeBack:true //启用右滑关闭功能
+		});
+		
+		mui.get(window.path+'TestServlet?method=getFocus',function(data){
+			console.log(data);
+		//获得服务器响应
+		var html = template("test",data);
+		document.getElementById('content').innerHTML = html;
+		
+	},'json'
+	
+	); 
+		
+	</script>
 	</body>
 
 </html>

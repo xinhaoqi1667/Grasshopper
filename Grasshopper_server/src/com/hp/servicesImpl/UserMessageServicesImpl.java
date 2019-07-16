@@ -2,14 +2,14 @@ package com.hp.servicesImpl;
 
 import java.util.List;
 
-import com.hp.dao.UserDao;
-import com.hp.entity.User;
-import com.hp.services.UserServices;
+import com.hp.dao.UserMessageDao;
+import com.hp.entity.UserMessage;
+import com.hp.services.UserMessageServices;
 
-public class UserServicesImpl implements UserServices {
-UserDao userDao=new UserDao();
+public class UserMessageServicesImpl implements UserMessageServices {
+UserMessageDao userDao=new UserMessageDao();
 
-	public List<User> idFocus(String idFocus) {
+	public List<UserMessage> idFocus(String idFocus) {
 		// TODO Auto-generated method stub
 		return userDao.idFocus(idFocus);
 	}
