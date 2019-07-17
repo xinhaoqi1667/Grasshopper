@@ -58,7 +58,7 @@
 								</a>
 							</li>
 							<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
-								<a href="#">
+								<a href="#" id="fans">
 									<span class="mui-icon mui-icon-personadd"></span>
 									<div class="mui-media-body">粉丝</div>
 								</a>
@@ -268,6 +268,59 @@
 								//mui框架的跳转
 								mui.openWindow({
 									    url: 'queryuser.html', 
+									    show:{
+									      autoShow:false
+									    }
+  								});
+								
+							}else{
+								alert("查看失败!");
+							}
+						},'json'
+					);
+				});	
+		</script>
+		
+		<script>
+				mui.init({
+					statusBarBackground: '#f7f7f7'
+				});
+				
+				//页面请求全局路径
+				window.path="http://localhost:8080/Grasshopper_server/";
+				
+				//给粉丝a绑定点击事件
+				var fan = document.getElementById("fans");
+				//触发a标签的点击事件
+				mui.trigger(fan,'tap');
+				//监听点击事件
+				fan.addEventListener("tap",function () {
+				var user_id = 1;			
+					//服务器中接口的地址			
+					/*mui.ajax('http://localhost/api/MyServlet',{
+						//向服务器发送数据
+					
+						dataType:'json',//服务器返回json格式数据
+						type:'get',//HTTP请求类型
+						success:function(data){
+							//获得服务器响应，获取服务响应的数据
+							console.log(data);
+						}
+					});*/
+						mui.post(window.path+'FansServlet',{
+							method:"StatusCode",
+							user_id:user_id
+						},function(data){
+							console.log(data);
+							if(data.resultCode=="200")
+							{													
+								//原生的js跳转页面
+								//window.location.href="xxx.html";
+								
+								
+								//mui框架的跳转
+								mui.openWindow({
+									    url: 'Fans.html', 
 									    show:{
 									      autoShow:false
 									    }
