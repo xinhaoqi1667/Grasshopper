@@ -1,14 +1,14 @@
 package com.hp.entity;
 
-public class test {
+public class Fans {
  private int user_id;
 
-public test() {
+public Fans() {
 	
 	// TODO Auto-generated constructor stub
 }
 
-public test(int user_id) {
+public Fans(int user_id) {
 	
 	this.user_id = user_id;
 }
