@@ -13,7 +13,7 @@ public class TestDao extends BaseDao{
 		{
 			Object[] params={name};
 			
-			String password = super.QueryBy("select password from test where name=?","password",params);
+			String password = super.QueryBy("select password from user where name=?","password",params);
 	
 
 			return password;
