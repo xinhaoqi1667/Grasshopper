@@ -33,16 +33,19 @@ public class FansServlet extends HttpServlet {
 		String method = request.getParameter("method");
 		switch (method) {
 		case "StatusCode":
+			//返回状态码
 			this.StatusCode(request, response);
 			break;
 		case "GetName":
+			//返回粉丝名字的集合
 			this.GetName(response);
 			break;
 		default:
 			break;
 		}
 	}
-
+	
+	//返回粉丝名字的集合
 	public void GetName(HttpServletResponse response) throws IOException {
 		response.setContentType("application/json;charset=utf-8");
 		FansServices fansServicesImpl = new FansServicesImpl();
