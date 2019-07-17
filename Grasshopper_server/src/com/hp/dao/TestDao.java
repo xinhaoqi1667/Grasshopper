@@ -3,7 +3,7 @@ package com.hp.dao;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import com.hp.entity.test;
+import com.hp.entity.Fans;
 
 
 
@@ -11,9 +11,9 @@ import com.hp.entity.test;
 public class TestDao extends BaseDao{
 	public static void main(String[] args) {
 		TestDao d = new TestDao();
-		List<test> user_ids = d.user_id(3);
+		List<Fans> user_ids = d.user_id(3);
 		List list = new ArrayList();
-		for (test user : user_ids) {
+		for (Fans user : user_ids) {
 			String user_name = d.user_name(user.getUser_id());
 			list.add(user_name);
 		}
@@ -33,9 +33,9 @@ public class TestDao extends BaseDao{
 			
 		}
 		
-		public List<test> user_id(int id){
+		public List<Fans> user_id(int id){
 			Object[] params={id,id};
-			return super.QueryFocus("SELECT user_id FROM user_message where user_id !=? AND focus REGEXP ?",test.class, params);
+			return super.QueryFocus("SELECT user_id FROM user_message where user_id !=? AND focus REGEXP ?",Fans.class, params);
 		}
 		
 		//根据id查询用户
