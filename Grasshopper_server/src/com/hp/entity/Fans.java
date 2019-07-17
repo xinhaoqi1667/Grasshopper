@@ -2,6 +2,7 @@ package com.hp.entity;
 
 public class Fans {
  private int user_id;
+ 
 
 public Fans() {
 	
