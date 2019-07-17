@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="css/mui.min.css">
+		<!--App自定义的css-->
+
+	</head>
+
+	<body>
+
+		<!-- 主界面不动、菜单移动 -->
+		<!-- 侧滑导航根容器 -->
+		<div class="mui-off-canvas-wrap mui-draggable mui-slide-in">
+			<!-- 菜单容器 -->
+			<aside class="mui-off-canvas-left" id="offCanvasSide">
+				<div class="mui-scroll-wrapper">
+					<div class="mui-scroll">
+						<!-- 菜单具体展示内容 -->
+						
+						
+						<ul class="mui-table-view mui-grid-view mui-grid-9">
+							<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
+								<a href="#" id="data">
+									<span class="mui-icon mui-icon-person"></span>
+									<div class="mui-media-body">资料</div>
+								</a>
+							</li>
+							<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
+								<a href="#" id="Release">
+									<span class="mui-icon mui-icon-starhalf"></span>
+									<div class="mui-media-body">发布</div>
+								</a>
+							</li>
+							<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
+								<a href="#">
+									<span class="mui-icon mui-icon-paperplane"></span>
+									<div class="mui-media-body">待审</div>
+								</a>
+							</li>
+							<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
+								<a href="#">
+									<span class="mui-icon mui-icon-contact"></span>
+									<div class="mui-media-body">会员</div>
+								</a>
+							</li>
+							<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
+								<a href="#">
+									<span class="mui-icon mui-icon-plus"></span>
+									<div class="mui-media-body">关注</div>
+								</a>
+							</li>
+							<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
+								<a href="#">
+									<span class="mui-icon mui-icon-personadd"></span>
+									<div class="mui-media-body">粉丝</div>
+								</a>
+							</li>
+
+						</ul>
+
+						<ul class="mui-table-view">
+							<li class="mui-table-view-cell">
+								<a class="mui-navigate-right">
+									<span class="mui-icon mui-icon-home"></span> 首页
+								</a>
+							</li>
+							<li class="mui-table-view-cell">
+								<a class="mui-navigate-right">
+									<span class="mui-icon mui-icon-list"></span> 历史记录
+								</a>
+							</li>
+							<li class="mui-table-view-cell">
+								<a class="mui-navigate-right">
+									<span class="mui-icon mui-icon-star"></span> 我的收藏
+								</a>
+							</li>
+							<li class="mui-table-view-cell">
+								<a class="mui-navigate-right">
+									<span class="mui-icon mui-icon-plus"></span> 我的关注
+								</a>
+							</li>
+							<li class="mui-table-view-cell">
+								<a class="mui-navigate-right">
+									<span class="mui-icon mui-icon-personadd"></span> 我的粉丝
+								</a>
+							</li>
+							<li class="mui-table-view-cell">
+								<a class="mui-navigate-right">
+									<span class="mui-icon mui-icon-email"></span> 联系平台
+								</a>
+							</li>
+							
+							
+							<!--
+                            	这个设置只起布局作用，无需操作
+                            -->
+							<li class="mui-table-view-cell">
+								<a class="mui-navigate-right">
+									<span class="mui-icon mui-icon-gear"></span> 设置
+								</a>
+							</li>
+							
+						</ul>
+						
+						<nav class="mui-bar mui-bar-tab">
+						    <a class="mui-tab-item mui-active">
+						        <span class="mui-icon mui-icon-videocam"></span>
+						        <span class="mui-tab-label">夜间</span>
+						    </a>
+						    <a class="mui-tab-item">
+						        <span class="mui-icon mui-icon-flag"></span>
+						        <span class="mui-tab-label">主题</span>
+						    </a>
+						    <a class="mui-tab-item">
+						        <span class="mui-icon mui-icon-gear"></span>
+						        <span class="mui-tab-label">设置</span>
+						    </a>
+						</nav>
+					</div>
+				</div>
+			</aside>
+			<!-- 主页面容器 -->
+			<div class="mui-inner-wrap">
+				<!-- 主页面标题 -->
+				<header class="mui-bar mui-bar-nav">
+					<a class="mui-icon mui-action-menu mui-icon-bars mui-pull-left" href="#offCanvasSide"></a>
+
+					<h1 class="mui-title">蝈蝈社区</h1>
+				</header>
+				<nav class="mui-bar mui-bar-tab">
+					<a class="mui-tab-item mui-active">
+						<span class="mui-icon mui-icon-home"></span>
+						<span class="mui-tab-label">首页</span>
+					</a>
+					<a class="mui-tab-item">
+						<span class="mui-icon mui-icon-compose"></span>
+						<span class="mui-tab-label">编辑</span>
+					</a>
+					<a class="mui-tab-item">
+						<span class="mui-icon mui-icon-pengyouquan"></span>
+						<span class="mui-tab-label">动态</span>
+					</a>
+					<a class="mui-tab-item">
+						<span class="mui-icon mui-icon-chat"></span>
+						<span class="mui-tab-label">私信</span>
+					</a>
+				</nav>
+				<div>
+					<div style="padding-top: 50px;padding-left: 160px;">
+						<h3>失物招领</h3>
+					</div>
+					<div style="right: 100px;">
+						<ul style="list-style-type: none;">
+							<li>作者：没人</li>
+							<li>丢失物品：专才班的学习环境</li>
+							<li>丢失地点:教室</li>
+							<li>
+								<img style="width: 150px;height: 100px;" src="images/cbd.jpg" />
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+		
+
+		<script type="text/javascript" src="js/mui.min.js">
+			<script type="text/javascript" src="js/mui.view.js">
+		</script>
+		<script type="text/javascript" src="js/app.js"></script>
+		<script type="text/javascript" src="js/feedback-page.js"></script>
+		<script type="text/javascript" src="js/feedback.js"></script>
+		<script type="text/javascript" src="js/mui.enterfocus.js"></script>
+		<script type="text/javascript" src="js/mui.locker.js"></script>
+		<script type="text/javascript" src="js/template-web.js"></script>
+		<script>
+				mui.init({
+					statusBarBackground: '#f7f7f7'
+				});
+				
+				//页面请求全局路径
+				window.path="http://localhost:8080/Grasshopper_server/";
+				
+				//给资料a绑定点击事件
+				var dat = document.getElementById("data");
+				//btn是原来的统一要改
+				//触发submit按钮的点击事件
+				mui.trigger(dat,'tap');
+				//监听点击事件
+				dat.addEventListener("tap",function () {
+				var user = "admin";			
+					//服务器中接口的地址			
+					/*mui.ajax('http://localhost/api/MyServlet',{
+						//向服务器发送数据
+					
+						dataType:'json',//服务器返回json格式数据
+						type:'get',//HTTP请求类型
+						success:function(data){
+							//获得服务器响应，获取服务响应的数据
+							console.log(data);
+						}
+					});*/
+						mui.post(window.path+'QueryUserServlet',{
+							method:"StatusCode",
+							user:user
+						},function(data){
+							console.log(data);
+							if(data.resultCode=="200")
+							{													
+								//原生的js跳转页面
+								//window.location.href="xxx.html";
+								
+								
+								//mui框架的跳转
+								mui.openWindow({
+									    url: 'queryuser.html', 
+									    show:{
+									      autoShow:false
+									    }
+  								});
+								
+							}else{
+								alert("查看失败!");
+							}
+						},'json'
+					);
+				});	
+		</script>
+	</body>
+
+</html>
