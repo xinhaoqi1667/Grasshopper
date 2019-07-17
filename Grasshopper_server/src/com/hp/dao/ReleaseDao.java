@@ -10,20 +10,21 @@ import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 
 import com.hp.entity.Release;
+import com.hp.entity.UserMessage;
 import com.hp.util.JDBCUtils;
 
-public class ReleaseDao {
+public class ReleaseDao extends BaseDao{
 	public boolean add(Release release)
 	{
 		//调用数据源
 		DataSource dataSource = JDBCUtils.getDataSource();
 		//传入的参数
-		Object[] params={release.getId(),release.getTitle(),release.getSort(),release.getContent(),release.getImgs()};
+		Object[] params={release.getTitle(),release.getSort_id(),release.getContent(),release.getImgs(),release.getAuthor_id()};
 		
 		//连接数据库
 		QueryRunner queryRunner = new QueryRunner(dataSource);
 		try {
-			int i = queryRunner.update("insert into release values(null,?,?,?,?)", params);
+			int i = queryRunner.update("insert into `release` values(null,?,?,?,?)", params);
 			return i>0?true:false;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -41,7 +42,7 @@ public class ReleaseDao {
 		//连接数据库
 		QueryRunner queryRunner = new QueryRunner(dataSource);
 		try {
-			List<Release> list = queryRunner.query("select * from release",new BeanListHandler<Release>(Release.class));
+			List<Release> list = queryRunner.query("select * from `release`",new BeanListHandler<Release>(Release.class));
 			return list;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -57,12 +58,12 @@ public class ReleaseDao {
 		//调用数据源
 		DataSource dataSource = JDBCUtils.getDataSource();
 		//传入的参数
-		Object[] params={release.getTitle(),release.getSort(),release.getContent(),release.getImgs(),release.getId()};
+		Object[] params={release.getTitle(),release.getSort_id(),release.getContent(),release.getImgs(),release.getAuthor_id(),release.getId()};
 		
 		//连接数据库
 		QueryRunner queryRunner = new QueryRunner(dataSource);
 		try {
-			int i = queryRunner.update("update release set title=?,sort=?,contenth=?,imgs=? where id=?", params);
+			int i = queryRunner.update("update `release` set title=?,sort_id=?,contenth=?,imgs=?,author_id where id=?", params);
 			return i>0?true:false;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -83,7 +84,7 @@ public class ReleaseDao {
 		//连接数据库
 		QueryRunner queryRunner = new QueryRunner(dataSource);
 		try {
-			int i = queryRunner.update("delete from release where id=?", params);
+			int i = queryRunner.update("delete from `release` where id=?", params);
 			return i>0?true:false;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -92,4 +93,18 @@ public class ReleaseDao {
 		return false;
 		
 	}
+	//查询每个关注的对象的id(查询发布内容)
+		public List FocusContent(String idFocus){
+			Object[] params=idFocus.split(",");
+			StringBuffer sql=new StringBuffer();
+			sql.append("select * from `release` where author_id=?");
+			for(int i=0; i<params.length;i++){
+				if(i!=0){
+					sql.append(" or author_id=?");
+				}
+			}
+			List list=super.QueryFocus(sql.toString(),Release.class, params);
+			return list;
+			
+		}
 }
