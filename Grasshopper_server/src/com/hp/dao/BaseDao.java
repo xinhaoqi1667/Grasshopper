@@ -33,8 +33,8 @@ public class BaseDao {
 		}
 		return null;
 	}
-	//返回关注id
-		public <T>  List<T> QueryFocus(String sql,Class<T>  t,Object[] params)
+	//返回List
+		public <T>  List<T> QueryList(String sql,Class<T>  t,Object[] params)
 		{
 			T query=null;
 			 DataSource dataSource = JDBCUtils.getDataSource();
@@ -85,6 +85,22 @@ public class BaseDao {
 			}
 			return null;
 		}
+	//返回一个对象
+	public <T> T QueryClazz(String sql,Class<T> t,Object[] params)
+	{
+		T query=null;
+		 DataSource dataSource = JDBCUtils.getDataSource();
+		QueryRunner queryRunner = new QueryRunner(dataSource);
+		try {
+			
+			  query = (T) queryRunner.query(sql, new BeanHandler<T>(t),params);
+			 return query;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
 }
 
 

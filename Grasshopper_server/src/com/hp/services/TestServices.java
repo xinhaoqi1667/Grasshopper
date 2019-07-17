@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.hp.entity.Result;
+import com.hp.entity.User;
 
 //接口示例
 public interface TestServices {
@@ -14,4 +15,8 @@ public interface TestServices {
 	public List getInfo();
 	//查询 我的关注接口
 	public Result getDate(List list);
+	//用户信息
+	public User getUser(String account);
+	public List findByID(String idFocus);
+	
 }

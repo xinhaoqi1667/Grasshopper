@@ -103,7 +103,7 @@ public class ReleaseDao extends BaseDao{
 					sql.append(" or author_id=?");
 				}
 			}
-			List list=super.QueryFocus(sql.toString(),Release.class, params);
+			List list=super.QueryList(sql.toString(),Release.class, params);
 			return list;
 			
 		}

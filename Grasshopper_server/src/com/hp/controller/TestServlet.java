@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 import com.hp.entity.Result;
+import com.hp.entity.User;
 import com.hp.services.ReleaseServices;
 import com.hp.services.TestServices;
 import com.hp.services.UserMessageServices;
@@ -48,6 +49,9 @@ public class TestServlet extends HttpServlet {
 				break;
 			case "getFocus":
 				this.getFocus(request,response);
+				break;
+			case "getFocus_id":
+				this.getFocus_id(request,response);
 				break;
 			default:
 				break;
@@ -108,12 +112,13 @@ public class TestServlet extends HttpServlet {
 				out=response.getWriter();
 				try {
 					List list = TestServicesImpl.getInfo();
-					
+					User user=TestServicesImpl.getUser(user_names);
 					 Result result = new Result("200","请求成功！");
 					 Map map=new HashMap<>();
 					 map.put("result",result);
 					 map.put("resultData",list);
 					 map.put("name", user_names);
+					 map.put("user_id",user.getId());
 					 json=gson.toJson(map);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -149,6 +154,7 @@ public class TestServlet extends HttpServlet {
 			 Map map=new HashMap<>();
 			 map.put("result",result);
 			 map.put("resultData",list);
+			 
 			 json=gson.toJson(map);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -161,6 +167,43 @@ public class TestServlet extends HttpServlet {
 		System.out.println(json);
 		//将结果以json形式暴露返回出去
 		out.write(json);
+		
+	}
+	protected void getFocus_id(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		response.setContentType("application/json;charset=utf-8");
+		TestServices TestServicesImpl = new TestServicesImpl();
+		//使用Gson序列化	
+		Gson gson=new Gson();
+		String json=null;
+		PrintWriter out=null;
+		out=response.getWriter();
+		UserMessageServices userMessageServices=new UserMessageServicesImpl();
+		String f=userMessageServices.Focus(Integer.valueOf(request.getParameter("user_id")));
+		List list=TestServicesImpl.findByID(f);
+	    
+		try {
+			 Result result=TestServicesImpl.getDate(list);
+			
+			
+			 Map map=new HashMap<>();
+			 map.put("result",result);
+			 map.put("resultUser",list);
+			 json=gson.toJson(map);
+		} catch (Exception e) {
+			e.printStackTrace();
+			Result result = new Result("1005","数据获取异常！");
+			//转为json格式的字符串
+			json = gson.toJson(result);
+			// TODO: handle exception
+		}
+	
+		System.out.println(json);
+		//将结果以json形式暴露返回出去
+		out.write(json);
+		
+	}
+	private void findByID(String f) {
+		// TODO Auto-generated method stub
 		
 	}
 	

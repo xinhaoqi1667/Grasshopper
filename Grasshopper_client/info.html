@@ -31,7 +31,10 @@
 				缩略图居左
 			</div>
 			<ul class="mui-table-view" id="content">
+				
 			<script id="test" type="text/html">	
+				<input hidden="hidden" value={{user_id}} id="user_id" />
+				
 				{{each resultData}} <!-- resultData和服务端返回的名字必须一致-->
 				<li class="mui-table-view-cell mui-media">
 					<a href="javascript:;">
@@ -68,6 +71,8 @@
 		//获得服务器响应
 		var html = template("test",data);
 		document.getElementById('content').innerHTML = html;
+		var user_id=document.getElementById("user_id");
+		document.cookie='user_id='+user_id.value;
 		
 	},'json'
 	

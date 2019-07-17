@@ -5,20 +5,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.hp.dao.TestDao;
+import com.hp.dao.UserDao;
 import com.hp.entity.Article;
 import com.hp.entity.Result;
+import com.hp.entity.User;
 import com.hp.services.TestServices;
 //接口实现类（存放具体业务逻辑操作）
 public class TestServicesImpl implements TestServices {
-	private TestDao dao=new TestDao();
+	private UserDao dao=new UserDao();
 	
 	//测试实例
 	@Override
 	public Result getData(String account, String password) {
 		
-		String pwd=dao.findByName(account);
-	
+		User user=dao.findByName(account);
+	     String pwd=user.getPassword();
 		Result result = null;
 		if(!pwd.isEmpty())
 		{
@@ -73,5 +74,18 @@ public class TestServicesImpl implements TestServices {
 		}
 	
 		return result;
+	}
+
+	@Override
+	public User getUser(String account) {
+		// TODO Auto-generated method stub
+		User user=dao.findByName(account);
+		return user;
+	}
+
+	@Override
+	public List findByID(String idFocus) {
+		// TODO Auto-generated method stub
+		return dao.findByID(idFocus);
 	}
 }

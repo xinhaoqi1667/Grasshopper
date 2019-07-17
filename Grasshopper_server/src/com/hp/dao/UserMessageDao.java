@@ -7,18 +7,19 @@ import com.hp.entity.UserMessage;
 import com.hp.services.ReleaseServices;
 import com.hp.services.UserMessageServices;
 import com.hp.servicesImpl.RelesaeServicesImpl;
+import com.hp.servicesImpl.TestServicesImpl;
 import com.hp.servicesImpl.UserMessageServicesImpl;
 
 public class UserMessageDao extends BaseDao{
 public static void main(String[] args) {
+	TestServicesImpl testServicesImpl=new TestServicesImpl();
 	UserMessageServices userServices=new UserMessageServicesImpl();
 	  String f=userServices.Focus(2);
 	  ReleaseServices releaseServices=new RelesaeServicesImpl();
-	  List list=releaseServices.FocusContent(f);
-	  for(int i=0;i<list.size();i++){
-		  Release release=(Release)list.get(i);
-		  System.out.println(release.toString());
-	  }
+		UserMessageServices userMessageServices=new UserMessageServicesImpl();
+		String f1=userMessageServices.Focus(1);
+		List list=testServicesImpl.findByID(f1);
+		System.out.println(f1+list);
 	
 	 
 }
@@ -33,7 +34,7 @@ public static void main(String[] args) {
 			}
 		}
 		
-		List list=super.QueryFocus(sql.toString(),UserMessage.class, params);
+		List list=super.QueryList(sql.toString(),UserMessage.class, params);
 		return list;
 		
 	}
