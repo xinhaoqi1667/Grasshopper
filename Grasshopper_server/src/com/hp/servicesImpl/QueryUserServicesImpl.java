@@ -3,31 +3,34 @@ package com.hp.servicesImpl;
 import java.util.List;
 
 import com.hp.dao.QueryUserDao;
+import com.hp.entity.PersonalData;
 import com.hp.entity.Result;
-import com.hp.entity.TestUser;
 import com.hp.services.QueryUserServices;
-
+//接口实现类（存放具体业务逻辑操作）
 public class QueryUserServicesImpl implements QueryUserServices{
 	private QueryUserDao q = new QueryUserDao();
 	
-	//根据用户名查询个人信息返回Result对象
+	//个人资料接口
 	@Override
-	public Result getData(String user_name) {
+	public Result getData(String name) {
+		List<PersonalData> list = q.getUser(name);
 		Result result = null;
-		List<TestUser> list = q.getUser(user_name);
 		if(list.size()>0&&list!=null){
-			result = new Result("200", "查看成功");
-		}else{
-			result = new Result("1001", "查看失败");
+			result = new Result("200","允许查看!");	
+		}else
+		{
+			result = new Result("1001","对不起，查看个人资料失败！");
 		}
 		return result;
 	}
 
 	//提供用户个人信息数据
 	@Override
-	public List<TestUser> getUser(String name) {
+	public List<PersonalData> getUser(String name) {
 		return q.getUser(name);
 	}
+
+	
 
 
 }

@@ -29,8 +29,8 @@ public class QueryUserServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		String method = request.getParameter("method");
 		switch (method) {
-		case "quer":
-			this.quer(request,response);
+		case "StatusCode":
+			this.StatusCode(request, response);
 			break;
 		case "GetUser":
 			this.GetUser(request,response);
@@ -39,35 +39,36 @@ public class QueryUserServlet extends HttpServlet {
 			break;
 		}
 	}
-	
 
-	public void quer(HttpServletRequest request, javax.servlet.http.HttpServletResponse response) {
+	public void StatusCode(HttpServletRequest request, javax.servlet.http.HttpServletResponse response)
+			throws IOException {
 		QueryUserServices queryUserServicesImpl = new QueryUserServicesImpl();
-		//使用Gson序列化	
 		Gson gson=new Gson();
 		String json=null;
 		PrintWriter out=null;
 		try {
-			String user_name = request.getParameter("user_name");
-			System.out.println("接收过来的值是"+user_name);
-			//将java对象转为json格式的的字符串
-			json = gson.toJson(queryUserServicesImpl.getData(user_name));
-			user_names = user_name;
-			response.setContentType("application/json;charset=utf-8");
-			out = response.getWriter();
-		} catch (Exception e) {
+			String user=request.getParameter("user");
+				System.out.println("接收过来的值是"+user);
+				//将java对象转为json格式的的字符串
+				json = gson.toJson(queryUserServicesImpl.getData(user));
+				user_names = user;
+				response.setContentType("application/json;charset=utf-8");
+				out = response.getWriter();
+				
+		} catch (NullPointerException e) {
 			System.out.println("参数异常");
 			// TODO: handle exception
 			e.printStackTrace();
 			Result result = new Result("1003","参数不能为空！");
 			//转为json格式的字符串
 			json = gson.toJson(result);
+
 		}
 		System.out.println(json);
 		//将结果以json形式暴露返回出去
 		out.write(json);
 	}
-   
+
 	public void GetUser(HttpServletRequest request,javax.servlet.http.HttpServletResponse response) throws IOException {
 		response.setContentType("application/json;charset=utf-8");
 		QueryUserServices queryUserServicesImpl = new QueryUserServicesImpl();
@@ -76,9 +77,11 @@ public class QueryUserServlet extends HttpServlet {
 		String json=null;
 		PrintWriter out=null;
 		out=response.getWriter();
+		/*String name = request.getParameter("user");*/
+		System.out.println(user_names);
 		try {
 			List list = queryUserServicesImpl.getUser(user_names);
-			
+			/*List list = queryUserServicesImpl.getUser(user_names);*/
 			 Result result = new Result("200","请求成功！");
 			 Map map=new HashMap<>();
 			 map.put("result",result);
@@ -91,7 +94,6 @@ public class QueryUserServlet extends HttpServlet {
 			json = gson.toJson(result);
 			// TODO: handle exception
 		}
-
 		System.out.println(json);
 		//将结果以json形式暴露返回出去
 		out.write(json);

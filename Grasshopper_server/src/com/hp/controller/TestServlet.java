@@ -31,7 +31,7 @@ import com.hp.servicesImpl.UserMessageServicesImpl;
 @WebServlet("/TestServlet")
 public class TestServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+	private String user_names = null;
 	
 	protected void service(HttpServletRequest request, javax.servlet.http.HttpServletResponse response)
 			throws ServletException, IOException {
@@ -75,7 +75,7 @@ public class TestServlet extends HttpServlet {
 						System.out.println("接收过来的值是"+account+"\t"+password);
 						//将java对象转为json格式的的字符串
 						json = gson.toJson(TestServicesImpl.getData(account,password));
-						
+						user_names = account;
 						response.setContentType("application/json;charset=utf-8");
 						out = response.getWriter();
 						
@@ -113,6 +113,7 @@ public class TestServlet extends HttpServlet {
 					 Map map=new HashMap<>();
 					 map.put("result",result);
 					 map.put("resultData",list);
+					 map.put("name", user_names);
 					 json=gson.toJson(map);
 				} catch (Exception e) {
 					e.printStackTrace();

@@ -30,10 +30,30 @@
 	
 			<ul class="mui-table-view" id="content">
 			<script id="test" type="text/html">	
-				{{each resultUser}}
-				<p>用户名:<a>{{$value.name}}</a></p>
-				<p>学院:<a>{{$value.college_name}}</a></p>
-				<p>专业:<a>{{$value.major_name}}</a></p>
+				{{each resultUser}} <!-- resultData和服务端返回的名字必须一致-->
+				<li class="mui-table-view-cell mui-media">
+					<a href="javascript:;">
+						<div class="mui-media-body">
+							用户名:{{$value.name}}
+						</div>
+						<div class="mui-media-body">
+							所属学院:{{$value.college_name}}
+						</div>
+						<div class="mui-media-body">
+							所属专业:{{$value.major_name}}
+						</div>
+						<div class="mui-media-body">
+							等级:
+							{{if $value.grade<=10}}
+								<span>小白</span>
+							{{else if $value.grade<=20}}
+								<span>老司机</span>
+							{{else if $value.grade<=30}}	
+								<span style="color: red;">大神</span>
+							{{/if}}	
+						</div>
+					</a>
+				</li>
 				{{/each}}
 			</script>
 			</ul>
@@ -54,7 +74,6 @@
 		mui.init({
 			swipeBack:true //启用右滑关闭功能
 		});
-		
 		mui.get(window.path+'QueryUserServlet?method=GetUser',function(data){
 			console.log(data);
 		//获得服务器响应
