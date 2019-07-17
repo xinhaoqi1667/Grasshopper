@@ -12,4 +12,6 @@ public interface TestServices {
 	public Result getData(String account,String password);
 	//提供数据接口
 	public List getInfo();
+	//查询 我的关注接口
+	public Result getDate(List list);
 }

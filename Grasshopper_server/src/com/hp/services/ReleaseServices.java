@@ -9,4 +9,6 @@ public interface ReleaseServices {
 	public List<Release> select();
 	public boolean update(Release release);
 	public boolean delete(int id);
+	//查询每个关注的对象的id(查询发布内容)
+	public List FocusContent(String idFocus);
 }

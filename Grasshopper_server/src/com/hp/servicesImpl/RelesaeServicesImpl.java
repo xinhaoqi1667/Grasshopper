@@ -2,11 +2,13 @@ package com.hp.servicesImpl;
 
 import java.util.List;
 
+import com.hp.dao.ReleaseDao;
 import com.hp.entity.Release;
 import com.hp.services.ReleaseServices;
 
 public class RelesaeServicesImpl implements ReleaseServices{
 
+	ReleaseDao releaseDao=new ReleaseDao();
 	@Override
 	public boolean add(Release release) {
 		// TODO Auto-generated method stub
@@ -30,5 +32,12 @@ public class RelesaeServicesImpl implements ReleaseServices{
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+	@Override
+	public List FocusContent(String idFocus) {
+		// TODO Auto-generated method stub
+		return releaseDao.FocusContent(idFocus);
+	}
+	
 
 }

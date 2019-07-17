@@ -14,9 +14,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 import com.hp.entity.Result;
-
+import com.hp.services.ReleaseServices;
 import com.hp.services.TestServices;
+import com.hp.services.UserMessageServices;
+import com.hp.servicesImpl.RelesaeServicesImpl;
 import com.hp.servicesImpl.TestServicesImpl;
+import com.hp.servicesImpl.UserMessageServicesImpl;
 
 /**
  * 实例1
@@ -42,6 +45,9 @@ public class TestServlet extends HttpServlet {
 				break;
 			case "GetData":
 				this.GetData(request,response);
+				break;
+			case "getFocus":
+				this.getFocus(request,response);
 				break;
 			default:
 				break;
@@ -123,5 +129,40 @@ public class TestServlet extends HttpServlet {
 				
 			}
 	}
+	
+	protected void getFocus(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		response.setContentType("application/json;charset=utf-8");
+		TestServices TestServicesImpl = new TestServicesImpl();
+		//使用Gson序列化	
+		Gson gson=new Gson();
+		String json=null;
+		PrintWriter out=null;
+		out=response.getWriter();
+		UserMessageServices userMessageServices=new UserMessageServicesImpl();
+		String f=userMessageServices.Focus(2);
+		ReleaseServices releaseServices= new RelesaeServicesImpl();
+		List list=releaseServices.FocusContent(f);
+		try {
+			 Result result=TestServicesImpl.getDate(list);
+			
+			 
+			 Map map=new HashMap<>();
+			 map.put("result",result);
+			 map.put("resultData",list);
+			 json=gson.toJson(map);
+		} catch (Exception e) {
+			e.printStackTrace();
+			Result result = new Result("1005","数据获取异常！");
+			//转为json格式的字符串
+			json = gson.toJson(result);
+			// TODO: handle exception
+		}
+	
+		System.out.println(json);
+		//将结果以json形式暴露返回出去
+		out.write(json);
+		
+	}
+	
 
 }

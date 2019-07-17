@@ -1,14 +1,14 @@
 package com.hp.entity;
 
-public class User {
+public class UserMessage {
 private Integer id;
 
-public User() {
+public UserMessage() {
 	
 	// TODO Auto-generated constructor stub
 }
 
-public User(Integer id) {
+public UserMessage(Integer id) {
 	super();
 	this.id = id;
 }

@@ -2,7 +2,7 @@ package com.hp.services;
 
 import java.util.List;
 
-public interface UserServices {
+public interface UserMessageServices {
 	public List idFocus(String idFocus);
 	public String Focus(int id);
 	public boolean addFocus(int idFocus,int id);
