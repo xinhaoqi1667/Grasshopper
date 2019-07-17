@@ -30,16 +30,19 @@ public class QueryUserServlet extends HttpServlet {
 		String method = request.getParameter("method");
 		switch (method) {
 		case "StatusCode":
+			//返回状态码
 			this.StatusCode(request, response);
 			break;
 		case "GetUser":
+			//返回用户信息
 			this.GetUser(request,response);
 			break;
 		default:
 			break;
 		}
 	}
-
+	
+	//返回状态码
 	public void StatusCode(HttpServletRequest request, javax.servlet.http.HttpServletResponse response)
 			throws IOException {
 		QueryUserServices queryUserServicesImpl = new QueryUserServicesImpl();
@@ -68,7 +71,8 @@ public class QueryUserServlet extends HttpServlet {
 		//将结果以json形式暴露返回出去
 		out.write(json);
 	}
-
+	
+	//返回用户信息
 	public void GetUser(HttpServletRequest request,javax.servlet.http.HttpServletResponse response) throws IOException {
 		response.setContentType("application/json;charset=utf-8");
 		QueryUserServices queryUserServicesImpl = new QueryUserServicesImpl();
