@@ -8,8 +8,6 @@
 
 		<!--标准mui.css-->
 		<link rel="stylesheet" href="css/mui.min.css">
-		<link rel="stylesheet" href="css/feedback-page.css" />
-		<link rel="stylesheet" href="css/style.css" />
 		<!--App自定义的css-->
 
 	</head>
@@ -58,7 +56,7 @@
 								</a>
 							</li>
 							<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
-								<a href="#" id="fans">
+								<a href="#">
 									<span class="mui-icon mui-icon-personadd"></span>
 									<div class="mui-media-body">粉丝</div>
 								</a>
@@ -152,69 +150,24 @@
 						<span class="mui-icon mui-icon-chat"></span>
 						<span class="mui-tab-label">私信</span>
 					</a>
-
 				</nav>
-				<div class="mui-content mui-scroll-wrapper">
-					<div class="mui-scroll">
-						<!-- 主界面具体展示内容 -->
-						
-						<div id="slider" class="mui-slider">
-							<div class="mui-slider-group mui-slider-loop">
-								<!-- 额外增加的一个节点(循环轮播：第一个节点是最后一张轮播) -->
-								<div class="mui-slider-item mui-slider-item-duplicate">
-									<a href="#">
-										<img src="http://placehold.it/400x300">
-									</a>
-								</div>
-								<!-- 第一张 -->
-								<div class="mui-slider-item">
-									<a href="#">
-										<img src="http://placehold.it/400x300">
-									</a>
-								</div>
-								<!-- 第二张 -->
-								<div class="mui-slider-item">
-									<a href="#">
-										<img src="http://placehold.it/400x300">
-									</a>
-								</div>
-								<!-- 第三张 -->
-								<div class="mui-slider-item">
-									<a href="#">
-										<img src="http://placehold.it/400x300">
-									</a>
-								</div>
-								<!-- 第四张 -->
-								<div class="mui-slider-item">
-									<a href="#">
-										<img src="http://placehold.it/400x300">
-									</a>
-								</div>
-								<!-- 额外增加的一个节点(循环轮播：最后一个节点是第一张轮播) -->
-								<div class="mui-slider-item mui-slider-item-duplicate">
-									<a href="#">
-										<img src="http://placehold.it/400x300">
-									</a>
-								</div>
-							</div>
-							<div class="mui-slider-indicator">
-								<div class="mui-indicator mui-active"></div>
-								<div class="mui-indicator"></div>
-								<div class="mui-indicator"></div>
-								<div class="mui-indicator"></div>
-							</div>
-						</div>
-						
-						<div class="mui-segmented-control">
-						    <a class="mui-control-item mui-active" href="#item1">二手</a>
-						    <a class="mui-control-item" href="#item2">失物招领</a>
-						    <a class="mui-control-item" href="#item3">其他</a>
-						</div>
-						
+				<div>
+					<div style="padding-top: 50px;padding-left: 160px;">
+						<h3>其他</h3>
+					</div>
+					<div style="right: 100px;">
+						<ul style="list-style-type: none;">
+							<li>作者：没人</li>
+							<li>内容：代拿快递</li>
+							<li>联系方式：微信/电话</li>
+							<li>
+								<img style="width: 150px;height: 100px;" src="images/cbd.jpg" />
+							</li>
+						</ul>
 					</div>
 				</div>
-				<div class="mui-off-canvas-backdrop"></div>
 			</div>
+			
 		</div>
 		
 
@@ -238,7 +191,7 @@
 				//给资料a绑定点击事件
 				var dat = document.getElementById("data");
 				//btn是原来的统一要改
-				//触发a标签的点击事件
+				//触发submit按钮的点击事件
 				mui.trigger(dat,'tap');
 				//监听点击事件
 				dat.addEventListener("tap",function () {
@@ -268,59 +221,6 @@
 								//mui框架的跳转
 								mui.openWindow({
 									    url: 'queryuser.html', 
-									    show:{
-									      autoShow:false
-									    }
-  								});
-								
-							}else{
-								alert("查看失败!");
-							}
-						},'json'
-					);
-				});	
-		</script>
-		
-		<script>
-				mui.init({
-					statusBarBackground: '#f7f7f7'
-				});
-				
-				//页面请求全局路径
-				window.path="http://localhost:8080/Grasshopper_server/";
-				
-				//给粉丝a绑定点击事件
-				var fan = document.getElementById("fans");
-				//触发a标签的点击事件
-				mui.trigger(fan,'tap');
-				//监听点击事件
-				fan.addEventListener("tap",function () {
-				var user_id = 1;			
-					//服务器中接口的地址			
-					/*mui.ajax('http://localhost/api/MyServlet',{
-						//向服务器发送数据
-					
-						dataType:'json',//服务器返回json格式数据
-						type:'get',//HTTP请求类型
-						success:function(data){
-							//获得服务器响应，获取服务响应的数据
-							console.log(data);
-						}
-					});*/
-						mui.post(window.path+'FansServlet',{
-							method:"StatusCode",
-							user_id:user_id
-						},function(data){
-							console.log(data);
-							if(data.resultCode=="200")
-							{													
-								//原生的js跳转页面
-								//window.location.href="xxx.html";
-								
-								
-								//mui框架的跳转
-								mui.openWindow({
-									    url: 'Fans.html', 
 									    show:{
 									      autoShow:false
 									    }

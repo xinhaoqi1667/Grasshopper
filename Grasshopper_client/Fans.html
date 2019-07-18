@@ -24,34 +24,18 @@
 	<body>
 		<header class="mui-bar mui-bar-nav">
 			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
-			<h1 class="mui-title">个人信息</h1>
+			<h1 class="mui-title">关注你的粉丝</h1>
 		</header>
 		<div class="mui-content">
 	
 			<ul class="mui-table-view" id="content">
 			<script id="test" type="text/html">	
-				{{each resultUser}} <!-- resultData和服务端返回的名字必须一致-->
+				{{each resultName}} <!-- resultData和服务端返回的名字必须一致-->
 				<li class="mui-table-view-cell mui-media">
 					<a href="javascript:;">
 						<div class="mui-media-body">
-							用户名:{{$value.name}}
-						</div>
-						<div class="mui-media-body">
-							所属学院:{{$value.college_name}}
-						</div>
-						<div class="mui-media-body">
-							所属专业:{{$value.major_name}}
-						</div>
-						<div class="mui-media-body">
-							等级:
-							{{if $value.grade<=10}}
-								<img src="images/f3.png">
-							{{else if $value.grade<=20}}
-								<img src="images/f2.png">
-							{{else if $value.grade<=30}}	
-								<img src="images/f1.png">
-							{{/if}}	
-						</div>
+							粉丝名:{{$value}}
+						</div>		
 					</a>
 				</li>
 				{{/each}}
@@ -74,7 +58,7 @@
 		mui.init({
 			swipeBack:true //启用右滑关闭功能
 		});
-		mui.get(window.path+'QueryUserServlet?method=GetUser',function(data){
+		mui.get(window.path+'FansServlet?method=GetName',function(data){
 			console.log(data);
 		//获得服务器响应
 		var html = template("test",data);
