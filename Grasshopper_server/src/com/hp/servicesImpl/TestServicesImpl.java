@@ -82,7 +82,8 @@ public class TestServicesImpl implements TestServices {
 		User user=dao.findByName(account);
 		return user;
 	}
-
+	
+	//根据user_message表的focus字段来查询用户名并返回一个集合
 	@Override
 	public List findByID(String idFocus) {
 		// TODO Auto-generated method stub
