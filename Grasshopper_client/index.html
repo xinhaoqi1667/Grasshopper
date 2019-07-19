@@ -162,6 +162,7 @@
 
 					<h1 class="mui-title">蝈蝈社区</h1>
 				</header>
+				
 				<nav class="mui-bar mui-bar-tab">
 					<a class="mui-tab-item mui-active">
 						<span class="mui-icon mui-icon-home"></span>
@@ -179,7 +180,6 @@
 						<span class="mui-icon mui-icon-chat"></span>
 						<span class="mui-tab-label">私信</span>
 					</a>
-
 				</nav>
 				<div class="mui-content mui-scroll-wrapper">
 					<div class="mui-scroll">
@@ -229,99 +229,23 @@
 								<div class="mui-indicator"></div>
 								<div class="mui-indicator"></div>
 								<div class="mui-indicator"></div>
-							</div>
-						</div>
-
+							</div>	
+						</div>					
+							
 						<div class="mui-segmented-control">
 							<a class="mui-control-item mui-active" href="#item1" id="er">二手<input type="hidden" id="ers" value="1"></a>
 							<a class="mui-control-item" href="#item2" id="sw">失物招领<input type="hidden" id="swz" value="2"></a>
 							<a class="mui-control-item" href="#item3" id="qt">其他<input type="hidden" id="qtl" value="3"></a>
 						</div>
-
-						<div class="div1" id="div1">
-							<ul class="mui-table-view" id="content">
-								<script id="test" type="text/html">
-									{{each resultRelease}}
-									<!-- resultData和服务端返回的名字必须一致-->
-									<li class="mui-table-view-cell mui-media">
-										<a href="javascript:;">
-											<img class="mui-media-object mui-pull-left" src="images/f3.png">
-											<div class="mui-media-body">
-												{{$value.title}}
-												<p class='mui-ellipsis'>{{$value.content}}</p>
-											</div>
-										</a>
-									</li>
-									{{/each}}
-								</script>
-							</ul>
-						</div>
-
-						<div class="div2" id="div2">
-							<ul class="mui-table-view" id="contente">
-								<script id="teste" type="text/html">
-									{{each resultReleasee}}
-									<!-- resultData和服务端返回的名字必须一致-->
-									<li class="mui-table-view-cell mui-media">
-										<a href="javascript:;">
-											<img class="mui-media-object mui-pull-left" src="images/f3.png">
-											<div class="mui-media-body">
-												{{$value.title}}
-												<p class='mui-ellipsis'>{{$value.content}}</p>
-											</div>
-										</a>
-									</li>
-									{{/each}}
-								</script>
-							</ul>
-						</div>
 						
-						<div class="div3" id="div3">
-							<ul class="mui-table-view" id="contents">
-								<script id="tests" type="text/html">
-									{{each resultReleasee}}
-									<!-- resultData和服务端返回的名字必须一致-->
-									<li class="mui-table-view-cell mui-media">
-										<a href="javascript:;">
-											<img class="mui-media-object mui-pull-left" src="images/f3.png">
-											<div class="mui-media-body">
-												{{$value.title}}
-												<p class='mui-ellipsis'>{{$value.content}}</p>
-											</div>
-										</a>
-									</li>
-									{{/each}}
-								</script>
-							</ul>
-						</div>
-						
-						<div class="div4" id="div4">
-							<ul class="mui-table-view" id="contentf">
-								<script id="testf" type="text/html">
-									{{each resultReleasee}}
-									<!-- resultData和服务端返回的名字必须一致-->
-									<li class="mui-table-view-cell mui-media">
-										<a href="javascript:;">
-											<img class="mui-media-object mui-pull-left" src="images/f3.png">
-											<div class="mui-media-body">
-												{{$value.title}}
-												<p class='mui-ellipsis'>{{$value.content}}</p>
-											</div>
-										</a>
-									</li>
-									{{/each}}
-								</script>
-							</ul>
-						</div>
-
 					</div>
 				</div>
 				<div class="mui-off-canvas-backdrop"></div>
 			</div>
 		</div>
-
+	
 		<script type="text/javascript" src="js/mui.min.js">
-			<script type="text/javascript" src="js/mui.view.js">
+		<script type="text/javascript" src="js/mui.view.js">
 		</script>
 		<script type="text/javascript" src="js/app.js"></script>
 		<script type="text/javascript" src="js/feedback-page.js"></script>
@@ -329,6 +253,14 @@
 		<script type="text/javascript" src="js/mui.enterfocus.js"></script>
 		<script type="text/javascript" src="js/mui.locker.js"></script>
 		<script type="text/javascript" src="js/template-web.js"></script>
+		
+		<script>
+			mui.init({
+				pullRefresh:{
+				
+				}
+			});
+		</script>
 		
 		<!--查看用户个人信息的js-->
 		<script>
@@ -432,176 +364,9 @@
 			});
 		</script>
 	
-		<!--index.html界面一进来二手标签下面的空白处显示的数据来原-->
-		<script>
-			//页面请求全局路径
-			window.path = "http://localhost:8080/Grasshopper_server/";
-			mui.init({
-				swipeBack: true //启用右滑关闭功能
-			});
-			mui.get(window.path + 'ConditionReleaseServlet?method=csh', function(data) {
-				console.log(data);
-				//获得服务器响应
-				var html = template("test", data);
-				document.getElementById('content').innerHTML = html;
-			}, 'json');
-		</script>
-
-		<!--点击失物招领标签并且显示相当于的数据-->
-		<script>
-			mui.init({
-				statusBarBackground: '#f7f7f7'
-			});
-
-			//页面请求全局路径
-			window.path = "http://localhost:8080/Grasshopper_server/";
-
-			
-			var s = document.getElementById("sw");
-			
-			mui.trigger(s, 'tap');
-			//监听点击事件
-			s.addEventListener("tap", function() {
-				var sort_id = document.getElementById("swz").value;
-				//服务器中接口的地址
-				/*mui.ajax('http://localhost/api/MyServlet',{
-					//向服务器发送数据
-					
-					dataType:'json',//服务器返回json格式数据
-					type:'get',//HTTP请求类型
-					success:function(data){
-						//获得服务器响应，获取服务响应的数据
-						console.log(data);
-					}
-				});*/
-				mui.post(window.path + 'ConditionReleaseServlet', {
-					method: "StatusCode",
-					sort_id: sort_id
-				}, function(data) {
-					console.log(data);
-					if(data.resultCode == "200") {
-					 var div1 = document.getElementById("div1");
-					 var div2 = document.getElementById("div2");
-					 var div3 = document.getElementById("div3");
-					 var div4 = document.getElementById("div4");
-					 div1.style.display="none";
-					 div2.style.display="block";
-					 div3.style.display="none";
-					 div4.style.display="none";
-						mui.get(window.path + 'ConditionReleaseServlet?method=sw&&sort_id='+sort_id, function(data) {
-							console.log(data);
-							//获得服务器响应
-							var html = template("teste", data);
-							document.getElementById('contente').innerHTML = html;
-						}, 'json');
-					} else {
-						alert("查看失败!");
-					}
-				}, 'json');
-			});
-		</script>
 		
-		<!--点击其他标签并且显示相当于的数据-->
-		<script>
-			mui.init({
-				statusBarBackground: '#f7f7f7'
-			});
-
-			//页面请求全局路径
-			window.path = "http://localhost:8080/Grasshopper_server/";
-
-			
-			var q = document.getElementById("qt");
-	
-			mui.trigger(q, 'tap');
-			//监听点击事件
-			q.addEventListener("tap", function() {
-				var sort_id = document.getElementById("qtl").value;
-				//服务器中接口的地址
-				/*mui.ajax('http://localhost/api/MyServlet',{
-					//向服务器发送数据
-					
-					dataType:'json',//服务器返回json格式数据
-					type:'get',//HTTP请求类型
-					success:function(data){
-						//获得服务器响应，获取服务响应的数据
-						console.log(data);
-					}
-				});*/
-				mui.post(window.path + 'ConditionReleaseServlet', {
-					method: "StatusCode",
-					sort_id: sort_id
-				}, function(data) {
-					console.log(data);
-					if(data.resultCode == "200") {
-					 var div2 = document.getElementById("div2");
-					 var div3 = document.getElementById("div3");
-					 div2.style.display="none";
-					 div3.style.display="block";
-						mui.get(window.path + 'ConditionReleaseServlet?method=sw&&sort_id='+sort_id, function(data) {
-							console.log(data);
-							//获得服务器响应
-							var html = template("tests", data);
-							document.getElementById('contents').innerHTML = html;
-						}, 'json');
-					} else {
-						alert("查看失败!");
-					}
-				}, 'json');
-			});
-		</script>
 		
-		<!--点击二手标签显示数据，并且把一进来就显示的二手数据(div1)隐藏-->
-		<script>
-			mui.init({
-				statusBarBackground: '#f7f7f7'
-			});
-
-			//页面请求全局路径
-			window.path = "http://localhost:8080/Grasshopper_server/";
-
-			
-			var e = document.getElementById("er");
-			
-			mui.trigger(e, 'tap');
-			//监听点击事件
-			e.addEventListener("tap", function() {
-				var sort_id = document.getElementById("ers").value;
-				//服务器中接口的地址
-				/*mui.ajax('http://localhost/api/MyServlet',{
-					//向服务器发送数据
-					
-					dataType:'json',//服务器返回json格式数据
-					type:'get',//HTTP请求类型
-					success:function(data){
-						//获得服务器响应，获取服务响应的数据
-						console.log(data);
-					}
-				});*/
-				mui.post(window.path + 'ConditionReleaseServlet', {
-					method: "StatusCode",
-					sort_id: sort_id
-				}, function(data) {
-					console.log(data);
-					if(data.resultCode == "200") {
-					 var div4 = document.getElementById("div4");
-					 var div2 = document.getElementById("div2");
-					 var div3 = document.getElementById("div3");
-					 div2.style.display="none";
-					 div3.style.display="none";		
-					 div4.style.display="block";
-						mui.get(window.path + 'ConditionReleaseServlet?method=sw&&sort_id='+sort_id, function(data) {
-							console.log(data);
-							//获得服务器响应
-							var html = template("testf", data);
-							document.getElementById('contentf').innerHTML = html;
-						}, 'json');
-					} else {
-						alert("查看失败!");
-					}
-				}, 'json');
-			});
-		</script>
+		
 	</body>
 
 </html>
