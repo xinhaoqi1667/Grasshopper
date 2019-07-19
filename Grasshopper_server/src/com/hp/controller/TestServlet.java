@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
+import com.hp.entity.Release;
 import com.hp.entity.Result;
 import com.hp.entity.User;
 import com.hp.services.ReleaseServices;
@@ -52,6 +53,9 @@ public class TestServlet extends HttpServlet {
 				break;
 			case "getFocus_id":
 				this.getFocus_id(request,response);
+				break;
+			case "addRelease":
+				this.addRelease(request,response);
 				break;
 			default:
 				break;
@@ -206,6 +210,36 @@ public class TestServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		
 	}
+	protected void addRelease(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		{			
+					ReleaseServices releaseServices=new RelesaeServicesImpl();
+					//使用Gson序列化	
+					Gson gson=new Gson();
+					String json=null;
+					PrintWriter out=null;
+					try {
+						Release release=new Release(0,request.getParameter("title"),Integer.valueOf(request.getParameter("sort_id")),request.getParameter("content"),request.getParameter("imgs"),Integer.valueOf(request.getParameter(request.getParameter("author_id"))));
+							
+							//将java对象转为json格式的的字符串
+							json = gson.toJson(releaseServices.add(release));
+							
+							response.setContentType("application/json;charset=utf-8");
+							out = response.getWriter();
+							
+					} catch (NullPointerException e) {
+						System.out.println("参数异常");
+						// TODO: handle exception
+						e.printStackTrace();
+						Result result = new Result("1003","参数不能为空！");
+						//转为json格式的字符串
+						json = gson.toJson(result);
+			
+					}
+					System.out.println(json);
+					//将结果以json形式暴露返回出去
+					out.write(json);
+				}
+		}
 	
 
 }
