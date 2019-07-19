@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html>
-
+	<style>
+		.div1{
+			width: 500px;
+			height: 235px;
+			border: 1px solid red;
+		}
+	</style>
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
@@ -52,7 +58,7 @@
 								</a>
 							</li>
 							<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
-								<a href="#">
+								<a href="#" >
 									<span class="mui-icon mui-icon-plus"></span>
 									<div class="mui-media-body">关注</div>
 								</a>
@@ -206,17 +212,15 @@
 						</div>
 						
 						<div class="mui-segmented-control">
-						    <a class="mui-control-item mui-active" href="#item1">二手</a>
+						    <a class="mui-control-item mui-active" href="#item1" id="dl">二手</a>
 						    <a class="mui-control-item" href="#item2">失物招领</a>
 						    <a class="mui-control-item" href="#item3">其他</a>
-						</div>
-						
+						</div>						
 					</div>
 				</div>
 				<div class="mui-off-canvas-backdrop"></div>
 			</div>
 		</div>
-		
 
 		<script type="text/javascript" src="js/mui.min.js">
 			<script type="text/javascript" src="js/mui.view.js">
@@ -333,6 +337,23 @@
 					);
 				});	
 		</script>
+		
+		<script>
+		//页面请求全局路径
+		window.path="http://localhost:8080/Grasshopper_server/";
+		mui.init({
+			swipeBack:true //启用右滑关闭功能
+		});
+		mui.get(window.path+'QueryUserServlet?method=GetUser',function(data){
+			console.log(data);
+		//获得服务器响应
+		var html = template("test",data);
+		document.getElementById('content').innerHTML = html;
+	},'json'
+	
+	); 
+		
+	</script>
 	</body>
 
 </html>
