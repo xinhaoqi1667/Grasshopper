@@ -38,6 +38,10 @@
 				内容:
 				<input type="text" name="content" style="height: 200px;" required="required"/>
 				<br />
+				 <button id="headImage" >
+ 	                                 上传图片
+                   </button>
+                   <br />
 				<input type="reset" value="取消" />
 				<input type="button" id="fa" value="发布" style="margin-top: 20px;"  />
 			</div>
@@ -118,6 +122,113 @@
 				
 				});	
 		</script>
+		 <script>
+     	
+ document.getElementById('headImage').addEventListener('tap', function() {
+ 	
+    if (mui.os.plus) {
+        var buttonTit = [{
+            title: "拍照"
+        }, {
+            title: "从手机相册选择"
+        }];
+        
+        plus.nativeUI.actionSheet({
+            title: "上传图片",
+            cancel: "取消",
+            buttons: buttonTit
+        }, function(b) { /*actionSheet 按钮点击事件*/
+            switch (b.index) {
+                case 0:
+                    break;
+                case 1:
+                    getImage(); /*拍照*/
+                    break;
+                case 2:
+                    galleryImg();/*打开相册*/
+                    break;
+                default:
+                    break;
+            }
+        })
+    }        
+}, false);
+
+// 拍照获取图片
+function getImage() {
+    var c = plus.camera.getCamera();
+    c.captureImage(function(e) {
+        plus.io.resolveLocalFileSystemURL(e, function(entry) {
+        	var imgSrc = entry.toLocalURL() + "?version=" + new Date().getTime(); //拿到图片路径
+            // 其他操作,比如预览展示
+ 
+        }, function(e) {
+            console.log("读取拍照文件错误：" + e.message);
+        });
+    }, function(s) {
+        console.log("error" + s);
+    }, {
+        filename: "_doc/camera/"
+    })
+}
+
+
+// 从相册中选择图片 
+function galleryImg(){
+	// 从相册中选择图片
+    plus.gallery.pick( function(e){
+    	for(var i in e.files){
+	    	var fileSrc = e.files[i];
+            // 其他操作,比如预览展示
+    	}
+    }, function ( e ) {
+    	console.log( "取消选择图片" );
+    },{
+    	filter: "image",
+    	multiple: true,
+    	maximum: 5,
+    	system: false,
+    	onmaxed: function() {
+    		plus.nativeUI.alert('最多只能选择5张图片');
+    	}
+    });
+}
+
+// 上传的方法
+function upload(){
+   	MicroTaskGUID = common.guid();
+   	
+   	var rul = "服务器地址"
+   	
+   	var imgsArr = mui(".task-img"); // 要上传的 img 标签
+   	
+   	mui.each(imgsArr, function(index, item){
+// 		console.log(index)
+// 		console.log(item.src)
+   		createUp(item)
+   	})
+	
+	
+	function createUp (files) {
+	    var task = plus.uploader.createUpload(url,
+	        {method:"POST"},
+	        function(t,status){ //上传完成
+	            if(status==200){
+	            	console.log("上传成功："+t.responseText);
+	            }else{
+	                console.log("上传失败："+status);
+	            }
+	        }
+	    );
+	    //添加其他参数
+//	    task.addData("name","test");
+        // 页面中要上传的 图片路径
+	    task.addFile(files.src,{key:files.src});
+	    task.start();
+	}
+}
+
+     </script>
 	</body>
 
 </html>
