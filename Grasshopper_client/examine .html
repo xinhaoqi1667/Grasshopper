@@ -10,15 +10,16 @@
 
 	<body>
 		<center style="margin-top: 100px;">
-			<h1>审核进度</h1>
+			<h1>发布</h1>
+			<form action="" method="get">
 			<div id="divid">
 				<table>
 					<tr>
-						<td>
+						<td >
 							标题:
 						</td>
 						<td>
-							<input type="text" name="title"/>
+							<input type="text" name="title"  required="required"/>
 						</td>
 					</tr>
 					<tr>
@@ -26,29 +27,96 @@
 							分类:
 						</td>
 						<td>
-							<select id="sort" >
-								<option>二手</option>
-								<option>失物招领</option>
-								<option>其他</option>
+							<select name="sort" >
+								<option value="二手">二手</option>
+								<option value="失物招领">失物招领</option>
+								<option value="其他">其他</option>
 							</select>
 						</td>
 					</tr>
 				</table>
 				内容:
-				<input type="text" name="content" style="height: 200px;"/>
+				<input type="text" name="content" style="height: 200px;" required="required"/>
 				<br />
-				审核进度（提交中/审核中/审核完毕）：
-				<br />
-				<input type="submit" value="查看审核进度" style="margin-top: 20px;" />
+				<input type="reset" value="取消" />
+				<input type="button" id="fa" value="发布" style="margin-top: 20px;"  />
 			</div>
+			</form>
 		</center>
 		<script src="js/mui.min.js"></script>
 		<script src="js/mui.enterfocus.js"></script>
 		<script src="js/app.js"></script>
 		<script type="text/javascript">
+			var f;
+			window.onload=function(){
+				
+				
+			   
+			}
+			function on(){
+				alert(f.content.value);
+			}
+		</script>
+		<script type="text/javascript">
+			
 			mui.init({
 				statusBarBackground: '#f7f7f7'
 			})
+			//页面请求全局路径
+				window.path="http://localhost:8080/Grasshopper_server/";
+				
+				//给登录按钮绑定点击事件
+				var btn = document.getElementById("fa");
+				//触发submit按钮的点击事件
+				mui.trigger(btn,'tap');
+				//监听点击事件
+				btn.addEventListener("tap",function () {
+					//获取账号和密码
+			     var f=document.forms[0];
+						
+								
+					//服务器中接口的地址			
+					/*mui.ajax('http://localhost/api/MyServlet',{
+						//向服务器发送数据
+					
+						dataType:'json',//服务器返回json格式数据
+						type:'get',//HTTP请求类型
+						success:function(data){
+							//获得服务器响应，获取服务响应的数据
+							console.log(data);
+						}
+					});*/
+					
+						mui.post(window.path+'TestServlet',{
+							method:"test",
+							title:f.title.value,
+							sort:f.sort.value,
+							content:f.content.value
+						},function(data){
+							console.log(data);
+							if(data.resultCode=="200")
+							{
+								alert("登陆成功！");
+								
+								//原生的js跳转页面
+								//window.location.href="xxx.html";
+								
+								
+								//mui框架的跳转
+								mui.openWindow({
+									    url: 'index.html', 
+									    show:{
+									      autoShow:false
+									    }
+  								});
+								
+							}else{
+								alert("登录失败!");
+							}
+						},'json'
+					);
+				
+				});	
 		</script>
 	</body>
 
