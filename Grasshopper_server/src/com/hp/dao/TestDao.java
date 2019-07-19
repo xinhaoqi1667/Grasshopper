@@ -9,18 +9,7 @@ import com.hp.entity.Fans;
 
 //无用，测试上传空包用
 public class TestDao extends BaseDao{
-	public static void main(String[] args) {
-		TestDao d = new TestDao();
-		List<Fans> user_ids = d.user_id(3);
-		List list = new ArrayList();
-		for (Fans user : user_ids) {
-			String user_name = d.user_name(user.getUser_id());
-			list.add(user_name);
-		}
-		for (Object object : list) {
-			System.out.println(object);
-		}
-	}
+	
 	//测试（根据用户名查询密码是否存在）
 		public String findByName(String name)
 		{
@@ -33,7 +22,7 @@ public class TestDao extends BaseDao{
 			
 		}
 		
-		public List<Fans> user_id(int id){
+		/*public List<Fans> user_id(int id){
 			Object[] params={id,id};
 			return super.QueryFocus("SELECT user_id FROM user_message where user_id !=? AND focus REGEXP ?",Fans.class, params);
 		}
@@ -44,7 +33,7 @@ public class TestDao extends BaseDao{
 			String name = super.QueryBy("select name from user where id=?","name",params);
 			return name;
 		}
-
+*/
 }
 
 
