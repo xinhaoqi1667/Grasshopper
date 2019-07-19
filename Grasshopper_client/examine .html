@@ -4,8 +4,12 @@
 	<head>
 		<meta charset="utf-8">
 		<title></title>
-		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-		<link href="css/mui.css" rel="stylesheet" />
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="css/mui.min.css">
 	</head>
 
 	<body>
@@ -29,9 +33,9 @@
 						</td>
 						<td>
 							<select name="sort" >
-								<option value="0">二手</option>
-								<option value="1">失物招领</option>
-								<option value="2">其他</option>
+								<option value="1">二手</option>
+								<option value="2">失物招领</option>
+								<option value="3">其他</option>
 							</select>
 						</td>
 					</tr>
@@ -169,7 +173,12 @@ function upload(){
      </script>
      
      <script type="text/javascript">
-			
+     	
+			 var f=document.forms[0];
+			     f.user.innerText=document.cookie[document.cookie.length-1];
+				var imgs=document.getElementById("headImage");	
+				  var user_id=f.user.innerText;
+				   alert(user_id)
 			mui.init({
 				statusBarBackground: '#f7f7f7'
 			})
@@ -183,9 +192,7 @@ function upload(){
 				//监听点击事件
 				btn.addEventListener("tap",function () {
 					//获取账号和密码
-			     var f=document.forms[0];
-			     var user_id=f.user.innerText;
-				var imgs=document.getElementById("headImage");		
+			    
 								
 					//服务器中接口的地址			
 					/*mui.ajax('http://localhost/api/MyServlet',{
@@ -207,7 +214,7 @@ function upload(){
 							imgs:imgs.src,
 							author_id:user_id
 						},function(data){
-							console.log(data);
+						/*	console.log(data);
 							if(data.resultCode=="200")
 							{
 								alert("登陆成功！");
@@ -226,7 +233,7 @@ function upload(){
 								
 							}else{
 								alert("登录失败!");
-							}
+							}*/
 						},'json'
 					);
 				

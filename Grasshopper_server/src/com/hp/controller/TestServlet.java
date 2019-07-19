@@ -2,6 +2,7 @@ package com.hp.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +12,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.beanutils.BeanUtils;
 
 import com.google.gson.Gson;
 import com.hp.entity.Release;
@@ -218,15 +221,25 @@ public class TestServlet extends HttpServlet {
 					String json=null;
 					PrintWriter out=null;
 					try {
-						Release release=new Release(0,request.getParameter("title"),Integer.valueOf(request.getParameter("sort_id")),request.getParameter("content"),request.getParameter("imgs"),Integer.valueOf(request.getParameter(request.getParameter("author_id"))));
-							
+						
+						Release release=new Release();
+						
+							new BeanUtils().populate(release,request.getParameterMap());
 							//将java对象转为json格式的的字符串
 							json = gson.toJson(releaseServices.add(release));
 							
 							response.setContentType("application/json;charset=utf-8");
 							out = response.getWriter();
+						} catch (IllegalAccessException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (InvocationTargetException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 							
-					} catch (NullPointerException e) {
+							
+					 catch (NullPointerException e) {
 						System.out.println("参数异常");
 						// TODO: handle exception
 						e.printStackTrace();
