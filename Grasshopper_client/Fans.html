@@ -30,11 +30,12 @@
 	
 			<ul class="mui-table-view" id="content">
 			<script id="test" type="text/html">	
+				<h3>以下用户关注了你并成为了你的粉丝:</h3>
 				{{each resultName}} <!-- resultData和服务端返回的名字必须一致-->
 				<li class="mui-table-view-cell mui-media">
 					<a href="javascript:;">
 						<div class="mui-media-body">
-							粉丝名:{{$value}}
+							{{$value}}
 						</div>		
 					</a>
 				</li>
