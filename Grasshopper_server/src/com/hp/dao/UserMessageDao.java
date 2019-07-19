@@ -17,7 +17,7 @@ public static void main(String[] args) {
 	  String f=userServices.Focus(2);
 	  ReleaseServices releaseServices=new RelesaeServicesImpl();
 		UserMessageServices userMessageServices=new UserMessageServicesImpl();
-		String f1=userMessageServices.Focus(1);
+		String f1=userMessageServices.Focus(2);
 		List list=testServicesImpl.findByID(f1);
 		System.out.println(f1+list);
 	

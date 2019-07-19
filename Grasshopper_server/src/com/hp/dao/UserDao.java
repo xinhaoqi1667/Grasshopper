@@ -19,6 +19,7 @@ public class UserDao extends BaseDao{
 			return  super.QueryClazz("select * from user where name=?",User.class,params);
 		}
 		
+		//根据user_message表的focus字段来查询用户名并返回一个集合
 		public List findByID(String idFocus)
 		{
 			Object[] params=idFocus.split(",");
@@ -28,8 +29,7 @@ public class UserDao extends BaseDao{
 				if(i!=0){
 					sql.append(" or id=?");
 				}
-			}
-			
+			}		
 			List list=super.QueryList(sql.toString(),User.class, params);
 			return list;
 		}
