@@ -12,7 +12,7 @@ public class RelesaeServicesImpl implements ReleaseServices{
 	@Override
 	public boolean add(Release release) {
 		// TODO Auto-generated method stub
-		return false;
+		return releaseDao.add(release);
 	}
 
 	@Override

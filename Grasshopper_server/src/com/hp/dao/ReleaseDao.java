@@ -24,7 +24,7 @@ public class ReleaseDao extends BaseDao{
 		//连接数据库
 		QueryRunner queryRunner = new QueryRunner(dataSource);
 		try {
-			int i = queryRunner.update("insert into `release` values(null,?,?,?,?)", params);
+			int i = queryRunner.update("insert into `release` values(null,?,?,?,?,?)", params);
 			return i>0?true:false;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
