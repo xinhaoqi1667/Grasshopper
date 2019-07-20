@@ -20,9 +20,11 @@ import com.hp.entity.Release;
 import com.hp.entity.Result;
 import com.hp.entity.User;
 import com.hp.services.ReleaseServices;
+import com.hp.services.SortServices;
 import com.hp.services.TestServices;
 import com.hp.services.UserMessageServices;
 import com.hp.servicesImpl.RelesaeServicesImpl;
+import com.hp.servicesImpl.SortServicesImpl;
 import com.hp.servicesImpl.TestServicesImpl;
 import com.hp.servicesImpl.UserMessageServicesImpl;
 
@@ -59,6 +61,12 @@ public class TestServlet extends HttpServlet {
 				break;
 			case "addRelease":
 				this.addRelease(request,response);
+				break;
+			case "querySort":
+				this.querySort(request,response);
+				break;
+			case "queryExamine":
+				this.queryExamine(request,response);
 				break;
 			default:
 				break;
@@ -253,6 +261,66 @@ public class TestServlet extends HttpServlet {
 					out.write(json);
 				}
 		}
-	
+	protected void querySort(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		response.setContentType("application/json;charset=utf-8");
+		
+		//使用Gson序列化	
+		Gson gson=new Gson();
+		String json=null;
+		PrintWriter out=null;
+		out=response.getWriter();
+		SortServices sortServices=new SortServicesImpl();
+	    List list=sortServices.querySort();
+		System.out.println(list.toString());
+	    try {
 
+			 Map map=new HashMap<>();
+			 
+			 map.put("resultSort",list);
+			 json=gson.toJson(map);
+		} catch (Exception e) {
+			e.printStackTrace();
+			Result result = new Result("1005","数据获取异常！");
+			//转为json格式的字符串
+			json = gson.toJson(result);
+			// TODO: handle exception
+		}
+	
+		System.out.println(json);
+		//将结果以json形式暴露返回出去
+		out.write(json);
+		
+	}
+
+	protected void queryExamine(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		response.setContentType("application/json;charset=utf-8");
+		
+		//使用Gson序列化	
+		Gson gson=new Gson();
+		String json=null;
+		PrintWriter out=null;
+		out=response.getWriter();
+		ReleaseServices releaseServices=new RelesaeServicesImpl();
+		
+	    List list=releaseServices.select(Integer.valueOf(request.getParameter("release_id")));
+		System.out.println(list.toString());
+	    try {
+
+			 Map map=new HashMap<>();
+			 
+			 map.put("resultExamine",list);
+			 json=gson.toJson(map);
+		} catch (Exception e) {
+			e.printStackTrace();
+			Result result = new Result("1005","数据获取异常！");
+			//转为json格式的字符串
+			json = gson.toJson(result);
+			// TODO: handle exception
+		}
+	
+		System.out.println(json);
+		//将结果以json形式暴露返回出去
+		out.write(json);
+		
+	}
 }

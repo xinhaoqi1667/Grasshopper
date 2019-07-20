@@ -3,6 +3,7 @@ package com.hp.servicesImpl;
 import java.util.List;
 
 import com.hp.dao.ReleaseDao;
+import com.hp.entity.Examine;
 import com.hp.entity.Release;
 import com.hp.services.ReleaseServices;
 
@@ -37,6 +38,12 @@ public class RelesaeServicesImpl implements ReleaseServices{
 	public List FocusContent(String idFocus) {
 		// TODO Auto-generated method stub
 		return releaseDao.FocusContent(idFocus);
+	}
+
+	@Override
+	public List<Examine> select(int id) {
+		// TODO Auto-generated method stub
+		return releaseDao.select(id);
 	}
 	
 
