@@ -21,12 +21,12 @@ public class ReleaseDao extends BaseDao{
 		//调用数据源
 		DataSource dataSource = JDBCUtils.getDataSource();
 		//传入的参数
-		Object[] params={release.getTitle(),release.getSort_id(),release.getContent(),release.getImgs(),release.getAuthor_id()};
+		Object[] params={release.getTitle(),release.getSort_id(),release.getContent(),release.getImgs(),release.getAuthor_id(),release.getExamine_id()};
 		
 		//连接数据库
 		QueryRunner queryRunner = new QueryRunner(dataSource);
 		try {
-			int i = queryRunner.update("insert into `release` values(null,?,?,?,?,?)", params);
+			int i = queryRunner.update("insert into `release` values(null,?,?,?,?,?,?)", params);
 			return i>0?true:false;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -72,18 +72,36 @@ public class ReleaseDao extends BaseDao{
 			return null;
 			
 		}
+		//全部查询
+				public List<Examine> queryAll()
+				{
+					//调用数据源
+					DataSource dataSource = JDBCUtils.getDataSource();
+					//连接数据库
+					QueryRunner queryRunner = new QueryRunner(dataSource);
+					Object[] param=null;
+					try {
+						List<Examine> list = queryRunner.query(" select `release`.id,title,type,content,imgs,name,e_name from `release`,sort,`user`,examine WHERE sort_id=sort.id and author_id=`user`.id and examine.id=examine_id and examine.id=2",new BeanListHandler<Examine>(Examine.class),param);
+						return list;
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					return null;
+					
+				}
 	//修改
-	public boolean update(Release release)
+	public boolean update(Integer examine_id,Integer id)
 	{
 		//调用数据源
 		DataSource dataSource = JDBCUtils.getDataSource();
 		//传入的参数
-		Object[] params={release.getTitle(),release.getSort_id(),release.getContent(),release.getImgs(),release.getAuthor_id(),release.getId()};
+		Object[] params={examine_id,id};
 		
 		//连接数据库
 		QueryRunner queryRunner = new QueryRunner(dataSource);
 		try {
-			int i = queryRunner.update("update `release` set title=?,sort_id=?,contenth=?,imgs=?,author_id where id=?", params);
+			int i = queryRunner.update("update `release` set examine_id=? where id=?", params);
 			return i>0?true:false;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -127,4 +145,5 @@ public class ReleaseDao extends BaseDao{
 			return list;
 			
 		}
+		
 }

@@ -68,6 +68,9 @@ public class TestServlet extends HttpServlet {
 			case "queryExamine":
 				this.queryExamine(request,response);
 				break;
+			case "queryAll":
+				this.queryAll(request,response);
+				break;
 			default:
 				break;
 			}
@@ -309,6 +312,37 @@ public class TestServlet extends HttpServlet {
 			 Map map=new HashMap<>();
 			 
 			 map.put("resultExamine",list);
+			 json=gson.toJson(map);
+		} catch (Exception e) {
+			e.printStackTrace();
+			Result result = new Result("1005","数据获取异常！");
+			//转为json格式的字符串
+			json = gson.toJson(result);
+			// TODO: handle exception
+		}
+	
+		System.out.println(json);
+		//将结果以json形式暴露返回出去
+		out.write(json);
+		
+	}
+	protected void queryAll(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		response.setContentType("application/json;charset=utf-8");
+		
+		//使用Gson序列化	
+		Gson gson=new Gson();
+		String json=null;
+		PrintWriter out=null;
+		out=response.getWriter();
+		ReleaseServices releaseServices=new RelesaeServicesImpl();
+		
+	    List list=releaseServices.queryAll();
+		System.out.println(list.toString());
+	    try {
+
+			 Map map=new HashMap<>();
+			 
+			 map.put("resultAll",list);
 			 json=gson.toJson(map);
 		} catch (Exception e) {
 			e.printStackTrace();

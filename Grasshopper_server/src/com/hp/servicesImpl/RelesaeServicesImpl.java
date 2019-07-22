@@ -23,9 +23,9 @@ public class RelesaeServicesImpl implements ReleaseServices{
 	}
 
 	@Override
-	public boolean update(Release release) {
+	public boolean update(Integer examine_id,Integer id) {
 		// TODO Auto-generated method stub
-		return false;
+		return releaseDao.update(examine_id, id);
 	}
 
 	@Override
@@ -44,6 +44,12 @@ public class RelesaeServicesImpl implements ReleaseServices{
 	public List<Examine> select(int id) {
 		// TODO Auto-generated method stub
 		return releaseDao.select(id);
+	}
+
+	@Override
+	public List<Examine> queryAll() {
+		// TODO Auto-generated method stub
+		return releaseDao.queryAll();
 	}
 	
 

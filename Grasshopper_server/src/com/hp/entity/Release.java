@@ -7,19 +7,22 @@ public class Release {
 	private String content;
 	private String imgs;
 	private Integer author_id;
+	private Integer examine_id;
 	
 	public Release() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Release(Integer id, String title, Integer sort_id, String content, String imgs, Integer author_id) {
-		super();
+	public Release(Integer id, String title, Integer sort_id, String content, String imgs, Integer author_id,
+			Integer examine_id) {
+		
 		this.id = id;
 		this.title = title;
 		this.sort_id = sort_id;
 		this.content = content;
 		this.imgs = imgs;
 		this.author_id = author_id;
+		this.examine_id = examine_id;
 	}
 
 	public Integer getId() {
@@ -70,12 +73,21 @@ public class Release {
 		this.author_id = author_id;
 	}
 
+	public Integer getExamine_id() {
+		return examine_id;
+	}
+
+	public void setExamine_id(Integer examine_id) {
+		this.examine_id = examine_id;
+	}
+
 	@Override
 	public String toString() {
 		return "Release [id=" + id + ", title=" + title + ", sort_id=" + sort_id + ", content=" + content + ", imgs="
-				+ imgs + ", author_id=" + author_id + "]";
+				+ imgs + ", author_id=" + author_id + ", examine_id=" + examine_id + "]";
 	}
 
+	
 
 
 }

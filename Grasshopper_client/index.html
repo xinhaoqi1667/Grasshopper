@@ -4,7 +4,11 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<title></title>
+         <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
 
+	
 		<!--标准mui.css-->
 		<link rel="stylesheet" href="css/mui.min.css">
 		<link rel="stylesheet" href="css/feedback-page.css" />
@@ -132,6 +136,7 @@
 
 					<h1 class="mui-title">蝈蝈社区</h1>
 				</header>
+		
 				
 				<nav class="mui-bar mui-bar-tab">
 					<a class="mui-tab-item mui-active">
@@ -207,10 +212,27 @@
 							<a class="mui-control-item" href="#item2" id="sw">失物招领<input type="hidden" id="swz" value="2"></a>
 							<a class="mui-control-item" href="#item3" id="qt">其他<input type="hidden" id="qtl" value="3"></a>
 						</div>
-						
+						<ul class="mui-table-view" id="content">
+			<script id="test" type="text/html">	
+				{{each resultAll}} <!-- resultData和服务端返回的名字必须一致-->
+				<li class="mui-table-view-cell mui-media">
+					<a href="javascript:;">
+						<img class="mui-media-object mui-pull-left" src={{$value.imgs}}>
+						<div class="mui-media-body">
+							{{$value.title}}
+							{{$value.name}}
+							<!--<p class='mui-ellipsis'>{{$value.content}}</p>-->
+						</div>
+					</a>
+				</li>
+				{{/each}}
+			</script>
+			</ul>
 					</div>
 				</div>
-				<div class="mui-off-canvas-backdrop"></div>
+				<div class="mui-off-canvas-backdrop">
+	
+				</div>
 			</div>
 		</div>
 	
@@ -224,12 +246,26 @@
 		<script type="text/javascript" src="js/mui.locker.js"></script>
 		<script type="text/javascript" src="js/template-web.js"></script>
 		<script>
-			mui.init({
-				pullRefresh:{
-				
-				}
-			});
-		</script>
+	
+		
+		//页面请求全局路径
+		window.path="http://localhost:8080/Grasshopper_server/";
+		mui.init({
+			swipeBack:true //启用右滑关闭功能
+		});
+		
+		mui.get(window.path+'TestServlet?method=queryAll',function(data){
+			console.log(data);
+		//获得服务器响应
+		var html = template("test",data);
+		document.getElementById('content').innerHTML=html;
+		
+		
+	},'json'
+	
+	); 
+		
+	</script>
 	
 	</body>
 
