@@ -51,6 +51,12 @@ public class RelesaeServicesImpl implements ReleaseServices{
 		// TODO Auto-generated method stub
 		return releaseDao.queryAll();
 	}
+
+	@Override
+	public List<Examine> noPass() {
+		// TODO Auto-generated method stub
+		return releaseDao.noPass();
+	}
 	
 
 }

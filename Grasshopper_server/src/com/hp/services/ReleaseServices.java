@@ -15,4 +15,6 @@ public interface ReleaseServices {
 	public List<Examine> select(int id);
 	//全部查询
 	public List<Examine> queryAll();
+	//全部查询(未通过的)
+	public List<Examine> noPass();
 }

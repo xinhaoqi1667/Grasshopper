@@ -19,10 +19,12 @@ import com.google.gson.Gson;
 import com.hp.entity.Release;
 import com.hp.entity.Result;
 import com.hp.entity.User;
+import com.hp.services.ExaServices;
 import com.hp.services.ReleaseServices;
 import com.hp.services.SortServices;
 import com.hp.services.TestServices;
 import com.hp.services.UserMessageServices;
+import com.hp.servicesImpl.ExaServicesImpl;
 import com.hp.servicesImpl.RelesaeServicesImpl;
 import com.hp.servicesImpl.SortServicesImpl;
 import com.hp.servicesImpl.TestServicesImpl;
@@ -70,6 +72,12 @@ public class TestServlet extends HttpServlet {
 				break;
 			case "queryAll":
 				this.queryAll(request,response);
+				break;
+			case "queryNoPass":
+				this.queryNoPass(request,response);
+				break;
+			case "getPass":
+				this.getPass(request,response);
 				break;
 			default:
 				break;
@@ -344,6 +352,66 @@ public class TestServlet extends HttpServlet {
 			 
 			 map.put("resultAll",list);
 			 json=gson.toJson(map);
+		} catch (Exception e) {
+			e.printStackTrace();
+			Result result = new Result("1005","数据获取异常！");
+			//转为json格式的字符串
+			json = gson.toJson(result);
+			// TODO: handle exception
+		}
+	
+		System.out.println(json);
+		//将结果以json形式暴露返回出去
+		out.write(json);
+		
+	}
+	protected void queryNoPass(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		response.setContentType("application/json;charset=utf-8");
+		
+		//使用Gson序列化	
+		Gson gson=new Gson();
+		String json=null;
+		PrintWriter out=null;
+		out=response.getWriter();
+		ReleaseServices releaseServices=new RelesaeServicesImpl();
+		ExaServices exaServices=new ExaServicesImpl();
+	    List list=releaseServices.noPass();
+	    List list1=exaServices.queryAll();
+		System.out.println(list.toString());
+	    try {
+
+			 Map map=new HashMap<>();
+			 
+			 map.put("resultNoPass",list);
+			 map.put("resultExa", list1);
+			 json=gson.toJson(map);
+		} catch (Exception e) {
+			e.printStackTrace();
+			Result result = new Result("1005","数据获取异常！");
+			//转为json格式的字符串
+			json = gson.toJson(result);
+			// TODO: handle exception
+		}
+	
+		System.out.println(json);
+		//将结果以json形式暴露返回出去
+		out.write(json);
+		
+	}
+	protected void getPass(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		response.setContentType("application/json;charset=utf-8");
+	
+		//使用Gson序列化	
+		Gson gson=new Gson();
+		String json=null;
+		PrintWriter out=null;
+		out=response.getWriter();
+		ReleaseServices releaseServices=new RelesaeServicesImpl();
+		boolean flag=releaseServices.update(Integer.valueOf(request.getParameter("examine_id")), Integer.valueOf(request.getParameter("id")));
+	    System.out.println(flag);
+		try {
+
+		
 		} catch (Exception e) {
 			e.printStackTrace();
 			Result result = new Result("1005","数据获取异常！");

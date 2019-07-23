@@ -72,7 +72,7 @@ public class ReleaseDao extends BaseDao{
 			return null;
 			
 		}
-		//全部查询
+		//全部查询(通过的)
 				public List<Examine> queryAll()
 				{
 					//调用数据源
@@ -82,6 +82,24 @@ public class ReleaseDao extends BaseDao{
 					Object[] param=null;
 					try {
 						List<Examine> list = queryRunner.query(" select `release`.id,title,type,content,imgs,name,e_name from `release`,sort,`user`,examine WHERE sort_id=sort.id and author_id=`user`.id and examine.id=examine_id and examine.id=2",new BeanListHandler<Examine>(Examine.class),param);
+						return list;
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					return null;
+					
+				}
+				//全部查询(未通过的)
+				public List<Examine> noPass()
+				{
+					//调用数据源
+					DataSource dataSource = JDBCUtils.getDataSource();
+					//连接数据库
+					QueryRunner queryRunner = new QueryRunner(dataSource);
+					Object[] param=null;
+					try {
+						List<Examine> list = queryRunner.query("select `release`.id,title,type,content,imgs,name,e_name from `release`,sort,`user`,examine WHERE sort_id=sort.id and author_id=`user`.id and examine.id=examine_id and examine.id=1",new BeanListHandler<Examine>(Examine.class),param);
 						return list;
 					} catch (SQLException e) {
 						// TODO Auto-generated catch block

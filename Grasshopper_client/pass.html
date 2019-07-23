@@ -1,9 +1,166 @@
 <!DOCTYPE html>
 <html>
+
 	<head>
-		<meta charset="UTF-8">
-		<title></title>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="css/mui.min.css">
+		<!--App自定义的css-->
+		
+		<style>
+			.title {
+				margin: 20px 15px 10px;
+				color: #6d6d72;
+				font-size: 15px;
+			}
+		</style>
 	</head>
+
 	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">media list（图文列表测试）</h1>
+		</header>
+		<div class="mui-content">
+			<div class="title">
+				缩略图居左
+			</div>
+			<table  id="content">
+				
+			<script id="test" type="text/html">	
+				<tr>
+					<td>id</td>
+					<td>title</td>
+					<td>type</td>
+					<td>content</td>
+					<td>imgs</td>
+					<td>e_name</td>
+					<td>修改状态</td>
+					<td>确认修改</td>
+				</tr>
+				{{each resultNoPass}} <!-- resultData和服务端返回的名字必须一致-->
+				<tr>
+					<td>{{$value.id}}</td>
+					<td>{{$value.title}}</td>
+					<td>{{$value.type}}</td>
+					<td>{{$value.content}}</td>
+					<td>{{$value.imgs}}</td>
+					<td>{{$value.e_name}}</td>
+					<td><select >
+					{{each resultExa}}
+						<option  value={{$value.id}}>{{$value.e_name}}</option>
+					{{/each}}
+						</select>
+					</td>
+					<td>
+					<button  onclick="update(this)">修改</button>
+				</td>
+				</tr>	
+			
+				{{/each}}
+			</script>
+			</table>
+			
+		</div>
+
 	</body>
+	<script src="js/mui.min.js"></script>
+	<!--导入模板引擎的js 
+		
+		使用mui框架的ajax从服务器端请求获取到数据之后通过js的模板引擎将数据渲染到html中
+		
+	-->
+	<script src="js/template-web.js"></script>
+	<script>
+		//页面请求全局路径
+		window.path="http://localhost:8080/Grasshopper_server/";
+		mui.init({
+			swipeBack:true //启用右滑关闭功能
+		});
+		
+		mui.get(window.path+'TestServlet?method=queryNoPass',function(data){
+			console.log(data);
+		//获得服务器响应
+		var html = template("test",data);
+		document.getElementById('content').innerHTML = html;
+	
+		
+	},'json'
+	
+	); 
+		
+</script>
+
+	<script>
+	
+		function update(obj){
+		 var p= RemoveNullNode(obj.parentNode.parentNode);
+		  var p1= RemoveNullNode(p.childNodes[6].childNodes[0]);
+			console.log(p.childNodes[0].textContent)
+			console.log(p1.value)
+			mui.post(window.path+'TestServlet',{
+							method:"getPass",
+							examine_id:p1.value,
+							id:p.childNodes[0].textContent
+						},function(data){
+						/*	console.log(data);
+							if(data.resultCode=="200")
+							{
+								alert("登陆成功！");
+								
+								//原生的js跳转页面
+								//window.location.href="xxx.html";
+								
+								
+								//mui框架的跳转
+								mui.openWindow({
+									    url: 'index.html', 
+									    show:{
+									      autoShow:false
+									    }
+  								});
+								
+							}else{
+								alert("登录失败!");
+							}*/
+						},'json'
+					);
+				
+			location.reload([true]);
+		}
+
+		 function RemoveNullNode(node)
+			{
+				
+					for (var i = 0; i < node.childNodes.length; i++) 
+					{
+						var num=(node.childNodes[i].childNodes).length;
+					
+						if(num>0)
+						{
+							
+							RemoveNullNode(node.childNodes[i])
+							
+						}else
+						{
+							//===等值等类型（值必须一样，类型也要一样）
+					        if (node.childNodes[i].nodeType === 3 && /^\s+$/.test(node.childNodes[i].nodeValue))
+							{
+								//移除空白节点
+					            node.childNodes[i].parentNode.removeChild(node.childNodes[i]);
+				
+					        }
+					
+						}
+					}
+				
+				return node;
+				
+			}
+	</script>
 </html>

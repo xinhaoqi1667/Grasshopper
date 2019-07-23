@@ -11,18 +11,7 @@ import com.hp.servicesImpl.TestServicesImpl;
 import com.hp.servicesImpl.UserMessageServicesImpl;
 
 public class UserMessageDao extends BaseDao{
-public static void main(String[] args) {
-	TestServicesImpl testServicesImpl=new TestServicesImpl();
-	UserMessageServices userServices=new UserMessageServicesImpl();
-	  String f=userServices.Focus(2);
-	  ReleaseServices releaseServices=new RelesaeServicesImpl();
-		UserMessageServices userMessageServices=new UserMessageServicesImpl();
-		String f1=userMessageServices.Focus(2);
-		List list=testServicesImpl.findByID(f1);
-		System.out.println(f1+list);
-	
-	 
-}
+
 	//查询每个关注的对象的id
 	public List idFocus(String idFocus){
 		Object[] params=idFocus.split(",");
