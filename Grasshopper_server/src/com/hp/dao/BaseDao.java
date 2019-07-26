@@ -101,6 +101,20 @@ public class BaseDao {
 		}
 		return null;
 	}
+	
+	//È«²éÑ¯(count)
+			public <T>  List<T> getcount(String sql, Class<T> t)
+			{		
+				 DataSource dataSource = JDBCUtils.getDataSource();
+				QueryRunner queryRunner = new QueryRunner(dataSource);
+				try {
+					return queryRunner.query(sql,new BeanListHandler<T>(t));
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				return null;
+			}
 }
 
 

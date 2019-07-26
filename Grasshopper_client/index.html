@@ -1,20 +1,21 @@
 <!DOCTYPE html>
 <html>
+
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<title></title>
-         <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
-		<meta name="apple-mobile-web-app-capable" content="yes">
-		<meta name="apple-mobile-web-app-status-bar-style" content="black">
 
-	
 		<!--标准mui.css-->
 		<link rel="stylesheet" href="css/mui.min.css">
 		<link rel="stylesheet" href="css/feedback-page.css" />
 		<link rel="stylesheet" href="css/style.css" />
 		<!--App自定义的css-->
-
+		<style type="text/css">
+			.mui-slider{
+				height: 150px;
+			}
+		</style>
 	</head>
 
 	<body>
@@ -136,8 +137,7 @@
 
 					<h1 class="mui-title">蝈蝈社区</h1>
 				</header>
-		
-				
+
 				<nav class="mui-bar mui-bar-tab">
 					<a class="mui-tab-item mui-active">
 						<span class="mui-icon mui-icon-home"></span>
@@ -156,10 +156,11 @@
 						<span class="mui-tab-label">私信</span>
 					</a>
 				</nav>
-				<div class="mui-content mui-scroll-wrapper">
+
+				<!--下拉刷新容器-->
+				<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
 					<div class="mui-scroll">
 						<!-- 主界面具体展示内容 -->
-
 						<div id="slider" class="mui-slider">
 							<div class="mui-slider-group mui-slider-loop">
 								<!-- 额外增加的一个节点(循环轮播：第一个节点是最后一张轮播) -->
@@ -204,69 +205,207 @@
 								<div class="mui-indicator"></div>
 								<div class="mui-indicator"></div>
 								<div class="mui-indicator"></div>
-							</div>	
-						</div>					
+							</div>
+						</div>
+						<!--数据列表-->
+						<ul class="mui-table-view mui-table-view-chevron" id="ul">
 							
-						<div class="mui-segmented-control">
-							<a class="mui-control-item mui-active" href="#item1" id="er">二手<input type="hidden" id="ers" value="1"></a>
-							<a class="mui-control-item" href="#item2" id="sw">失物招领<input type="hidden" id="swz" value="2"></a>
-							<a class="mui-control-item" href="#item3" id="qt">其他<input type="hidden" id="qtl" value="3"></a>
-						</div>
-						<ul class="mui-table-view" id="content">
-			<script id="test" type="text/html">	
-				{{each resultAll}} <!-- resultData和服务端返回的名字必须一致-->
-				<li class="mui-table-view-cell mui-media">
-					<a href="javascript:;">
-						<img class="mui-media-object mui-pull-left" src={{$value.imgs}}>
-						<div class="mui-media-body">
-							{{$value.title}}
-							{{$value.name}}
-							<!--<p class='mui-ellipsis'>{{$value.content}}</p>-->
-						</div>
-					</a>
-				</li>
-				{{/each}}
-			</script>
-			</ul>
+						</ul>
 					</div>
 				</div>
-				<div class="mui-off-canvas-backdrop">
-	
-				</div>
+
+				<div class="mui-off-canvas-backdrop"></div>
 			</div>
 		</div>
-	
-		<script type="text/javascript" src="js/mui.min.js">
-		<script type="text/javascript" src="js/mui.view.js">
-		</script>
+		<script type="text/javascript" src="js/mui.min.js"></script>
+		<script type="text/javascript" src="js/mui.view.js"></script>
 		<script type="text/javascript" src="js/app.js"></script>
-		<script type="text/javascript" src="js/feedback-page.js"></script>
-		<script type="text/javascript" src="js/feedback.js"></script>
-		<script type="text/javascript" src="js/mui.enterfocus.js"></script>
-		<script type="text/javascript" src="js/mui.locker.js"></script>
-		<script type="text/javascript" src="js/template-web.js"></script>
+		
 		<script>
-	
+			mui.init({
+				pullRefresh: {
+					container: '#pullrefresh',
+					down: {
+						callback: pursfoudom
+					},
+					up: {
+						contentrefresh: '正在加载...',
+						/*callback: pullupRefresh*/
+						callback: axs
+					}
+				}
+			});
+			
+			//页面请求全局路径
+				window.path="http://localhost:8080/Grasshopper_server/";
+			/**
+			 * 下拉刷新具体业务实现
+			 */
+			function pulldownRefresh() {
+				setTimeout(function() {
+					var ul = document.getElementById("ul");
+				while(ul.hasChildNodes()){
+					ul.removeChild(ul.firstChild);
+				}
+					var table = document.body.querySelector('.mui-table-view-chevron');
+					var cells = document.body.querySelectorAll('#mui-table-view-cell');
+					for (var i = cells.length, len = i + 5; i < len; i++) {
+						var li = document.createElement('li');
+						li.className = 'mui-table-view-cell';
+						li.id = 'mui-table-view-cell';
+						li.innerHTML = '<a class="mui-navigate-right">测试 ' + (i + 1) + '</a>';
+						//下拉刷新，新纪录插到最前面；
+						table.insertBefore(li, table.firstChild);
+					}
+					mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
+				}, 1500);
+			}
+			
+			
+			var count = 0;
+			
+			function axs(){
+				var s;
+				var method;
+				console.log(count);
+				method = "up";
+				if(count<=0){
+					s = 0
+				}else{
+					var cells = document.body.querySelectorAll('#mui-table-view-cell');
+					s =	document.getElementsByName("id")[cells.length-1].value;
+				};
+				mui.get(window.path+'TestfServlet?method='+method,{
+						s : s,
+				},function(data){
+						setTimeout(function() {				
+					console.log(data);
+					var table = document.body.querySelector('.mui-table-view-chevron');
+					var cells = document.body.querySelectorAll('#mui-table-view-cell');
+					mui('#pullrefresh').pullRefresh().endPullupToRefresh((++count > data.count)); //参数为true代表没有更多数据了。
+					console.log(data.count);
+					for (var i = 0, len = data.resultN.length; i < len; i++) {				
+						var li = document.createElement('li');
+						li.className = 'mui-table-view-cell';
+						li.id = 'mui-table-view-cell';
+						li.innerHTML ='<a class="mui-navigate-right">测试 id是<input type="hidden" name="id" value='+data.resultN[i].id+'>'+data.resultN[i].id +"标题是"+data.resultN[i].title+"分类是"+data.resultN[i].type+'</a>';
+						table.appendChild(li);
+					}	
+				}, 1500);
+						},'json'
+					);
+			}
+			
+			function pursfoudom(){
+				var s = document.getElementsByName("id")[0];
+				console.log(s.value);
+				var h = s.value;
+				mui.get(window.path+'TestfServlet?method=down',{
+						h : h
+				},function(data){
+						setTimeout(function() {				
+					var table = document.body.querySelector('.mui-table-view-chevron');
+					var cells = document.body.querySelectorAll('#mui-table-view-cell');
+					for (var i = 0, len = data.resultH.length; i < len; i++) {
+						var li = document.createElement('li');
+						li.className = 'mui-table-view-cell';
+						li.id = 'mui-table-view-cell';
+						li.innerHTML ='<a class="mui-navigate-right">测试 id是<input type="hidden" name="id" value='+data.resultH[i].id+'>'+data.resultH[i].id +"标题是"+data.resultH[i].title+"分类是"+data.resultH[i].type+'</a>';
+						//下拉刷新，新纪录插到最前面；
+						table.insertBefore(li, table.firstChild);
+					}
+					mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed								
+				}, 1500);
+						},'json'
+					);
+			}
+			
+			
+			/**
+			 * 上拉加载具体业务实现
+			 */
+			function pullupRefresh() {
+				setTimeout(function() {
+					
+					mui('#pullrefresh').pullRefresh().endPullupToRefresh((++count > 2)); //参数为true代表没有更多数据了。
+					var table = document.body.querySelector('.mui-table-view-chevron');
+					var cells = document.body.querySelectorAll('#mui-table-view-cell');
+					for (var i = cells.length, len = i + 5; i < len; i++) {
+						var li = document.createElement('li');
+						li.className = 'mui-table-view-cell';
+						li.id = 'mui-table-view-cell';
+						li.innerHTML = '<a class="mui-navigate-right">测试 一开始上' + (i + 1) + '</a>';
+						table.appendChild(li);
+					}
+				}, 1500);
+			}
+			
+			if (mui.os.plus) {
+				mui.plusReady(function() {
+					setTimeout(function() {
+						mui('#pullrefresh').pullRefresh().pullupLoading();
+					}, 1000);
+
+				});
+			} else {
+				mui.ready(function() {
+					mui('#pullrefresh').pullRefresh().pullupLoading();
+				});
+			}
 		
-		//页面请求全局路径
-		window.path="http://localhost:8080/Grasshopper_server/";
-		mui.init({
-			swipeBack:true //启用右滑关闭功能
-		});
+		</script>
 		
-		mui.get(window.path+'TestServlet?method=queryAll',function(data){
-			console.log(data);
-		//获得服务器响应
-		var html = template("test",data);
-		document.getElementById('content').innerHTML=html;
-		
-		
-	},'json'
-	
-	); 
-		
-	</script>
-	
+		<!--查看用户个人信息的js-->
+		<script>
+			mui.init({
+				statusBarBackground: '#f7f7f7'
+			});
+
+			//页面请求全局路径
+			window.path = "http://localhost:8080/Grasshopper_server/";
+
+			
+			var dat = document.getElementById("data");
+			
+			mui.trigger(dat, 'tap');
+			//监听点击事件
+			dat.addEventListener("tap", function() {
+				var user = "小明";
+				//服务器中接口的地址			
+				/*mui.ajax('http://localhost/api/MyServlet',{
+					//向服务器发送数据
+					
+					dataType:'json',//服务器返回json格式数据
+					type:'get',//HTTP请求类型
+					success:function(data){
+						//获得服务器响应，获取服务响应的数据
+						console.log(data);
+					}
+				});*/
+				mui.post(window.path + 'QueryUserServlet', {
+					method: "StatusCode",
+					user: user
+				}, function(data) {
+					console.log(data);
+					if(data.resultCode == "200") {
+						//原生的js跳转页面
+						//window.location.href="xxx.html";
+
+						//mui框架的跳转
+						mui.openWindow({
+							url: 'queryuser.html',
+							show: {
+								autoShow: false
+							}
+						});
+
+					} else {
+						alert("查看失败!");
+					}
+				}, 'json');
+			});
+		</script>
+
 	</body>
 
 </html>
