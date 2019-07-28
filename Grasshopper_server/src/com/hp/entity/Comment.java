@@ -2,18 +2,23 @@ package com.hp.entity;
 
 public class Comment {
 	private int commentid;
-	private int uid;//这两个是外键
-	private int rid;//这两个是外键
-	private int identify_first;
-	private int identify_second;
-	private int upperid_first; 
-	private int upperid_second;
+	private int uid;//这两个是外键评论者的ID
+	private int rid;//这两个是外键文章的ID
+	private int identify_first;//当前评论的级别
+	private int identify_second;//当前评论的级别
+	private int upperid_first; //上一个评论的级别
+	private int upperid_second;//上一个评论的级别
 	private String commenttext;//评论的内容
 	
 	
+	
+	public Comment() {
+		
+		// TODO Auto-generated constructor stub
+	}
 	public Comment(int commentid, int uid, int rid, int identify_first, int identify_second, int upperid_first,
 			int upperid_second, String commenttext) {
-		
+	
 		this.commentid = commentid;
 		this.uid = uid;
 		this.rid = rid;
