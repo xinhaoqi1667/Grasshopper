@@ -38,7 +38,19 @@ public class CommentServlet extends HttpServlet {
 			//返回用户信息
 			//this.GetUser(request,response);
 			break;
+		case "Querybackcomment":
+			//返回用户信息
+			//this.GetUser(request,response);
+			break;
 		case "addcoment":
+			//返回用户信息
+			//this.GetUser(request,response);
+			break;
+		case "addfcoment":
+			//返回用户信息
+			//this.GetUser(request,response);
+			break;
+		case "addffcoment":
 			//返回用户信息
 			//this.GetUser(request,response);
 			break;
@@ -111,8 +123,38 @@ public class CommentServlet extends HttpServlet {
 		}
 		
 	}
-	public void addcoment(HttpServletRequest request, javax.servlet.http.HttpServletResponse response)
+	public void Querybackcomment(HttpServletRequest request, javax.servlet.http.HttpServletResponse response)
 			throws IOException {
+		Gson gson=new Gson();
+		String json=null;
+		PrintWriter out=null;
+		out=response.getWriter();
+		CommentServices commentServices=new CommentServicesImpl();
+		Comment comment = new Comment();
+		try {
+			BeanUtils.populate(comment,request.getParameterMap());
+			List<Comment>listc=commentServices.Querybackcomment(comment);
+			Result result = new Result("200","请求成功！");
+			json=gson.toJson(listc);
+			
+			//此处要将List返回给页面
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			Result result = new Result("1005","数据获取异常！");
+			//转为json格式的字符串
+			json = gson.toJson(result);
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			// TODO Auto-generated catch block
+			Result result = new Result("1005","数据获取异常！");
+			//转为json格式的字符串
+			json = gson.toJson(result);
+			e.printStackTrace();
+		}
+		
+	}
+	public void addcoment(HttpServletRequest request, javax.servlet.http.HttpServletResponse response)
+			throws IOException {//添加
 		Gson gson=new Gson();
 		String json=null;
 		PrintWriter out=null;
@@ -136,7 +178,56 @@ public class CommentServlet extends HttpServlet {
 		}
 		
 	}
-	
+	public void addfcoment(HttpServletRequest request, javax.servlet.http.HttpServletResponse response)
+			throws IOException {//第一级的第一个添加
+		Gson gson=new Gson();
+		String json=null;
+		PrintWriter out=null;
+		out=response.getWriter();
+		CommentServices commentServices=new CommentServicesImpl();
+		Comment comment = new Comment();
+		try {
+			BeanUtils.populate(comment,request.getParameterMap());
+			boolean flag=commentServices.addfcoment(comment);
+			Result result = new Result("msg", "添加成功");
+			json = gson.toJson(result);
+			this.Querycomment(request, response);//添加后重新查询一次
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			Result result = new Result("1005","数据获取异常！");
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			// TODO Auto-generated catch block
+			Result result = new Result("1005","数据获取异常！");
+			e.printStackTrace();
+		}
+		
+	}
+	public void addffcoment(HttpServletRequest request, javax.servlet.http.HttpServletResponse response)
+			throws IOException {//每一级第一个添加
+		Gson gson=new Gson();
+		String json=null;
+		PrintWriter out=null;
+		out=response.getWriter();
+		CommentServices commentServices=new CommentServicesImpl();
+		Comment comment = new Comment();
+		try {
+			BeanUtils.populate(comment,request.getParameterMap());
+			boolean flag=commentServices.addfcoment(comment);
+			Result result = new Result("msg", "添加成功");
+			json = gson.toJson(result);
+			this.Querycomment(request, response);//添加后重新查询一次
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			Result result = new Result("1005","数据获取异常！");
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			// TODO Auto-generated catch block
+			Result result = new Result("1005","数据获取异常！");
+			e.printStackTrace();
+		}
+		
+	}
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */

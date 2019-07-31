@@ -4,6 +4,7 @@ public class Comment {
 	private int commentid;
 	private int uid;//这两个是外键评论者的ID
 	private int rid;//这两个是外键文章的ID
+	private int upcommentid;//上一个评论的主键id
 	private int identify_first;//当前评论的级别
 	private int identify_second;//当前评论的级别
 	private int upperid_first; //上一个评论的级别
@@ -16,7 +17,7 @@ public class Comment {
 		
 		// TODO Auto-generated constructor stub
 	}
-	public Comment(int commentid, int uid, int rid, int identify_first, int identify_second, int upperid_first,
+	public Comment(int commentid, int uid, int rid,int upcommentid, int identify_first, int identify_second, int upperid_first,
 			int upperid_second, String commenttext) {
 	
 		this.commentid = commentid;
@@ -27,6 +28,12 @@ public class Comment {
 		this.upperid_first = upperid_first;
 		this.upperid_second = upperid_second;
 		this.commenttext = commenttext;
+	}
+	public int getUpcommentid() {
+		return upcommentid;
+	}
+	public void setUpcommentid(int upcommentid) {
+		this.upcommentid = upcommentid;
 	}
 	public int getCommentid() {
 		return commentid;

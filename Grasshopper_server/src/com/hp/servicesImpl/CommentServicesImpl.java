@@ -26,4 +26,22 @@ public class CommentServicesImpl implements CommentServices{
 		return commentDao.addcoment(com);
 	}
 
+	@Override
+	public List<Comment> Querybackcomment(Comment com) {
+		// TODO Auto-generated method stub
+		return commentDao.Querybackcomment(com);
+	}
+
+	@Override
+	public boolean addfcoment(Comment com) {
+		// TODO Auto-generated method stub
+		return commentDao.addfcoment(com);
+	}
+
+	@Override
+	public boolean addffcoment(Comment com) {
+		// TODO Auto-generated method stub
+		return commentDao.addffcoment(com);
+	}
+
 }
