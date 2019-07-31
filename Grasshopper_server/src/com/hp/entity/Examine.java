@@ -8,11 +8,13 @@ private String content;
 private String imgs;
 private String name;
 private String e_name;
+private String because;
 public Examine() {
 	
 	// TODO Auto-generated constructor stub
 }
-public Examine(Integer id, String title, String type, String content, String imgs, String name, String e_name) {
+public Examine(Integer id, String title, String type, String content, String imgs, String name, String e_name,
+		String because) {
 
 	this.id = id;
 	this.title = title;
@@ -21,6 +23,7 @@ public Examine(Integer id, String title, String type, String content, String img
 	this.imgs = imgs;
 	this.name = name;
 	this.e_name = e_name;
+	this.because = because;
 }
 public Integer getId() {
 	return id;
@@ -64,10 +67,18 @@ public String getE_name() {
 public void setE_name(String e_name) {
 	this.e_name = e_name;
 }
+public String getBecause() {
+	return because;
+}
+public void setBecause(String because) {
+	this.because = because;
+}
 @Override
 public String toString() {
 	return "Examine [id=" + id + ", title=" + title + ", type=" + type + ", content=" + content + ", imgs=" + imgs
-			+ ", name=" + name + ", e_name=" + e_name + "]";
+			+ ", name=" + name + ", e_name=" + e_name + ", because=" + because + "]";
 }
+
+
 
 }

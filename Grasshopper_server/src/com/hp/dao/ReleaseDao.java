@@ -26,7 +26,7 @@ public class ReleaseDao extends BaseDao{
 		//连接数据库
 		QueryRunner queryRunner = new QueryRunner(dataSource);
 		try {
-			int i = queryRunner.update("insert into `release` values(null,?,?,?,?,?,?)", params);
+			int i = queryRunner.update("insert into `release` values(null,?,?,?,?,?,?,null)", params);
 			return i>0?true:false;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -55,15 +55,15 @@ public class ReleaseDao extends BaseDao{
 	}
 	
 	//用户id查询
-		public List<Examine> select(int id)
+		public List<Examine> select(Integer examine_id,Integer id)
 		{
 			//调用数据源
 			DataSource dataSource = JDBCUtils.getDataSource();
 			//连接数据库
 			QueryRunner queryRunner = new QueryRunner(dataSource);
-			Object[] param={id};
+			Object[] param={examine_id,id};
 			try {
-				List<Examine> list = queryRunner.query(" select `release`.id,title,type,content,imgs,name,e_name from `release`,sort,`user`,examine WHERE sort_id=sort.id and author_id=`user`.id and examine.id=examine_id and author_id=?",new BeanListHandler<Examine>(Examine.class),param);
+				List<Examine> list = queryRunner.query("select `release`.id,title,type,content,imgs,name,e_name,because from `release`,sort,`user`,examine WHERE sort_id=sort.id and author_id=`user`.id and examine.id=examine_id and examine.id=? and author_id=?",new BeanListHandler<Examine>(Examine.class),param);
 				return list;
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
@@ -72,6 +72,16 @@ public class ReleaseDao extends BaseDao{
 			return null;
 			
 		}
+		//文章id查询
+				public Examine selectExamin(Integer id)
+				{
+					
+					Object[] param={id};
+						Examine examine =super.QueryClazz("select `release`.id,title,type,content,imgs,name,e_name,because from `release`,sort,`user`,examine WHERE sort_id=sort.id and author_id=`user`.id and examine.id=examine_id and `release`.id=?",Examine.class,param);
+						return examine;
+					
+					
+				}
 		//全部查询(通过的)
 				public List<Examine> queryAll()
 				{
@@ -81,7 +91,7 @@ public class ReleaseDao extends BaseDao{
 					QueryRunner queryRunner = new QueryRunner(dataSource);
 					Object[] param=null;
 					try {
-						List<Examine> list = queryRunner.query(" select `release`.id,title,type,content,imgs,name,e_name from `release`,sort,`user`,examine WHERE sort_id=sort.id and author_id=`user`.id and examine.id=examine_id and examine.id=2",new BeanListHandler<Examine>(Examine.class),param);
+						List<Examine> list = queryRunner.query(" select `release`.id,title,type,content,imgs,name,e_name,because from `release`,sort,`user`,examine WHERE sort_id=sort.id and author_id=`user`.id and examine.id=examine_id and examine.id=2",new BeanListHandler<Examine>(Examine.class),param);
 						return list;
 					} catch (SQLException e) {
 						// TODO Auto-generated catch block
@@ -90,6 +100,7 @@ public class ReleaseDao extends BaseDao{
 					return null;
 					
 				}
+				
 				//全部查询(未通过的)
 				public List<Examine> noPass()
 				{
@@ -109,17 +120,17 @@ public class ReleaseDao extends BaseDao{
 					
 				}
 	//修改
-	public boolean update(Integer examine_id,Integer id)
+	public boolean update(Integer examine_id,Integer id,String because)
 	{
 		//调用数据源
 		DataSource dataSource = JDBCUtils.getDataSource();
 		//传入的参数
-		Object[] params={examine_id,id};
+		Object[] params={because,examine_id,id};
 		
 		//连接数据库
 		QueryRunner queryRunner = new QueryRunner(dataSource);
 		try {
-			int i = queryRunner.update("update `release` set examine_id=? where id=?", params);
+			int i = queryRunner.update("update `release` set because=?,examine_id=? where id=?", params);
 			return i>0?true:false;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

@@ -3,6 +3,8 @@ package com.hp.controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
+import java.time.Year;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.beanutils.BeanUtils;
 
 import com.google.gson.Gson;
+import com.hp.entity.Examine;
 import com.hp.entity.Release;
 import com.hp.entity.Result;
 import com.hp.entity.User;
@@ -41,7 +44,9 @@ import com.hp.servicesImpl.UserMessageServicesImpl;
 public class TestServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private String user_names = null;
-	
+	private Integer user_id=null;
+	private Integer examine_id=null;
+
 	protected void service(HttpServletRequest request, javax.servlet.http.HttpServletResponse response)
 			throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
@@ -79,6 +84,12 @@ public class TestServlet extends HttpServlet {
 			case "getPass":
 				this.getPass(request,response);
 				break;
+			case "getExamineId":
+				this.getExamineId(request,response);
+				break;
+			case "getExamine":
+				this.getExamine(request,response);
+				break;
 			default:
 				break;
 			}
@@ -105,7 +116,9 @@ public class TestServlet extends HttpServlet {
 						System.out.println("接收过来的值是"+account+"\t"+password);
 						//将java对象转为json格式的的字符串
 						json = gson.toJson(TestServicesImpl.getData(account,password));
-						user_names = account;
+						User user=TestServicesImpl.getUser(account);
+						user_names = user.getName();
+						user_id=user.getId();
 						response.setContentType("application/json;charset=utf-8");
 						out = response.getWriter();
 						
@@ -245,6 +258,8 @@ public class TestServlet extends HttpServlet {
 						
 							new BeanUtils().populate(release,request.getParameterMap());
 							//将java对象转为json格式的的字符串
+							System.out.println(user_id);
+							release.setAuthor_id(user_id);
 							json = gson.toJson(releaseServices.add(release));
 							
 							response.setContentType("application/json;charset=utf-8");
@@ -313,13 +328,17 @@ public class TestServlet extends HttpServlet {
 		out=response.getWriter();
 		ReleaseServices releaseServices=new RelesaeServicesImpl();
 		
-	    List list=releaseServices.select(Integer.valueOf(request.getParameter("release_id")));
-		System.out.println(list.toString());
+	    List list1=releaseServices.select(1,user_id);
+	    List list2=releaseServices.select(2,user_id);
+	    List list3=releaseServices.select(3,user_id);
+	    System.out.println(list3);
+		
 	    try {
 
 			 Map map=new HashMap<>();
-			 
-			 map.put("resultExamine",list);
+			 map.put("resultExamine_1",list1);
+			 map.put("resultExamine_2",list2);
+			 map.put("resultExamine_3",list3);
 			 json=gson.toJson(map);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -402,16 +421,44 @@ public class TestServlet extends HttpServlet {
 		response.setContentType("application/json;charset=utf-8");
 	
 		//使用Gson序列化	
+		ReleaseServices releaseServices=new RelesaeServicesImpl();
+		boolean flag=releaseServices.update(Integer.valueOf(request.getParameter("examine_id")), Integer.valueOf(request.getParameter("id")),request.getParameter("because"));
+	    System.out.println(flag);
+		
+		
+	}
+	protected void getExamineId(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		response.setContentType("application/json;charset=utf-8");
+		
+		
+	
+		
+	examine_id=Integer.valueOf(request.getParameter("release_id"));
+	  System.out.println(examine_id);
+		
+	}
+	
+	protected void getExamine(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		response.setContentType("application/json;charset=utf-8");
+		
+		//使用Gson序列化	
 		Gson gson=new Gson();
 		String json=null;
 		PrintWriter out=null;
 		out=response.getWriter();
 		ReleaseServices releaseServices=new RelesaeServicesImpl();
-		boolean flag=releaseServices.update(Integer.valueOf(request.getParameter("examine_id")), Integer.valueOf(request.getParameter("id")));
-	    System.out.println(flag);
-		try {
-
 		
+	    Examine examine=releaseServices.selectExamin(examine_id);
+		List list=new ArrayList();
+		list.add(examine);
+	    System.out.println(examine.toString());
+	    try {
+
+			 Map map=new HashMap<>();
+			 
+			 map.put("resultExamine",list);
+			 
+			 json=gson.toJson(map);
 		} catch (Exception e) {
 			e.printStackTrace();
 			Result result = new Result("1005","数据获取异常！");
@@ -425,4 +472,5 @@ public class TestServlet extends HttpServlet {
 		out.write(json);
 		
 	}
+	
 }
