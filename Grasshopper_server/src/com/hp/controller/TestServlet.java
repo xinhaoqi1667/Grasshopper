@@ -183,7 +183,7 @@ public class TestServlet extends HttpServlet {
 		PrintWriter out=null;
 		out=response.getWriter();
 		UserMessageServices userMessageServices=new UserMessageServicesImpl();
-		String f=userMessageServices.Focus(2);
+		String f=userMessageServices.Focus(user_id);
 		ReleaseServices releaseServices= new RelesaeServicesImpl();
 		List list=releaseServices.FocusContent(f);
 		try {

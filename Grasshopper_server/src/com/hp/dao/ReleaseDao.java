@@ -63,7 +63,7 @@ public class ReleaseDao extends BaseDao{
 			QueryRunner queryRunner = new QueryRunner(dataSource);
 			Object[] param={examine_id,id};
 			try {
-				List<Examine> list = queryRunner.query("select `release`.id,title,type,content,imgs,name,e_name,because from `release`,sort,`user`,examine WHERE sort_id=sort.id and author_id=`user`.id and examine.id=examine_id and examine.id=? and author_id=?",new BeanListHandler<Examine>(Examine.class),param);
+				List<Examine> list = queryRunner.query("select `release`.id,title,type,content,imgs,name,e_name,because from `release`,sort,`user`,examine WHERE sort_id=sort.id and author_id=`user`.id and examine.id=examine_id and examine.id=? and author_id=? ORDER BY `release`.id",new BeanListHandler<Examine>(Examine.class),param);
 				return list;
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block

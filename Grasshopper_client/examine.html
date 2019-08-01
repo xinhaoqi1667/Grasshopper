@@ -37,17 +37,59 @@
 			<script id="test" type="text/html">	
 				
 				
-				{{each resultExamine}} <!-- resultData和服务端返回的名字必须一致-->
+				{{each resultExamine_3}} <!-- resultData和服务端返回的名字必须一致-->
 				<li class="mui-table-view-cell mui-media">
-					<a href="javascript:;">
+					
 						<img class="mui-media-object mui-pull-left" src={{$value.imgs}}>
 						<div class="mui-media-body">
 							{{$value.title}}
+							<input type="hidden" value={{$value.id}} />
 							<p class='mui-ellipsis'>{{$value.name}}</p>
 							<p class='mui-ellipsis'>{{$value.content}}</p>
-								<p class='mui-ellipsis'>{{$value.e_name}}</p>
+							<p class='mui-ellipsis'>{{$value.e_name}}</p>
+							<p>原因</p>
+							<p class='mui-ellipsis'>{{$value.because}}</p>
+							<a href="javascript:;" onclick="getId(this)">
+								查看
+							</a>
 						</div>
-					</a>
+					
+				</li>
+				{{/each}}
+				{{each resultExamine_1}} <!-- resultData和服务端返回的名字必须一致-->
+				<li class="mui-table-view-cell mui-media">
+					
+						<img class="mui-media-object mui-pull-left" src={{$value.imgs}}>
+						<div class="mui-media-body">
+							{{$value.title}}
+							<input type="hidden" value={{$value.id}} />
+							<p class='mui-ellipsis'>{{$value.name}}</p>
+							<p class='mui-ellipsis'>{{$value.content}}</p>
+							<p class='mui-ellipsis'>{{$value.e_name}}</p>
+							
+							<a href="javascript:;" onclick="getId(this)">
+								查看
+							</a>
+						</div>
+					
+				</li>
+				{{/each}}
+				{{each resultExamine_2}} <!-- resultData和服务端返回的名字必须一致-->
+				<li class="mui-table-view-cell mui-media">
+					
+						<img class="mui-media-object mui-pull-left" src={{$value.imgs}}>
+						<div class="mui-media-body">
+							{{$value.title}}
+							<input type="hidden" value={{$value.id}} />
+							<p class='mui-ellipsis'>{{$value.name}}</p>
+							<p class='mui-ellipsis'>{{$value.content}}</p>
+							<p class='mui-ellipsis'>{{$value.e_name}}</p>
+						
+							<a href="javascript:;" onclick="getId(this)">
+								查看
+							</a>
+						</div>
+					
 				</li>
 				{{/each}}
 			</script>
@@ -82,16 +124,66 @@
 	}, 'json'
 	); 
 		
-		/*mui.get(window.path+'TestServlet?method=queryExamine',function(data){
-			console.log(data);
-		//获得服务器响应
-		var html = template("test",data);
-		document.getElementById('content').innerHTML = html;
-
+	</script>
+	<script>
+	function getId(obj){
+		var p= RemoveNullNode(obj.parentNode);
 		
-	},'json'
-	
-	); */
+		mui.post(window.path+'TestServlet',{
+							method:"getExamineId",
+							release_id:p.childNodes[1].value
+						},function(data){
+							console.log(data);
+							/*if(data.resultCode=="200")
+							{
+								alert("登陆成功！");*/
+								
+								//原生的js跳转页面
+								//window.location.href="xxx.html";
+									mui.openWindow({
+									    url: 'lookExamine.html', 
+									    show:{
+									      autoShow:false
+									    }
+  								});
+								
+								//mui框架的跳转
+							
+								
+						/*	}else{
+								alert("登录失败!");
+							}*/
+						},'json'
+					);
+	}
 		
+		 function RemoveNullNode(node)
+			{
+				
+					for (var i = 0; i < node.childNodes.length; i++) 
+					{
+						var num=(node.childNodes[i].childNodes).length;
+					
+						if(num>0)
+						{
+							
+							RemoveNullNode(node.childNodes[i])
+							
+						}else
+						{
+							//===等值等类型（值必须一样，类型也要一样）
+					        if (node.childNodes[i].nodeType === 3 && /^\s+$/.test(node.childNodes[i].nodeValue))
+							{
+								//移除空白节点
+					            node.childNodes[i].parentNode.removeChild(node.childNodes[i]);
+				
+					        }
+					
+						}
+					}
+				
+				return node;
+				
+			}
 	</script>
 </html>

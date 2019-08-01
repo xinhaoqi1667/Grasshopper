@@ -31,19 +31,19 @@
 
 						<ul class="mui-table-view mui-grid-view mui-grid-9">
 							<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
-								<a href="#" id="data">
+								<a  id="data" onclick="j_queryUser()">
 									<span class="mui-icon mui-icon-person"></span>
 									<div class="mui-media-body">资料</div>
 								</a>
 							</li>
 							<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
-								<a href="#" id="Release">
+								<a href="#" id="Release" onclick="j_editor()">
 									<span class="mui-icon mui-icon-starhalf"></span>
 									<div class="mui-media-body">发布</div>
 								</a>
 							</li>
 							<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
-								<a href="#">
+								<a onclick="j_examine()">
 									<span class="mui-icon mui-icon-paperplane"></span>
 									<div class="mui-media-body">待审</div>
 								</a>
@@ -61,15 +61,20 @@
 								</a>
 							</li>
 							<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
-								<a href="#" id="fans">
+								<a  id="fans" onclick="j_fans()">
 									<span class="mui-icon mui-icon-personadd"></span>
 									<div class="mui-media-body">粉丝</div>
 								</a>
 							</li>
-
+                            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
+								<a onclick="j_pass()">
+									<span class="mui-icon mui-icon-paperplane"></span>
+									<div class="mui-media-body">审核</div>
+								</a>
+							</li>
 						</ul>
 
-						<ul class="mui-table-view">
+						<ul class="mui-table-view" onclick="j_index()">
 							<li class="mui-table-view-cell">
 								<a class="mui-navigate-right">
 									<span class="mui-icon mui-icon-home"></span> 首页
@@ -86,7 +91,7 @@
 								</a>
 							</li>
 							<li class="mui-table-view-cell">
-								<a class="mui-navigate-right">
+								<a class="mui-navigate-right" onclick="j_myFocus()">
 									<span class="mui-icon mui-icon-plus"></span> 我的关注
 								</a>
 							</li>
@@ -147,7 +152,7 @@
 						<span class="mui-icon mui-icon-compose"></span>
 						<span class="mui-tab-label">编辑</span>
 					</a>
-					<a class="mui-tab-item">
+					<a class="mui-tab-item" onclick="j_condition()">
 						<span class="mui-icon mui-icon-pengyouquan"></span>
 						<span class="mui-tab-label">动态</span>
 					</a>
@@ -172,25 +177,25 @@
 								<!-- 第一张 -->
 								<div class="mui-slider-item">
 									<a href="#">
-										<img src="http://placehold.it/400x300">
+										<img src="http://127.0.0.1:8020/Grasshopper_client/images/1.png">
 									</a>
 								</div>
 								<!-- 第二张 -->
 								<div class="mui-slider-item">
 									<a href="#">
-										<img src="http://placehold.it/400x300">
+										<img src="http://127.0.0.1:8020/Grasshopper_client/images/2.png">
 									</a>
 								</div>
 								<!-- 第三张 -->
 								<div class="mui-slider-item">
 									<a href="#">
-										<img src="http://placehold.it/400x300">
+										<img src="http://127.0.0.1:8020/Grasshopper_client/images/3.png">
 									</a>
 								</div>
 								<!-- 第四张 -->
 								<div class="mui-slider-item">
 									<a href="#">
-										<img src="http://placehold.it/400x300">
+										<img src="http://127.0.0.1:8020/Grasshopper_client/images/4.png">
 									</a>
 								</div>
 								<!-- 额外增加的一个节点(循环轮播：最后一个节点是第一张轮播) -->
@@ -405,7 +410,81 @@
 				}, 'json');
 			});
 		</script>
+<script>
+	function j_condition() {
+	mui.openWindow({
+		url: 'condition.html',
+		show: {
+			autoShow: false
+		}
+	});
 
+}
+function j_editor() {
+	mui.openWindow({
+		url: 'editor.html',
+		show: {
+			autoShow: false
+		}
+	});
+
+}
+function j_index() {
+	mui.openWindow({
+		url: 'index.html',
+		show: {
+			autoShow: false
+		}
+	});
+
+}
+function j_examine() {
+	mui.openWindow({
+		url: 'examine.html',
+		show: {
+			autoShow: false
+		}
+	});
+
+}
+function j_fans() {
+	mui.openWindow({
+		url: 'fans.html',
+		show: {
+			autoShow: false
+		}
+	});
+
+}
+function j_pass() {
+	mui.openWindow({
+		url: 'pass.html',
+		show: {
+			autoShow: false
+		}
+	});
+
+}
+function j_myFocus() {
+	mui.openWindow({
+		url: 'myFocus.html',
+		show: {
+			autoShow: false
+		}
+	});
+
+}
+
+function j_queryUser() {
+	mui.openWindow({
+		url: 'queryUser.html',
+		show: {
+			autoShow: false
+		}
+	});
+
+}
+</script>
 	</body>
 
 </html>
