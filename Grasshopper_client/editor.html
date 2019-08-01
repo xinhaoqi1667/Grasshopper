@@ -55,7 +55,7 @@
 				
 				<br />
 				<a href="javaScript:;;">
-				 <img src="http://127.0.0.1:8020/Grasshopper_client/images/iconfont-tianjia.png" style="width: 50px; height: 50px;" title="上传图片" id="headImage">
+				 <img src="http://192.168.0.106:8020/Grasshopper_client/images/iconfont-tianjia.png" style="width: 50px; height: 50px;" title="上传图片" id="headImage">
  	                                 
                    </img>
                    
@@ -67,12 +67,64 @@
 			</div>
 			</form>
 		</center>
+		<nav class="mui-bar mui-bar-tab">
+					<a class="mui-tab-item mui-active" id="j_index">
+						<span class="mui-icon mui-icon-home"></span>
+						<span class="mui-tab-label">首页</span>
+					</a>
+					<a class="mui-tab-item" id="j_editor">
+						<span class="mui-icon mui-icon-compose"></span>
+						<span class="mui-tab-label">编辑</span>
+					</a>
+					<a class="mui-tab-item" id="j_condition">
+						<span class="mui-icon mui-icon-pengyouquan"></span>
+						<span class="mui-tab-label">动态</span>
+					</a>
+					<a class="mui-tab-item">
+						<span class="mui-icon mui-icon-chat"></span>
+						<span class="mui-tab-label">私信</span>
+					</a>
+				</nav>
 		<script src="js/mui.min.js"></script>
 		<script src="js/mui.enterfocus.js"></script>
 		<script src="js/app.js"></script>
          <script src="js/template-web.js"></script>
 		
-
+<script>
+	var ind=document.getElementById("j_index");
+	mui.trigger(ind,'tap');
+			//监听点击事件
+			ind.addEventListener("tap",function(){
+				mui.openWindow({
+		url: 'index.html',
+		show: {
+			autoShow:true
+		}
+	});
+			});
+		var edi=document.getElementById("j_editor");
+	mui.trigger(edi,'tap');
+			//监听点击事件
+			edi.addEventListener("tap",function(){
+				mui.openWindow({
+		url: 'editor.html',
+		show: {
+			autoShow:true
+		}
+	});
+			});
+		var con=document.getElementById("j_condition");
+	mui.trigger(con,'tap');
+			//监听点击事件
+			con.addEventListener("tap",function(){
+				mui.openWindow({
+		url: 'condition.html',
+		show: {
+			autoShow:true
+		}
+	});
+			});
+	</script>
  <script>
      	
  document.getElementById('headImage').addEventListener('tap', function() {
@@ -184,7 +236,7 @@ function upload(){
      	var imgs_src="";
 			var imgs=document.getElementsByTagName("img");
 			for(var i=0;i<imgs.length;i++){
-				if(imgs[i].src == "http://127.0.0.1:8020/Grasshopper_client/images/iconfont-tianjia.png"){
+				if(imgs[i].src == "http://192.168.0.106:8020/Grasshopper_client/images/iconfont-tianjia.png"){
 					
 					imgs_src+=imgs[i].src;
 					imgs_src+=","
@@ -206,7 +258,7 @@ function upload(){
 				statusBarBackground: '#f7f7f7'
 			})
 			//页面请求全局路径
-				window.path="http://localhost:8080/Grasshopper_server/";
+				window.path="http://192.168.0.106:8080/Grasshopper_server/";
 				mui.get(window.path+'TestServlet?method=querySort',function(data){
 			
 		//获得服务器响应

@@ -12,7 +12,7 @@
 		<link rel="stylesheet" href="css/style.css" />
 		<!--App自定义的css-->
 		<style type="text/css">
-			.mui-slider{
+			.mui-slider {
 				height: 150px;
 			}
 		</style>
@@ -31,13 +31,13 @@
 
 						<ul class="mui-table-view mui-grid-view mui-grid-9">
 							<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
-								<a  id="data" onclick="j_queryUser()">
+								<a id="data">
 									<span class="mui-icon mui-icon-person"></span>
 									<div class="mui-media-body">资料</div>
 								</a>
 							</li>
 							<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
-								<a onclick="j_examine()">
+								<a id="j_examine">
 									<span class="mui-icon mui-icon-paperplane"></span>
 									<div class="mui-media-body">待审</div>
 								</a>
@@ -55,22 +55,22 @@
 								</a>
 							</li>
 							<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
-								<a  id="fans" onclick="j_fans()">
+								<a id="j_fans">
 									<span class="mui-icon mui-icon-personadd"></span>
 									<div class="mui-media-body">粉丝</div>
 								</a>
 							</li>
-                            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
-								<a onclick="j_pass()">
+							<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
+								<a id="j_pass">
 									<span class="mui-icon mui-icon-paperplane"></span>
 									<div class="mui-media-body">审核</div>
 								</a>
 							</li>
 						</ul>
 
-						<ul class="mui-table-view" onclick="j_index()">
+						<ul class="mui-table-view" >
 							<li class="mui-table-view-cell">
-								<a class="mui-navigate-right">
+								<a class="mui-navigate-right" id="j_index">
 									<span class="mui-icon mui-icon-home"></span> 首页
 								</a>
 							</li>
@@ -85,7 +85,7 @@
 								</a>
 							</li>
 							<li class="mui-table-view-cell">
-								<a class="mui-navigate-right" onclick="j_myFocus()">
+								<a class="mui-navigate-right" id="j_myFocus">
 									<span class="mui-icon mui-icon-plus"></span> 我的关注
 								</a>
 							</li>
@@ -133,15 +133,15 @@
 				</header>
 
 				<nav class="mui-bar mui-bar-tab">
-					<a class="mui-tab-item mui-active" onclick="j_index()">
+					<a class="mui-tab-item mui-active" id="j_index">
 						<span class="mui-icon mui-icon-home"></span>
 						<span class="mui-tab-label">首页</span>
 					</a>
-					<a class="mui-tab-item" onclick="j_editor()">
+					<a class="mui-tab-item" id="j_editor">
 						<span class="mui-icon mui-icon-compose"></span>
 						<span class="mui-tab-label">编辑</span>
 					</a>
-					<a class="mui-tab-item" onclick="j_condition()">
+					<a class="mui-tab-item" id="j_condition">
 						<span class="mui-icon mui-icon-pengyouquan"></span>
 						<span class="mui-tab-label">动态</span>
 					</a>
@@ -166,25 +166,25 @@
 								<!-- 第一张 -->
 								<div class="mui-slider-item">
 									<a href="#">
-										<img src="http://127.0.0.1:8080/Grasshopper_server/images/1.jpg" style="width: 100%;height: 100%;">
+										<img src="http://192.168.0.106:8080/Grasshopper_server/images/1.jpg" style="width: 100%;height: 100%;">
 									</a>
 								</div>
 								<!-- 第二张 -->
 								<div class="mui-slider-item">
 									<a href="#">
-										<img src="http://127.0.0.1:8080/Grasshopper_server/images/2.jpg" style="width: 100%;height: 100%;">
+										<img src="http://192.168.0.106:8080/Grasshopper_server/images/2.jpg" style="width: 100%;height: 100%;">
 									</a>
 								</div>
 								<!-- 第三张 -->
 								<div class="mui-slider-item">
 									<a href="#">
-										<img src="http://127.0.0.1:8080/Grasshopper_server/images/3.jpg" style="width: 100%;height: 100%;">
+										<img src="http://192.168.0.106:8080/Grasshopper_server/images/3.jpg" style="width: 100%;height: 100%;">
 									</a>
 								</div>
 								<!-- 第四张 -->
 								<div class="mui-slider-item">
 									<a href="#">
-										<img src="http://127.0.0.1:8080/Grasshopper_server/images/4.jpg" style="width: 100%;height: 100%;">
+										<img src="http://192.168.0.106:8080/Grasshopper_server/images/4.jpg" style="width: 100%;height: 100%;">
 									</a>
 								</div>
 								<!-- 额外增加的一个节点(循环轮播：最后一个节点是第一张轮播) -->
@@ -203,7 +203,7 @@
 						</div>
 						<!--数据列表-->
 						<ul class="mui-table-view mui-table-view-chevron" id="ul">
-							
+
 						</ul>
 					</div>
 				</div>
@@ -214,7 +214,7 @@
 		<script type="text/javascript" src="js/mui.min.js"></script>
 		<script type="text/javascript" src="js/mui.view.js"></script>
 		<script type="text/javascript" src="js/app.js"></script>
-		
+
 		<script>
 			mui.init({
 				pullRefresh: {
@@ -229,21 +229,21 @@
 					}
 				}
 			});
-			
+
 			//页面请求全局路径
-				window.path="http://localhost:8080/Grasshopper_server/";
+			window.path = "http://192.168.0.106:8080/Grasshopper_server/";
 			/**
 			 * 下拉刷新具体业务实现
 			 */
 			function pulldownRefresh() {
 				setTimeout(function() {
 					var ul = document.getElementById("ul");
-				while(ul.hasChildNodes()){
-					ul.removeChild(ul.firstChild);
-				}
+					while(ul.hasChildNodes()) {
+						ul.removeChild(ul.firstChild);
+					}
 					var table = document.body.querySelector('.mui-table-view-chevron');
 					var cells = document.body.querySelectorAll('#mui-table-view-cell');
-					for (var i = cells.length, len = i + 5; i < len; i++) {
+					for(var i = cells.length, len = i + 5; i < len; i++) {
 						var li = document.createElement('li');
 						li.className = 'mui-table-view-cell';
 						li.id = 'mui-table-view-cell';
@@ -254,77 +254,73 @@
 					mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
 				}, 1500);
 			}
-			
-			
+
 			var count = 0;
-			
-			function axs(){
+
+			function axs() {
 				var s;
 				var method;
 				console.log(count);
 				method = "up";
-				if(count<=0){
+				if(count <= 0) {
 					s = 0
-				}else{
+				} else {
 					var cells = document.body.querySelectorAll('#mui-table-view-cell');
-					s =	document.getElementsByName("id")[cells.length-1].value;
+					s = document.getElementsByName("id")[cells.length - 1].value;
 				};
-				mui.get(window.path+'TestfServlet?method='+method,{
-						s : s,
-				},function(data){
-						setTimeout(function() {				
-					console.log(data);
-					var table = document.body.querySelector('.mui-table-view-chevron');
-					var cells = document.body.querySelectorAll('#mui-table-view-cell');
-					mui('#pullrefresh').pullRefresh().endPullupToRefresh((++count > data.count)); //参数为true代表没有更多数据了。
-					console.log(data.count);
-					for (var i = 0, len = data.resultN.length; i < len; i++) {				
-						var li = document.createElement('li');
-						li.className = 'mui-table-view-cell';
-						li.id = 'mui-table-view-cell';
-						li.innerHTML ='<a class="mui-navigate-right">测试 id是<input type="hidden" name="id" value='+data.resultN[i].id+'>'+data.resultN[i].id +"标题是"+data.resultN[i].title+"分类是"+data.resultN[i].type+'</a>';
-						table.appendChild(li);
-					}	
-				}, 1500);
-						},'json'
-					);
+				mui.get(window.path + 'TestfServlet?method=' + method, {
+					s: s,
+				}, function(data) {
+					setTimeout(function() {
+						console.log(data);
+						var table = document.body.querySelector('.mui-table-view-chevron');
+						var cells = document.body.querySelectorAll('#mui-table-view-cell');
+						mui('#pullrefresh').pullRefresh().endPullupToRefresh((++count > data.count)); //参数为true代表没有更多数据了。
+						console.log(data.count);
+						for(var i = 0, len = data.resultN.length; i < len; i++) {
+							var li = document.createElement('li');
+							li.className = 'mui-table-view-cell';
+							li.id = 'mui-table-view-cell';
+							li.innerHTML = '<a class="mui-navigate-right">测试 id是<input type="hidden" name="id" value=' + data.resultN[i].id + '>' + data.resultN[i].id + "标题是" + data.resultN[i].title + "分类是" + data.resultN[i].type + '</a>';
+							table.appendChild(li);
+						}
+					}, 1500);
+				}, 'json');
 			}
-			
-			function pursfoudom(){
+
+			function pursfoudom() {
 				var s = document.getElementsByName("id")[0];
 				console.log(s.value);
 				var h = s.value;
-				mui.get(window.path+'TestfServlet?method=down',{
-						h : h
-				},function(data){
-						setTimeout(function() {				
-					var table = document.body.querySelector('.mui-table-view-chevron');
-					var cells = document.body.querySelectorAll('#mui-table-view-cell');
-					for (var i = 0, len = data.resultH.length; i < len; i++) {
-						var li = document.createElement('li');
-						li.className = 'mui-table-view-cell';
-						li.id = 'mui-table-view-cell';
-						li.innerHTML ='<a class="mui-navigate-right">测试 id是<input type="hidden" name="id" value='+data.resultH[i].id+'>'+data.resultH[i].id +"标题是"+data.resultH[i].title+"分类是"+data.resultH[i].type+'</a>';
-						//下拉刷新，新纪录插到最前面；
-						table.insertBefore(li, table.firstChild);
-					}
-					mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed								
-				}, 1500);
-						},'json'
-					);
+				mui.get(window.path + 'TestfServlet?method=down', {
+					h: h
+				}, function(data) {
+					setTimeout(function() {
+						var table = document.body.querySelector('.mui-table-view-chevron');
+						var cells = document.body.querySelectorAll('#mui-table-view-cell');
+						for(var i = 0, len = data.resultH.length; i < len; i++) {
+							var li = document.createElement('li');
+							li.className = 'mui-table-view-cell';
+							li.id = 'mui-table-view-cell';
+							li.innerHTML = '<a class="mui-navigate-right">测试 id是<input type="hidden" name="id" value=' + data.resultH[i].id + '>' + data.resultH[i].id + "标题是" + data.resultH[i].title + "分类是" + data.resultH[i].type + '</a>';
+							//下拉刷新，新纪录插到最前面；
+							table.insertBefore(li, table.firstChild);
+						}
+						mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed								
+					}, 1500);
+				}, 'json');
 			}
-			
-			
+
 			/**
 			 * 上拉加载具体业务实现
 			 */
 			function pullupRefresh() {
 				setTimeout(function() {
-					
+
 					mui('#pullrefresh').pullRefresh().endPullupToRefresh((++count > 2)); //参数为true代表没有更多数据了。
 					var table = document.body.querySelector('.mui-table-view-chevron');
 					var cells = document.body.querySelectorAll('#mui-table-view-cell');
-					for (var i = cells.length, len = i + 5; i < len; i++) {
+					for(var i = cells.length, len = i + 5; i < len; i++) {
 						var li = document.createElement('li');
 						li.className = 'mui-table-view-cell';
 						li.id = 'mui-table-view-cell';
@@ -333,8 +329,8 @@
 					}
 				}, 1500);
 			}
-			
-			if (mui.os.plus) {
+
+			if(mui.os.plus) {
 				mui.plusReady(function() {
 					setTimeout(function() {
 						mui('#pullrefresh').pullRefresh().pullupLoading();
@@ -346,9 +342,8 @@
 					mui('#pullrefresh').pullRefresh().pullupLoading();
 				});
 			}
-		
 		</script>
-		
+
 		<!--查看用户个人信息的js-->
 		<script>
 			mui.init({
@@ -356,13 +351,12 @@
 			});
 
 			//页面请求全局路径
-			window.path = "http://localhost:8080/Grasshopper_server/";
+			window.path = "http://192.168.0.106:8080/Grasshopper_server/";
 
-			
 			var dat = document.getElementById("data");
-			
+
 			mui.trigger(dat, 'tap');
-			//监听点击事件
+
 			dat.addEventListener("tap", function() {
 				var user = "小明";
 				//服务器中接口的地址			
@@ -389,7 +383,7 @@
 						mui.openWindow({
 							url: 'queryuser.html',
 							show: {
-								autoShow: false
+								autoShow: true
 							}
 						});
 
@@ -399,81 +393,89 @@
 				}, 'json');
 			});
 		</script>
-<script>
-	function j_condition() {
-	mui.openWindow({
-		url: 'condition.html',
-		show: {
-			autoShow: false
-		}
-	});
+		<script>
+			var myf = document.getElementById("j_myFocus");
+			mui.trigger(myf, 'tap');
+			//监听点击事件
+			myf.addEventListener("tap", function() {
+				mui.openWindow({
+					url: 'myFocus.html',
+					show: {
+						autoShow: true
+					}
+				});
+			});
+			var con = document.getElementById("j_condition");
+			mui.trigger(con, 'tap');
+			//监听点击事件
+			con.addEventListener("tap", function() {
+				mui.openWindow({
+					url: 'condition.html',
+					show: {
+						autoShow: true
+					}
+				});
+			});
+			var edi = document.getElementById("j_editor");
+			mui.trigger(edi, 'tap');
+			//监听点击事件
+			edi.addEventListener("tap", function() {
+				mui.openWindow({
+					url: 'editor.html',
+					show: {
+						autoShow: true
+					}
+				});
+			});
+			var ind = document.getElementById("j_index");
+			mui.trigger(ind, 'tap');
+			//监听点击事件
+			ind.addEventListener("tap", function() {
+				mui.openWindow({
+					url: 'index.html',
+					show: {
+						autoShow: true
+					}
+				});
+			});
+			var exa = document.getElementById("j_examine");
+			mui.trigger(exa, 'tap');
+			//监听点击事件
+			exa.addEventListener("tap", function() {
+				mui.openWindow({
+					url: 'examine.html',
+					show: {
+						autoShow: true
+					}
+				});
+			});
+			
+			var fan = document.getElementById("j_fans");
+			mui.trigger(fan, 'tap');
+			//监听点击事件
+			fan.addEventListener("tap", function() {
+				mui.openWindow({
+					url: 'fans.html',
+					show: {
+						autoShow: true
+					}
+				});
+			});
 
-}
-function j_editor() {
-	mui.openWindow({
-		url: 'editor.html',
-		show: {
-			autoShow: false
-		}
-	});
+			var pas = document.getElementById("j_pass");
+			mui.trigger(pas, 'tap');
+			//监听点击事件
 
-}
-function j_index() {
-	mui.openWindow({
-		url: 'index.html',
-		show: {
-			autoShow: false
-		}
-	});
-
-}
-function j_examine() {
-	mui.openWindow({
-		url: 'examine.html',
-		show: {
-			autoShow: false
-		}
-	});
-
-}
-function j_fans() {
-	mui.openWindow({
-		url: 'fans.html',
-		show: {
-			autoShow: false
-		}
-	});
-
-}
-function j_pass() {
-	mui.openWindow({
-		url: 'pass.html',
-		show: {
-			autoShow: false
-		}
-	});
-
-}
-function j_myFocus() {
-	mui.openWindow({
-		url: 'myFocus.html',
-		show: {
-			autoShow: false
-		}
-	});
-
-}
-
-function j_queryUser() {
-	mui.openWindow({
-		url: 'queryUser.html',
-		show: {
-			autoShow: false
-		}
-	});
-
-}
-</script>
+			pas.addEventListener("tap", function() {
+				mui.openWindow({
+					url: 'pass.html',
+					show: {
+						autoShow: true
+					}
+				});
+			});
+		
+		</script>
 	</body>
 
 </html>

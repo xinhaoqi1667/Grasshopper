@@ -57,7 +57,24 @@
 			</table>
 			
 		</div>
-
+<nav class="mui-bar mui-bar-tab">
+					<a class="mui-tab-item mui-active" id="j_index">
+						<span class="mui-icon mui-icon-home"></span>
+						<span class="mui-tab-label">首页</span>
+					</a>
+					<a class="mui-tab-item" id="j_editor">
+						<span class="mui-icon mui-icon-compose"></span>
+						<span class="mui-tab-label">编辑</span>
+					</a>
+					<a class="mui-tab-item" id="j_condition">
+						<span class="mui-icon mui-icon-pengyouquan"></span>
+						<span class="mui-tab-label">动态</span>
+					</a>
+					<a class="mui-tab-item">
+						<span class="mui-icon mui-icon-chat"></span>
+						<span class="mui-tab-label">私信</span>
+					</a>
+				</nav>
 	</body>
 	<script src="js/mui.min.js"></script>
 	<!--导入模板引擎的js 
@@ -69,7 +86,7 @@
 	
 	<script>
 		//页面请求全局路径
-					window.path="http://localhost:8080/Grasshopper_server/";
+					window.path="http://192.168.0.106:8080/Grasshopper_server/";
 		mui.init({
 			swipeBack:true //启用右滑关闭功能
 		});
@@ -86,6 +103,40 @@
 	); 
 		
 </script>
-
+<script>
+	var ind=document.getElementById("j_index");
+	mui.trigger(ind,'tap');
+			//监听点击事件
+			ind.addEventListener("tap",function(){
+				mui.openWindow({
+		url: 'index.html',
+		show: {
+			autoShow:true
+		}
+	});
+			});
+		var edi=document.getElementById("j_editor");
+	mui.trigger(edi,'tap');
+			//监听点击事件
+			edi.addEventListener("tap",function(){
+				mui.openWindow({
+		url: 'editor.html',
+		show: {
+			autoShow:true
+		}
+	});
+			});
+		var con=document.getElementById("j_condition");
+	mui.trigger(con,'tap');
+			//监听点击事件
+			con.addEventListener("tap",function(){
+				mui.openWindow({
+		url: 'condition.html',
+		show: {
+			autoShow:true
+		}
+	});
+			});
+	</script>
 	
 </html>
