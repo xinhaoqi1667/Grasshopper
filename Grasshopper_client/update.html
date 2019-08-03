@@ -1,0 +1,411 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="css/mui.min.css">
+	</head>
+
+	<body>
+		<center style="margin-top: 100px;">
+			<h1>发布</h1>
+			<form action="" method="get">
+
+				<div id="divid">
+					<table id="content1" >
+						<script id="test1" type="text/html">
+							{{each resultExamine}}
+					
+							<tr>
+								<td>
+									标题:
+								</td>
+								<td>
+									<input type="text" name="title" value={{$value.title}} required="required" />
+								</td>
+							</tr>
+
+							<tr>
+								<td>内容:</td>
+								<td>
+									<div name="content" style="height: 100px;width: 300px;background-color: white;border: 0.5px solid #BBBBBB;" contenteditable="true">
+										{{$value.content}}
+									</div>
+								</td>
+
+							</tr>
+							<tr>
+							<td>
+								分类:
+							</td>
+							<td>
+								<div>
+									<select name="sort" id="content"  onclick="getId()">
+										
+											
+											<option value=value={{$value.type}}>{{$value.type}}</option>
+											
+										
+									</select>
+								</div>
+							</td>
+						</tr>
+                            
+							{{/each}}
+						</script>
+						<table>
+						<tr>
+							<td>
+								分类:
+							</td>
+							<td>
+								<div>
+									<select name="sort" id="content">
+										<script id="test" type="text/html">
+											{{each resultSort}}
+											<option value={{$value.id}}>{{$value.type}}</option>
+											{{/each}}
+										</script>
+									</select>
+								</div>
+							</td>
+						</tr>
+					</table>
+					</table>
+				
+
+					<br />
+					<a href="javaScript:;;">
+						<img src="http://192.168.0.106:8020/Grasshopper_client/images/iconfont-tianjia.png" style="width: 50px; height: 50px;" title="上传图片" id="headImage">
+
+						</img>
+
+					</a>
+					<br />
+					<input type="hidden" id="imgs" />
+					<input type="reset" value="取消" />
+					<input type="button" id="fa" value="发布" style="margin-top: 20px;" />
+					</div>
+			</form>
+		</center>
+		<nav class="mui-bar mui-bar-tab">
+			<a class="mui-tab-item mui-active" id="j_index">
+				<span class="mui-icon mui-icon-home"></span>
+				<span class="mui-tab-label">首页</span>
+			</a>
+			<a class="mui-tab-item" id="j_editor">
+				<span class="mui-icon mui-icon-compose"></span>
+				<span class="mui-tab-label">编辑</span>
+			</a>
+			<a class="mui-tab-item" id="j_condition">
+				<span class="mui-icon mui-icon-pengyouquan"></span>
+				<span class="mui-tab-label">动态</span>
+			</a>
+			<a class="mui-tab-item">
+				<span class="mui-icon mui-icon-chat"></span>
+				<span class="mui-tab-label">私信</span>
+			</a>
+		</nav>
+		<script src="js/mui.min.js"></script>
+		<script src="js/mui.enterfocus.js"></script>
+		<script src="js/app.js"></script>
+		<script src="js/template-web.js"></script>
+
+		<script>
+			var ind = document.getElementById("j_index");
+			mui.trigger(ind, 'tap');
+			//监听点击事件
+			ind.addEventListener("tap", function() {
+				mui.openWindow({
+					url: 'index.html',
+					show: {
+						autoShow: true
+					}
+				});
+			});
+			var edi = document.getElementById("j_editor");
+			mui.trigger(edi, 'tap');
+			//监听点击事件
+			edi.addEventListener("tap", function() {
+				mui.openWindow({
+					url: 'editor.html',
+					show: {
+						autoShow: true
+					}
+				});
+			});
+			var con = document.getElementById("j_condition");
+			mui.trigger(con, 'tap');
+			//监听点击事件
+			con.addEventListener("tap", function() {
+				mui.openWindow({
+					url: 'condition.html',
+					show: {
+						autoShow: true
+					}
+				});
+			});
+		</script>
+		<script>
+			document.getElementById('headImage').addEventListener('tap', function() {
+				if(mui.os.plus) {
+					var buttonTit = [{
+						title: "拍照"
+					}, {
+						title: "从手机相册选择"
+					}];
+
+					plus.nativeUI.actionSheet({
+						title: "上传图片",
+						cancel: "取消",
+						buttons: buttonTit
+					}, function(b) { /*actionSheet 按钮点击事件*/
+						switch(b.index) {
+							case 0:
+								break;
+							case 1:
+								getImage(); /*拍照*/
+								break;
+							case 2:
+								galleryImg(); /*打开相册*/
+								break;
+							default:
+								break;
+						}
+					})
+				}
+			}, false);
+
+			// 拍照获取图片
+			function getImage() {
+				var c = plus.camera.getCamera();
+				c.captureImage(function(e) {
+					plus.io.resolveLocalFileSystemURL(e, function(entry) {
+						var imgSrc = entry.toLocalURL() + "?version=" + new Date().getTime(); //拿到图片路径
+						// 其他操作,比如预览展示
+
+					}, function(e) {
+						console.log("读取拍照文件错误：" + e.message);
+					});
+				}, function(s) {
+					console.log("error" + s);
+				}, {
+					filename: "_doc/camera/"
+				})
+			}
+
+			// 从相册中选择图片 
+			function galleryImg() {
+				// 从相册中选择图片
+				plus.gallery.pick(function(e) {
+					for(var i in e.files) {
+						var fileSrc = e.files[i];
+						// 其他操作,比如预览展示
+					}
+				}, function(e) {
+					console.log("取消选择图片");
+				}, {
+					filter: "image",
+					multiple: true,
+					maximum: 5,
+					system: false,
+					onmaxed: function() {
+						plus.nativeUI.alert('最多只能选择5张图片');
+					}
+				});
+			}
+
+			// 上传的方法
+			function upload() {
+				MicroTaskGUID = common.guid();
+
+				var rul = "http://localhost:8080/Grasshopper_server/"
+
+				var imgsArr = mui(".task-img"); // 要上传的 img 标签
+
+				mui.each(imgsArr, function(index, item) {
+					// 		console.log(index)
+					// 		console.log(item.src)
+					createUp(item)
+				})
+
+				function createUp(files) {
+					var task = plus.uploader.createUpload(url, {
+							method: "POST"
+						},
+						function(t, status) { //上传完成
+							if(status == 200) {
+								console.log("上传成功：" + t.responseText);
+
+							} else {
+								console.log("上传失败：" + status);
+							}
+						}
+					);
+					//添加其他参数
+					//	    task.addData("name","test");
+					// 页面中要上传的 图片路径
+					task.addFile(files.src, {
+						key: files.src
+					});
+					task.start();
+				}
+			}
+		</script>
+		<script>
+			var imgs_src = "";
+			var imgs = document.getElementsByTagName("img");
+			for(var i = 0; i < imgs.length; i++) {
+				if(imgs[i].src == "http://192.168.0.106:8020/Grasshopper_client/images/iconfont-tianjia.png") {
+
+					imgs_src += imgs[i].src;
+					imgs_src += ","
+				}
+			}
+			var t = document.getElementById("imgs");
+			var f = imgs_src.split(",");
+			var b = "";
+			for(var i = 0; i < f.length - 1; i++) {
+				b = "<img src=\"" + f[i] + "\" style=\"height:30px;width:30px;\" ></img>";
+			}
+			t.innerText = b;
+		
+
+		</script>
+			<script>
+			mui.init({
+				statusBarBackground: '#f7f7f7'
+			})
+			//页面请求全局路径
+			window.path = "http://192.168.0.106:8080/Grasshopper_server/";
+			mui.get(window.path + 'TestServlet?method=querySort', function(data) {
+
+					//获得服务器响应
+					var html = template("test", data);
+					document.getElementById('content').innerHTML = html;
+                     
+				}, 'json'
+
+			);
+		</script>
+		<script>
+			mui.init({
+				statusBarBackground: '#f7f7f7'
+			})
+			//页面请求全局路径
+			window.path = "http://192.168.0.106:8080/Grasshopper_server/";
+			mui.get(window.path + 'TestServlet?method=getExamine', function(data) {
+
+					//获得服务器响应
+					var html = template("test1", data);
+					document.getElementById('content1').innerHTML = html;
+
+				}, 'json'
+
+			);
+		
+		</script>
+	
+		
+		<script type="text/javascript">
+			var f = document.forms[0];
+			
+			var imgs = document.getElementById("headImage");
+
+			//给登录按钮绑定点击事件
+			var btn = document.getElementById("fa");
+			//触发submit按钮的点击事件
+			mui.trigger(btn, 'tap');
+			//监听点击事件
+			btn.addEventListener("tap", function() {
+				//获取账号和密码
+
+				//服务器中接口的地址			
+				/*mui.ajax('http://localhost/api/MyServlet',{
+					//向服务器发送数据
+					
+					dataType:'json',//服务器返回json格式数据
+					type:'get',//HTTP请求类型
+					success:function(data){
+						//获得服务器响应，获取服务响应的数据
+						console.log(data);
+					}
+				});*/
+
+				mui.post(window.path + 'TestServlet', {
+					method: "addRelease",
+					title: f.title.value,
+					sort_id: f.sort.value,
+					content: f.content.value,
+					imgs: imgs.src
+				}, function(data) {
+					/*	console.log(data);
+							if(data.resultCode=="200")
+							{
+								alert("登陆成功！");
+								
+								//原生的js跳转页面
+								//window.location.href="xxx.html";
+								
+								
+								//mui框架的跳转
+								mui.openWindow({
+									    url: 'index.html', 
+									    show:{
+									      autoShow:false
+									    }
+  								});
+								
+							}else{
+								alert("登录失败!");
+							}*/
+				}, 'json');
+
+			});
+		</script>
+	
+	<script>
+		function getId(){
+		var f = document.forms[0];
+			console.log(f.lx.value)	
+		}
+			
+			
+			 function RemoveNullNode(node)
+			{
+				
+					for (var i = 0; i < node.childNodes.length; i++) 
+					{
+						var num=(node.childNodes[i].childNodes).length;
+					
+						if(num>0)
+						{
+							
+							RemoveNullNode(node.childNodes[i])
+							
+						}else
+						{
+							//===等值等类型（值必须一样，类型也要一样）
+					        if (node.childNodes[i].nodeType === 3 && /^\s+$/.test(node.childNodes[i].nodeValue))
+							{
+								//移除空白节点
+					            node.childNodes[i].parentNode.removeChild(node.childNodes[i]);
+				
+					        }
+					
+						}
+					}
+				
+				return node;
+				
+			}
+	</script>
+	</body>
+
+</html>

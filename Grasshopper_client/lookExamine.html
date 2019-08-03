@@ -11,7 +11,7 @@
 		<!--标准mui.css-->
 		<link rel="stylesheet" href="css/mui.min.css">
 		<!--App自定义的css-->
-		
+
 		<style>
 			.title {
 				margin: 20px 15px 10px;
@@ -30,51 +30,56 @@
 			<div class="title">
 				缩略图居左
 			</div>
-			<table  id="content">
-				
-			<script id="test" type="text/html">	
-				<tr>
-					<td>id</td>
-					<td>title</td>
-					<td>type</td>
-					<td>content</td>
-					<td>imgs</td>
-					<td>e_name</td>	
-				</tr>
-				{{each resultExamine}} <!-- resultData和服务端返回的名字必须一致-->
-				<tr>
-					<td>{{$value.id}}</td>
-					<td>{{$value.title}}</td>
-					<td>{{$value.type}}</td>
-					<td>{{$value.content}}</td>
-					<td>{{$value.imgs}}</td>
-					<td>{{$value.e_name}}</td>
-					
-				</tr>	
-			
-				{{/each}}
-			</script>
+			<table id="content">
+
+				<script id="test" type="text/html">
+					<tr>
+						<td>id</td>
+						<td>title</td>
+						<td>type</td>
+						<td>content</td>
+						<td>imgs</td>
+						<td>e_name</td>
+					</tr>
+					{{each resultExamine}}
+					<!-- resultData和服务端返回的名字必须一致-->
+					<tr>
+						<td>{{$value.id}}</td>
+						<td>{{$value.title}}</td>
+						<td>{{$value.type}}</td>
+						<td>{{$value.content}}</td>
+						<td>{{$value.imgs}}</td>
+						<td>{{$value.e_name}}</td>
+						<td>
+							<a onclick="getId(this)">
+								重新编辑
+							</a>
+						</td>
+					</tr>
+
+					{{/each}}
+				</script>
 			</table>
-			
+
 		</div>
-<nav class="mui-bar mui-bar-tab">
-					<a class="mui-tab-item mui-active" id="j_index">
-						<span class="mui-icon mui-icon-home"></span>
-						<span class="mui-tab-label">首页</span>
-					</a>
-					<a class="mui-tab-item" id="j_editor">
-						<span class="mui-icon mui-icon-compose"></span>
-						<span class="mui-tab-label">编辑</span>
-					</a>
-					<a class="mui-tab-item" id="j_condition">
-						<span class="mui-icon mui-icon-pengyouquan"></span>
-						<span class="mui-tab-label">动态</span>
-					</a>
-					<a class="mui-tab-item">
-						<span class="mui-icon mui-icon-chat"></span>
-						<span class="mui-tab-label">私信</span>
-					</a>
-				</nav>
+		<nav class="mui-bar mui-bar-tab">
+			<a class="mui-tab-item mui-active" id="j_index">
+				<span class="mui-icon mui-icon-home"></span>
+				<span class="mui-tab-label">首页</span>
+			</a>
+			<a class="mui-tab-item" id="j_editor">
+				<span class="mui-icon mui-icon-compose"></span>
+				<span class="mui-tab-label">编辑</span>
+			</a>
+			<a class="mui-tab-item" id="j_condition">
+				<span class="mui-icon mui-icon-pengyouquan"></span>
+				<span class="mui-tab-label">动态</span>
+			</a>
+			<a class="mui-tab-item">
+				<span class="mui-icon mui-icon-chat"></span>
+				<span class="mui-tab-label">私信</span>
+			</a>
+		</nav>
 	</body>
 	<script src="js/mui.min.js"></script>
 	<!--导入模板引擎的js 
@@ -83,60 +88,114 @@
 		
 	-->
 	<script src="js/template-web.js"></script>
-	
+
 	<script>
 		//页面请求全局路径
-					window.path="http://192.168.0.106:8080/Grasshopper_server/";
+		window.path = "http://129.204.4.161:8080/Grasshopper_server/";
 		mui.init({
-			swipeBack:true //启用右滑关闭功能
+			swipeBack: true //启用右滑关闭功能
 		});
-		
-		mui.get(window.path+'TestServlet?method=getExamine',function(data){
-			console.log(data);
-		//获得服务器响应
-		var html = template("test",data);
-		document.getElementById('content').innerHTML = html;
-	
-		
-	},'json'
-	
-	); 
-		
-</script>
-<script>
-	var ind=document.getElementById("j_index");
-	mui.trigger(ind,'tap');
-			//监听点击事件
-			ind.addEventListener("tap",function(){
-				mui.openWindow({
-		url: 'index.html',
-		show: {
-			autoShow:true
-		}
-	});
-			});
-		var edi=document.getElementById("j_editor");
-	mui.trigger(edi,'tap');
-			//监听点击事件
-			edi.addEventListener("tap",function(){
-				mui.openWindow({
-		url: 'editor.html',
-		show: {
-			autoShow:true
-		}
-	});
-			});
-		var con=document.getElementById("j_condition");
-	mui.trigger(con,'tap');
-			//监听点击事件
-			con.addEventListener("tap",function(){
-				mui.openWindow({
-		url: 'condition.html',
-		show: {
-			autoShow:true
-		}
-	});
-			});
+
+		mui.get(window.path + 'TestServlet?method=getExamine', function(data) {
+				console.log(data);
+				//获得服务器响应
+				var html = template("test", data);
+				document.getElementById('content').innerHTML = html;
+
+			}, 'json'
+
+		);
 	</script>
-	
+	<script>
+		var ind = document.getElementById("j_index");
+		mui.trigger(ind, 'tap');
+		//监听点击事件
+		ind.addEventListener("tap", function() {
+			mui.openWindow({
+				url: 'index.html',
+				show: {
+					autoShow: true
+				}
+			});
+		});
+		var edi = document.getElementById("j_editor");
+		mui.trigger(edi, 'tap');
+		//监听点击事件
+		edi.addEventListener("tap", function() {
+			mui.openWindow({
+				url: 'editor.html',
+				show: {
+					autoShow: true
+				}
+			});
+		});
+		var con = document.getElementById("j_condition");
+		mui.trigger(con, 'tap');
+		//监听点击事件
+		con.addEventListener("tap", function() {
+			mui.openWindow({
+				url: 'condition.html',
+				show: {
+					autoShow: true
+				}
+			});
+		});
+	</script>
+	<script>
+		function getId(obj) {
+
+			var p = RemoveNullNode(obj.parentNode.parentNode);
+			console.log(p.childNodes[0].innerHTML)
+			mui.post(window.path + 'TestServlet', {
+				method: "getExamineId",
+				release_id:p.childNodes[0].innerHTML
+			}, function(data) {
+				console.log(data);
+				/*if(data.resultCode=="200")
+				{
+					alert("登陆成功！");*/
+
+				//原生的js跳转页面
+				window.location.href="update.html";
+				/*url: 'update.html',
+					show:{
+						autoShow: true
+					}
+*/
+				//mui框架的跳转
+
+				/*	}else{
+						alert("登录失败!");
+					}*/
+			}, 'json');
+		}
+
+		function RemoveNullNode(node) {
+
+			for(var i = 0; i < node.childNodes.length; i++) {
+				var num = (node.childNodes[i].childNodes).length;
+
+				if(num > 0) {
+
+					RemoveNullNode(node.childNodes[i])
+
+				} else {
+					//===等值等类型（值必须一样，类型也要一样）
+					    
+					if(node.childNodes[i].nodeType === 3 && /^\s+$/.test(node.childNodes[i].nodeValue)) {
+						//移除空白节点
+						      
+						node.childNodes[i].parentNode.removeChild(node.childNodes[i]);
+
+						    
+					}
+
+				}
+			}
+
+			return node;
+
+		}
+	</script>
+
 </html>

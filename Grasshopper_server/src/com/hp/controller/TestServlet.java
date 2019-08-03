@@ -434,9 +434,10 @@ public class TestServlet extends HttpServlet {
 	
 		
 	examine_id=Integer.valueOf(request.getParameter("release_id"));
-	  System.out.println(examine_id);
+	 System.out.println(examine_id);
 		
 	}
+	
 	
 	protected void getExamine(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("application/json;charset=utf-8");
