@@ -40,36 +40,31 @@
 								</td>
 
 							</tr>
-							<tr>
+							<tr class="div1">
 							<td>
 								分类:
 							</td>
 							<td>
-								<div>
-									<select name="sort" id="content"  onclick="getId()">
-										
-											
-											<option value=value={{$value.type}}>{{$value.type}}</option>
-											
-										
+								<div >
+									<select name="sort" onclick="getId()">
+											<option value={{$value.type}}>{{$value.type}}</option>
 									</select>
 								</div>
+									{{/each}}
+						</script>
 							</td>
 						</tr>
-                            
-							{{/each}}
-						</script>
-						<table>
+						<table class="div1" style="display: none;" >
 						<tr>
 							<td>
 								分类:
 							</td>
-							<td>
-								<div>
+							<td style="height: 100px;width: 300px;">
+								<div >
 									<select name="sort" id="content">
-										<script id="test" type="text/html">
+										<script id="test" type="text/html" >
 											{{each resultSort}}
-											<option value={{$value.id}}>{{$value.type}}</option>
+											<option value={{$value.id}} >{{$value.type}}</option>
 											{{/each}}
 										</script>
 									</select>
@@ -82,7 +77,7 @@
 
 					<br />
 					<a href="javaScript:;;">
-						<img src="http://192.168.0.106:8020/Grasshopper_client/images/iconfont-tianjia.png" style="width: 50px; height: 50px;" title="上传图片" id="headImage">
+						<img src="http://localhost:8080/Grasshopper_client/images/iconfont-tianjia.png" style="width: 50px; height: 50px;" title="上传图片" id="headImage">
 
 						</img>
 
@@ -262,7 +257,7 @@
 			var imgs_src = "";
 			var imgs = document.getElementsByTagName("img");
 			for(var i = 0; i < imgs.length; i++) {
-				if(imgs[i].src == "http://192.168.0.106:8020/Grasshopper_client/images/iconfont-tianjia.png") {
+				if(imgs[i].src == "http://localhost:8020/Grasshopper_client/images/iconfont-tianjia.png") {
 
 					imgs_src += imgs[i].src;
 					imgs_src += ","
@@ -283,7 +278,7 @@
 				statusBarBackground: '#f7f7f7'
 			})
 			//页面请求全局路径
-			window.path = "http://192.168.0.106:8080/Grasshopper_server/";
+			window.path = "http://localhost:8080/Grasshopper_server/";
 			mui.get(window.path + 'TestServlet?method=querySort', function(data) {
 
 					//获得服务器响应
@@ -299,7 +294,7 @@
 				statusBarBackground: '#f7f7f7'
 			})
 			//页面请求全局路径
-			window.path = "http://192.168.0.106:8080/Grasshopper_server/";
+			window.path = "http://localhost:8080/Grasshopper_server/";
 			mui.get(window.path + 'TestServlet?method=getExamine', function(data) {
 
 					//获得服务器响应
@@ -371,9 +366,15 @@
 		</script>
 	
 	<script>
+		
+			
+		
 		function getId(){
-		var f = document.forms[0];
-			console.log(f.lx.value)	
+	var s=document.getElementsByClassName("div1")[0];
+	s.style.display="none"
+			console.log(s.value)
+			var s=document.getElementsByClassName("div1")[1];
+			s.style.display="";
 		}
 			
 			

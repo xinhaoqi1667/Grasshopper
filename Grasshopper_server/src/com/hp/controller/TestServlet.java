@@ -49,10 +49,10 @@ public class TestServlet extends HttpServlet {
 
 	protected void service(HttpServletRequest request, javax.servlet.http.HttpServletResponse response)
 			throws ServletException, IOException {
-		request.setCharacterEncoding("UTF-8");
-		System.out.println("≤‚ ‘");
+		request.setCharacterEncoding("UTF-8");	
 		try {
 			String method = request.getParameter("method");
+			System.out.println(method);
 			switch (method) {
 			case "test":
 				this.test(request,response);
@@ -429,10 +429,7 @@ public class TestServlet extends HttpServlet {
 	}
 	protected void getExamineId(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("application/json;charset=utf-8");
-		
-		
-	
-		
+
 	examine_id=Integer.valueOf(request.getParameter("release_id"));
 	 System.out.println(examine_id);
 		
