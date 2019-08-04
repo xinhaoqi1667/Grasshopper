@@ -220,7 +220,7 @@
 			function upload() {
 				MicroTaskGUID = common.guid();
 
-				var rul = "http://localhost:8080/Grasshopper_server/"
+				var rul = "http://129.204.4.161:8080/Grasshopper_server/"
 
 				var imgsArr = mui(".task-img"); // 要上传的 img 标签
 
@@ -278,7 +278,7 @@
 				statusBarBackground: '#f7f7f7'
 			})
 			//页面请求全局路径
-			window.path = "http://localhost:8080/Grasshopper_server/";
+			window.path = "http://129.204.4.161:8080/Grasshopper_server/";
 			mui.get(window.path + 'TestServlet?method=querySort', function(data) {
 
 					//获得服务器响应
@@ -294,7 +294,7 @@
 				statusBarBackground: '#f7f7f7'
 			})
 			//页面请求全局路径
-			window.path = "http://localhost:8080/Grasshopper_server/";
+			window.path = "http://129.204.4.161:8080/Grasshopper_server/";
 			mui.get(window.path + 'TestServlet?method=getExamine', function(data) {
 
 					//获得服务器响应
