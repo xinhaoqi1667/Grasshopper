@@ -25,6 +25,7 @@
             <ul class="mui-table-view" id="content">
 			<script id="test" type="text/html">	
 				{{each resultData}} <!-- resultData和服务端返回的名字必须一致-->
+				<img class="mui-media-object mui-pull-left" src={{$value.imgs}}>
 				<li class="mui-table-view-cell mui-media">
 					<a href="javascript:;">
 						<div class="mui-media-body">

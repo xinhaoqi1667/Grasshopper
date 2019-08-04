@@ -30,17 +30,11 @@
 			<div class="title">
 				缩略图居左
 			</div>
-			<input type="hidden" id="user" />
-			<ul class="mui-table-view" id="content">
-				
-				
+			<ul class="mui-table-view" id="content">	
 			<script id="test" type="text/html">	
-				
-				
 				{{each resultExamine_3}} <!-- resultData和服务端返回的名字必须一致-->
+				<img class="mui-media-object mui-pull-left" src={{$value.imgs}}>
 				<li class="mui-table-view-cell mui-media">
-					
-						<img class="mui-media-object mui-pull-left" src={{$value.imgs}}>
 						<div class="mui-media-body">
 							{{$value.title}}
 							<input type="hidden" value={{$value.id}} />
@@ -58,10 +52,9 @@
 				{{/each}}
 				{{each resultExamine_1}} <!-- resultData和服务端返回的名字必须一致-->
 				<li class="mui-table-view-cell mui-media">
-					
-						<img class="mui-media-object mui-pull-left" src={{$value.imgs}}>
 						<div class="mui-media-body">
 							{{$value.title}}
+							<img class="mui-media-object mui-pull-left" src={{$value.imgs}}>
 							<input type="hidden" value={{$value.id}} />
 							<p class='mui-ellipsis'>{{$value.name}}</p>
 							<p class='mui-ellipsis'>{{$value.content}}</p>
@@ -131,17 +124,17 @@
 		});
 		
 		window.path="http://129.204.4.161:8080/Grasshopper_server/";
-			var user_id=document.getElementById("user");
-			user_id.innerText=document.cookie[document.cookie.length-1];
-			
-			mui.post(window.path+'TestServlet',{
-				method:"queryExamine",
-				release_id:user_id.innerText
-	},function(data){
-	var html = template("test",data);
+	
+		mui.get(window.path+'TestServlet?method=queryExamine',function(data){
+			console.log(data);
+		//获得服务器响应
+		var html = template("test",data);
 		document.getElementById('content').innerHTML = html;
-	}, 'json'
+		
+	},'json'
+	
 	); 
+			
 		
 	</script>
 	<script>

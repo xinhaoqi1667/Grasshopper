@@ -217,7 +217,7 @@ public class TestServlet extends HttpServlet {
 		PrintWriter out=null;
 		out=response.getWriter();
 		UserMessageServices userMessageServices=new UserMessageServicesImpl();
-		String f=userMessageServices.Focus(Integer.valueOf(request.getParameter("user_id")));
+		String f=userMessageServices.Focus(user_id);
 		List list=TestServicesImpl.findByID(f);
 	    
 		try {
@@ -241,12 +241,8 @@ public class TestServlet extends HttpServlet {
 		out.write(json);
 		
 	}
-	private void findByID(String f) {
-		// TODO Auto-generated method stub
-		
-	}
 	protected void addRelease(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		{			
+				
 					ReleaseServices releaseServices=new RelesaeServicesImpl();
 					//使用Gson序列化	
 					Gson gson=new Gson();
@@ -270,10 +266,7 @@ public class TestServlet extends HttpServlet {
 						} catch (InvocationTargetException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
-						}
-							
-							
-					 catch (NullPointerException e) {
+						}catch (NullPointerException e) {
 						System.out.println("参数异常");
 						// TODO: handle exception
 						e.printStackTrace();
@@ -286,7 +279,7 @@ public class TestServlet extends HttpServlet {
 					//将结果以json形式暴露返回出去
 					out.write(json);
 				}
-		}
+		
 	protected void querySort(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("application/json;charset=utf-8");
 		
@@ -299,9 +292,7 @@ public class TestServlet extends HttpServlet {
 	    List list=sortServices.querySort();
 		System.out.println(list.toString());
 	    try {
-
 			 Map map=new HashMap<>();
-			 
 			 map.put("resultSort",list);
 			 json=gson.toJson(map);
 		} catch (Exception e) {
@@ -311,12 +302,11 @@ public class TestServlet extends HttpServlet {
 			json = gson.toJson(result);
 			// TODO: handle exception
 		}
-	
 		System.out.println(json);
 		//将结果以json形式暴露返回出去
 		out.write(json);
-		
 	}
+
 
 	protected void queryExamine(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("application/json;charset=utf-8");

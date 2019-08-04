@@ -26,7 +26,6 @@
 			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
 			<h1 class="mui-title">个人信息</h1>
 		</header>
-		<input type="hidden" id="user" />
 		<div class="mui-content">
 	
 			<ul class="mui-table-view" id="content">
@@ -86,22 +85,17 @@
 		使用mui框架的ajax从服务器端请求获取到数据之后通过js的模板引擎将数据渲染到html中
 		
 	-->
-	<script>
-		
-		var id1=document.getElementById("user");
-		id1.innerText=document.cookie[document.cookie.length-1];
-		
-	</script>
+
 	<script src="js/template-web.js"></script>
 	<script>
-		var user_id=document.getElementById("user").innerText;
+		
 			window.path="http://129.204.4.161:8080/Grasshopper_server/";
 			mui.init({
 					statusBarBackground: '#f7f7f7'
 				});
 					mui.post(window.path+'TestServlet',{
-							method:"getFocus_id",
-							user_id:user_id
+							method:"getFocus_id"
+							
 						},function(data){
 							console.log(data);
 							/*if(data.resultCode=="200")
