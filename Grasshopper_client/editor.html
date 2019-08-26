@@ -10,6 +10,291 @@
 
 		<!--标准mui.css-->
 		<link rel="stylesheet" href="css/mui.min.css">
+<script src="js/mui.min.js"></script>
+<script type="text/javascript" src="js/numeral.js"></script>
+<link href="css/mui.min.css" rel="stylesheet"/>
+<script type="text/javascript" charset="utf-8">
+mui.init();
+
+var rootPath = "http://www.chendd.cn";
+
+mui.plusReady(function(){
+	initFileList();
+});
+
+// 从相册添加文件
+function appendByGallery(){
+	//判断是否压缩
+	var zip = document.getElementById("zip_type").value;
+	if(zip == ""){
+		mui.toast("请先选择上传画质！");
+		return;
+	}
+	plus.gallery.pick(function(p){
+        appendFile(p);
+   }, function(p){
+   	  mui.toast("取消选择图片");
+   },{
+    	filter:"image", multiple:true,maximum:9,system:false,  
+        onmaxed: function() {  
+            plus.nativeUI.alert('最多只能选择9张图片');  
+        }
+    });
+}
+
+function initFileList(){
+	window.fileList = {};//待上传文件列表
+}
+
+function clearFileList(){
+	window.fileList = {};
+	plus.uploader.clear();//清除上传任务
+	var imageList = document.getElementById("image_list");
+	while(imageList.hasChildNodes()){
+		imageList.removeChild(imageList.firstChild);
+	}
+}
+
+// 添加文件
+function appendFile(p){
+	var fe=document.getElementById("files");
+	var li=document.createElement("li");
+	for(var i=0 ; i < p.files.length ; i++){
+		var file = p.files[i];
+		var lens = document.getElementsByClassName("upload-file").length;
+		var idIndex = lens;
+		createGrid(i , idIndex);
+		reloadImage(file , i , idIndex);
+	}
+}
+
+function createGrid(i , idIndex){
+	var files = document.getElementById("files");
+	var li = document.createElement("li");
+	li.id = "img_selector_" + idIndex;
+	li.setAttribute("idIndex" , idIndex);
+	li.className = "mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3 upload-file";
+	//li.style.backgroundColor = "red";
+	li.innerHTML = "<a id=\"img_selector_a_" + idIndex + "\"><span class=\"mui-icon\" id=\"img_selector_image_" + idIndex 
+		+ "\" ><img src='loading.gif' /></span><div class=\"mui-media-body\" id=\"img_selector_text_" + idIndex + "\">处理中</div></a>";
+	document.getElementById("image_list").appendChild(li);
+	document.getElementById(li.id).addEventListener("tap" , function(){
+		openImage(this.getAttribute("idIndex"));
+	});
+}
+
+function reloadImage(filePath , i , idIndex){
+	plus.io.resolveLocalFileSystemURL(filePath , function(entry){
+		/*entry.file(function(f){
+			console.log("原始文件大小：" + numeral(f.size).format("0.00 b") +"  filename:"+f.name);
+		});*/
+		var src = entry.toLocalURL();
+		var fileType = src.substring(src.indexOf('.'));
+		var dst = new Date().getTime() + fileType;
+		compressAndUploadImgs(src , dst , i , idIndex);
+	} , function(error){
+		plus.nativeUI.alert('error...');
+	});
+}
+
+function uploadByGallery(){
+	//判断待上传的9宫格图片长度与待上传的集合长度是否一致
+	var lens = document.getElementsByClassName("upload-file").length;
+	var fileLens = 0;
+	for(var i in window.fileList){
+		fileLens++;
+	}
+	if(lens != fileLens){
+		plus.nativeUI.alert('选择图片与待上传的个数不一致!');
+		return;
+	}
+	
+	if(fileLens == 0){
+		plus.nativeUI.alert('没有待上传的文件!');
+		return;
+	}
+	
+	if(fileLens > 9){
+		plus.nativeUI.alert("最多允许同时上传9个图片！");
+		return;
+	}
+	
+	var task = plus.uploader.createUpload(rootPath + "/mobileservice/appFileUpload", 
+		{ method:"POST",/*blocksize:204800,p*/ riority:100 },
+		function (upload, status ) {
+			plus.nativeUI.closeWaiting();
+			// 上传完成
+			if ( status == 200 ) { 
+				eval("var result = " + upload.responseText + ";");
+				if(result.result == "success"){
+					//后台提示成功
+					clearFileList();
+					renderImage(result);
+				} else {
+					//后台提示失败
+				}
+				mui.toast(result.message);
+			} else {
+				alert( "Upload failed: " + status );
+			}
+		}
+	);
+	for(var i in window.fileList){
+		task.addFile(window.fileList[i], {key:"upload_" + i});
+	}
+	task.start();
+	//启动定时刷新状态
+	window.setTimeout(function(){
+		getProcessStatus();
+	} , 0);
+}
+
+function getProcessStatus(){
+	//定时请求状态
+	var tempRate = "正在读取文件上传信息";
+	window.uploadTimer = window.setInterval(function(){
+		var url = rootPath + "/mobileservice/appFileUploadProcess";
+		mui.ajax(url , {
+			dataType: 'json',
+			data: {test: "test"},
+			beforeSend: function(xhr){
+			},
+			success: function(result){
+				if(typeof(result) != "undefined" && result && result.text)
+				showLoading(result.text);
+				if(result.rate == 100){
+					window.clearInterval(window.uploadTimer);
+					hideLoading();
+					window.waitWindow = undefined;
+				}
+			},
+			error: function(a,b,c){
+				//console.log("error...."+a+"=="+b+"=="+c);
+				hideLoading();
+				window.clearInterval(window.uploadTimer);
+				plus.nativeUI.alert('获取上传进度出现错误!');
+			}
+		})
+	} , 300);
+}
+
+//
+function compressAndUploadImgs(src , dst , i , idIndex){
+	//判断是否压缩
+	var zip = document.getElementById("zip_type").value;
+	//原图不压缩
+	if(zip == "2"){
+		var imageBox = document.getElementById("img_selector_" + idIndex);
+    	document.getElementById("img_selector_a_" + idIndex).style.visibility = "hidden";
+    	imageBox.style.backgroundImage = "url('" + src + "')";
+    	imageBox.style.backgroundSize = "cover";
+    	window.fileList[idIndex] = src;//待上传文件列表
+    	return;
+	}
+	
+	dst = "_documents/editors/" + dst;
+	plus.zip.compressImage({
+		src: src,
+		dst: dst,
+		height:"100%",
+		//quality:100, 
+        overwrite:true
+	} , function(){
+		plus.io.resolveLocalFileSystemURL(dst, function(ety) {  
+            	var compress_path = ety.toLocalURL(); // 输入图片的路径,将相对路径转换为绝对路径 
+            	var imageBox = document.getElementById("img_selector_" + idIndex);
+            	document.getElementById("img_selector_a_" + idIndex).style.visibility = "hidden";
+            	imageBox.style.backgroundImage = "url('" + compress_path + "')";
+            	imageBox.style.backgroundSize = "cover";
+            	/*ety.file(function(f){
+					console.log("压缩文件大小：" + numeral(f.size).format("0.00 b") +"  filename:"+f.name);
+				});*/
+				window.fileList[idIndex] = dst;//待上传文件列表
+            }, function(e) {  
+               plus.nativeUI.alert('压缩图片出现错误!');        
+            }
+        );
+	} , function(error){
+		plus.nativeUI.alert('压缩图片出现错误');
+	});
+}
+
+function showLoading(msg){
+	if(window.waitWindow == undefined){
+		window.waitWindow = plus.nativeUI.showWaiting(msg , {
+				/*round: "1px", //圆角*/
+				style: "white",
+				back:"none",//不响应返回按钮事件
+				background: "#66CDAA",
+				/*background:"rgba(110,120,50,1)",*/
+				loading:{
+					display:"inline"
+				}
+			});
+	} else {
+		window.waitWindow.setTitle(msg);
+	}
+}
+
+function openImage(idIndex){
+	var urls = [];
+	for(var i in window.fileList){
+		urls.push(window.fileList[i]);
+	}
+	var options = {};
+	options.current = idIndex;
+	//可通过打印urls的参数值的方式发现，压缩和不压缩的图片路径是不一样的
+	plus.nativeUI.previewImage(urls, options);
+}
+
+function hideLoading(){
+	plus.nativeUI.closeWaiting();
+}
+
+function renderImage(result){
+	var resultList = document.getElementById("result_list");
+	//清空现有元素
+	while(resultList.hasChildNodes()){
+		resultList.removeChild(resultList.firstChild);
+	}
+	var list = result.fileList;
+	for(var i=0 ; i < list.length ; i++){
+		var li = document.createElement("li");
+		li.className = "mui-table-view-cell mui-media mui-col-xs-6";
+		li.innerHTML = "<a href=\"javascript:void(0);\"><img  class=\"mui-media-object\" src=\"" + 
+						rootPath + list[i] + "?scale=0.5"
+						+ "\"><div class=\"mui-media-body\"></div></a>";
+		resultList.appendChild(li);
+		alert(li.src);
+	}
+	document.getElementById("result_box").style.display = 'block';
+	/*
+	 说明：scale参数是服务器端缩放图片的，防止图片过大，将图片按比例再次缩放
+	 * */
+}
+
+</script>
+
+<style type="text/css">
+.mui-content-padded {
+	padding: 0px;
+}
+.mui-content-padded a {
+	margin: 0px;
+	width: 50px;
+	height: 50px;
+	display: inline-block;
+	text-align: center;
+	background-color: #fff;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	background-clip: padding-box;
+}
+.mui-content-padded a .mui-icon {
+	margin-top: 12px;
+}
+	
+</style>
 	</head>
 
 	<body>
@@ -45,21 +330,46 @@
 					<tr>
 						<td>内容:</td>
 						<td>
-							<div  name="content" style="height: 100px;width: 300px;background-color: white;border: 0.5px solid #BBBBBB;" contenteditable="true">
+						<textarea  id="liveChatContent" name="content" spellcheck="false" style="height: 100px;width: 300px;background-color: white;border: 0.5px solid #BBBBBB;" contenteditable="true">
 				
-				</div></td>
+				        </textarea>
+				           <a href="javascript:;" id="face">表情</a>
+    <span id="left"></span>
+						</td>
 					</tr>
 				</table>
 				
 				
 				
 				<br />
-				<a href="javaScript:;;">
-				 <img src="http://192.168.0.106:8020/Grasshopper_client/images/iconfont-tianjia.png" style="width: 50px; height: 50px;" title="上传图片" id="headImage">
- 	                                 
-                   </img>
-                   
-                  </a>
+
+<div class="mui-content" style="margin-top: 30px!important;">
+
+	<div id="files" style="text-align:left;"></div>
+
+	<div class="mui-card">
+		<ul class="mui-table-view">
+			<li class="mui-table-view-cell" style="height: 37px;position: relative;">
+				<select style="position:absolute;top: 3px;left: 0px; width:100%;height: 30px!important;background-color:transparent;
+					padding:0!important;padding-left: 5px!important;font-size: 100%;" id="zip_type">
+					<option value="" disabled="disabled" selected="selected">请选择上传画质</option>
+					<option value="1">正常</option>
+					<option value="2">原图（wifi建议选择）</option>
+				</select>
+			</li>
+		</ul>
+	</div>
+	
+	<div class="mui-content-padded">
+		<a><span class="mui-icon mui-icon-plusempty"  onclick="appendByGallery()"></span></a>
+	</div>
+	
+	<ul class="mui-table-view mui-grid-view mui-grid-9" id="image_list"></ul>
+	<div style="display: none;margin: 5px auto;width: 90%;" id="result_box">
+		<h5 style="background-color:#efeff4">上传的图片为：</h5>
+		<ul class="mui-table-view mui-grid-view" id="result_list"></ul>
+	</div>
+</div>
                    <br />
                    <input type="hidden" id="imgs" />
 				<input type="reset" value="取消" />
@@ -89,6 +399,57 @@
 		<script src="js/mui.enterfocus.js"></script>
 		<script src="js/app.js"></script>
          <script src="js/template-web.js"></script>
+         <script type="text/javascript" src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+       <script type="text/javascript" src="js/jquery.qqface.min.js"></script>
+         <script type="text/javascript"> 
+         	var oldLength = '';
+
+    $('#liveChatContent').on('change keydown keyup input', function(event) {
+
+        var textarea = $(this);
+        var value = $(this).val();
+        var length = getLenth(value);
+        if (length > 200) {
+            textarea.val(oldLength);
+        } else {
+            oldLength = value;
+            $('#left').html('还可以输入'+ (200 -length) + '个字符');
+        }
+    });
+
+
+    function getLenth(str) {
+        str = str.replace(/\[:([\s\S]+?)\]/g, 'F'); //把所有表情都变成F，一个字符
+        str = str.replace(/[\u4e00-\u9fa5]/g, 'CN'); //把所有表情都变成F，一个字符 
+        return str.length;
+    }
+
+    $.qqface({
+        before : function(textarea, code){
+            var value = textarea.val();
+            var length = getLenth(value);
+            return length < 199;
+
+        }, //要在插入之前执行
+        after: function(textarea, code){
+
+            var value = textarea.val();
+            var length = getLenth(value);
+
+            $('#left').html('还可以输入'+ (200 -length) + '个字符');
+
+            $('#liveChatContent').change();
+        }, //在插入之后执行
+        imgPath : 'gif/',
+        textarea : $('#liveChatContent'),
+        handle : $('#face')
+    });
+
+    $('a.pos').on('click', function(){
+        var index = $(this).data('index');
+        $('#box').attr('class', 'a' + index);
+    });
+</script>
 		
 <script>
 	var ind=document.getElementById("j_index");
@@ -125,118 +486,12 @@
 	});
 			});
 	</script>
- <script>
-     	
- document.getElementById('headImage').addEventListener('tap', function() {
-    if (mui.os.plus) {
-        var buttonTit = [{
-            title: "拍照"
-        }, {
-            title: "从手机相册选择"
-        }];
-        
-        plus.nativeUI.actionSheet({
-            title: "上传图片",
-            cancel: "取消",
-            buttons: buttonTit
-        }, function(b) { /*actionSheet 按钮点击事件*/
-            switch (b.index) {
-                case 0:
-                    break;
-                case 1:
-                    getImage(); /*拍照*/
-                    break;
-                case 2:
-                    galleryImg();/*打开相册*/
-                    break;
-                default:
-                    break;
-            }
-        })
-    }        
-}, false);
-
-// 拍照获取图片
-function getImage() {
-    var c = plus.camera.getCamera();
-    c.captureImage(function(e) {
-        plus.io.resolveLocalFileSystemURL(e, function(entry) {
-        	var imgSrc = entry.toLocalURL() + "?version=" + new Date().getTime(); //拿到图片路径
-            // 其他操作,比如预览展示
  
-        }, function(e) {
-            console.log("读取拍照文件错误：" + e.message);
-        });
-    }, function(s) {
-        console.log("error" + s);
-    }, {
-        filename: "_doc/camera/"
-    })
-}
-
-
-// 从相册中选择图片 
-function galleryImg(){
-	// 从相册中选择图片
-    plus.gallery.pick( function(e){
-    	for(var i in e.files){
-	    	var fileSrc = e.files[i];
-            // 其他操作,比如预览展示
-    	}
-    }, function ( e ) {
-    	console.log( "取消选择图片" );
-    },{
-    	filter: "image",
-    	multiple: true,
-    	maximum: 5,
-    	system: false,
-    	onmaxed: function() {
-    		plus.nativeUI.alert('最多只能选择5张图片');
-    	}
-    });
-}
-
-// 上传的方法
-function upload(){
-   	MicroTaskGUID = common.guid();
-   	
-   	var rul = "http://129.204.4.161:8080/Grasshopper_server/"
-   	
-   	var imgsArr = mui(".task-img"); // 要上传的 img 标签
-   	
-   	mui.each(imgsArr, function(index, item){
-// 		console.log(index)
-// 		console.log(item.src)
-   		createUp(item)
-   	})
-	
-	
-	function createUp (files) {
-	    var task = plus.uploader.createUpload(url,
-	        {method:"POST"},
-	        function(t,status){ //上传完成
-	            if(status==200){
-	            	console.log("上传成功："+t.responseText);
-	            	
-	            }else{
-	                console.log("上传失败："+status);
-	            }
-	        }
-	    );
-	    //添加其他参数
-//	    task.addData("name","test");
-        // 页面中要上传的 图片路径
-	    task.addFile(files.src,{key:files.src});
-	    task.start();
-	}
-}
-
-     </script>
-     <script>
+ <!--    <script>
      	var imgs_src="";
 			var imgs=document.getElementsByTagName("img");
 			for(var i=0;i<imgs.length;i++){
-				if(imgs[i].src == "http://129.204.4.161:8020/Grasshopper_client/images/iconfont-tianjia.png"){
+				if(imgs[i].src == "http://192.168.0.106:8020/Grasshopper_client/images/iconfont-tianjia.png"){
 					
 					imgs_src+=imgs[i].src;
 					imgs_src+=","
@@ -252,13 +507,13 @@ function upload(){
 		document.getElementsByName("content")[0].innerHTML=b;
 		var c= document.getElementsByName("content")[0].innerHTML+=b;
 	
-		</script>
+		</script>-->
      <script>
      			mui.init({
 				statusBarBackground: '#f7f7f7'
 			})
 			//页面请求全局路径
-				window.path="http://129.204.4.161:8080/Grasshopper_server/";
+				window.path="http://192.168.0.106:8080/Grasshopper_server/";
 				mui.get(window.path+'TestServlet?method=querySort',function(data){
 			
 		//获得服务器响应

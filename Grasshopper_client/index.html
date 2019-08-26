@@ -15,6 +15,27 @@
 			.mui-slider {
 				height: 150px;
 			}
+			.search {
+				
+				padding: 0;
+				margin: 0;
+				text-align: center;
+				padding-top: 20px;
+			}
+			
+			.search>ul {
+				list-style: none;
+				padding-top: 20px;
+				width: 30%;
+				margin: 0 50% 0 35%;
+			}
+			
+			.search>ul>li {
+				z-index: 99;
+				padding: 3px;
+				border: 1px solid silver;
+				box-shadow: 1px 1px;
+			}
 		</style>
 	</head>
 
@@ -166,25 +187,25 @@
 								<!-- 第一张 -->
 								<div class="mui-slider-item">
 									<a href="#">
-										<img src="http://129.204.4.161:8080/Grasshopper_server/images/1.jpg" style="width: 100%;height: 100%;">
+										<img src="http://192.168.0.106:8080/Grasshopper_server/images/1.jpg" style="width: 100%;height: 100%;">
 									</a>
 								</div>
 								<!-- 第二张 -->
 								<div class="mui-slider-item">
 									<a href="#">
-										<img src="http://129.204.4.161:8080/Grasshopper_server/images/2.jpg" style="width: 100%;height: 100%;">
+										<img src="http://192.168.0.106:8080/Grasshopper_server/images/2.jpg" style="width: 100%;height: 100%;">
 									</a>
 								</div>
 								<!-- 第三张 -->
 								<div class="mui-slider-item">
 									<a href="#">
-										<img src="http://129.204.4.161:8080/Grasshopper_server/images/3.jpg" style="width: 100%;height: 100%;">
+										<img src="http://192.168.0.106:8080/Grasshopper_server/images/3.jpg" style="width: 100%;height: 100%;">
 									</a>
 								</div>
 								<!-- 第四张 -->
 								<div class="mui-slider-item">
 									<a href="#">
-										<img src="http://129.204.4.161:8080/Grasshopper_server/images/4.jpg" style="width: 100%;height: 100%;">
+										<img src="http://192.168.0.106:8080/Grasshopper_server/images/4.jpg" style="width: 100%;height: 100%;">
 									</a>
 								</div>
 								<!-- 额外增加的一个节点(循环轮播：最后一个节点是第一张轮播) -->
@@ -194,6 +215,7 @@
 									</a>
 								</div>
 							</div>
+							
 							<div class="mui-slider-indicator">
 								<div class="mui-indicator mui-active"></div>
 								<div class="mui-indicator"></div>
@@ -201,10 +223,14 @@
 								<div class="mui-indicator"></div>
 							</div>
 						</div>
+							<div class="search"> <input type="text" id="txt" onchange="ch()"> <button type="button" id="btn">search</button>
+			              <ul id="list"> </ul>
+		              </div>
 						<!--数据列表-->
-						<ul class="mui-table-view mui-table-view-chevron" id="ul">
-
-						</ul>
+						<ul class="mui-table-view mui-table-view-chevron" id="listView">
+							<input type="hidden" id="user_name" value="">
+							<input type="hidden" id="user_id" value="">
+						</ul>  
 					</div>
 				</div>
 
@@ -231,7 +257,7 @@
 			});
 
 			//页面请求全局路径
-			window.path = "http://129.204.4.161:8080/Grasshopper_server/";
+			window.path = "http://192.168.0.106:8080/Grasshopper_server/";
 			/**
 			 * 下拉刷新具体业务实现
 			 */
@@ -349,12 +375,15 @@
 			mui.init({
 				statusBarBackground: '#f7f7f7'
 			});
-
+            document.getElementById("user_name").value = localStorage.getItem("user_name");
+			document.getElementById("user_id").value = localStorage.getItem("user_id");
+			var user_name = document.getElementById("user_name").value;
+			var user_id = document.getElementById("user_id").value;
 			//页面请求全局路径
-			window.path = "http://129.204.4.161:8080/Grasshopper_server/";
-
+			window.path = "http://192.168.0.106:8080/Grasshopper_server/";
+            var fan = document.getElementById("fans");
 			var dat = document.getElementById("data");
-
+			mui.trigger(fan, 'tap');
 			mui.trigger(dat, 'tap');
 
 			dat.addEventListener("tap", function() {
@@ -392,6 +421,63 @@
 					}
 				}, 'json');
 			});
+			//监听点击事件
+			fan.addEventListener("tap", function() {
+				var id = user_id;
+				//服务器中接口的地址			
+				/*mui.ajax('http://localhost/api/MyServlet',{
+					//向服务器发送数据
+					
+					dataType:'json',//服务器返回json格式数据
+					type:'get',//HTTP请求类型
+					success:function(data){
+						//获得服务器响应，获取服务响应的数据
+						console.log(data);
+					}
+				});*/
+				mui.post(window.path + 'FansServlet', {
+					method: "StatusCode",
+					id: id
+				}, function(data) {
+					console.log(data);
+					if(data.resultCode == "200") {
+						//原生的js跳转页面
+						//window.location.href="xxx.html";
+
+						//mui框架的跳转
+						mui.openWindow({
+							url: 'Fans.html',
+						});
+					} else {
+						alert("查看失败!");
+					}
+				}, 'json');
+			});	
+			
+			
+			mui("#listView").on('tap','.mui-navigate-right',function(){
+				var id = this.getAttribute("release_id");
+				var user_id = user_id;
+				mui.post(window.path + 'CommenterServlet', {
+					method: "StatusCode",
+					id: id,
+					user_id: user_id
+				}, function(data) {
+					console.log(data);
+					if(data.resultCode == "200") {
+						//原生的js跳转页面
+						//window.location.href="xxx.html";
+
+						//mui框架的跳转
+						mui.openWindow({
+							url: 'commenter.html',							
+						});
+					localStorage.setItem("release_id",id);
+					} else {
+						alert("查看失败!");
+					}
+				}, 'json');
+			})
 		</script>
 		<script>
 			var myf = document.getElementById("j_myFocus");
@@ -475,6 +561,110 @@
 				});
 			});
 		
+		</script>
+		<script>
+			/**     * Created by Steven on 2016-10-25.     */
+			
+			var oTxt = document.getElementById('txt');
+			var oBtn = document.getElementById('btn');
+			var oList = document.getElementById('list');
+			var fruits = ["桃子", "苹果", "梨子", "香蕉", "香瓜", "葡萄", "柠檬", "橘子", "草莓", "草莓子", "草拟吗", "s", "ssr"];
+			//点击事件
+			oBtn.addEventListener('click', function() {
+				var keyWord = oTxt.value; // var fruitList = searchByIndexOf(keyWord,fruits);   
+				console.log(fruitList);
+				var fruitList = searchByRegExp(keyWord, fruits);
+				renderFruits(fruitList);
+			}, false);
+			function ch(){
+				//回车查询   
+			
+					var keyWord = oTxt.value;
+					// var fruitList = searchByIndexOf(keyWord,fruits); 
+					var fruitList = searchByRegExp(keyWord, fruits);
+					renderFruits(fruitList);
+		
+			}
+			//回车查询   
+			oTxt.addEventListener('keydown', function(e) {
+				if(e.keyCode == 13) {
+					var keyWord = oTxt.value;
+					// var fruitList = searchByIndexOf(keyWord,fruits); 
+					var fruitList = searchByRegExp(keyWord, fruits);
+					renderFruits(fruitList);
+				}
+			}, false);
+			var cpLock = false;
+			
+			$('#txt').on('compositionstart', function() {
+				cpLock = true;
+				console.log("不搜索")
+			});
+			$('#txt').on('compositionend', function() {
+				cpLock = false;
+				console.log("汉字搜索");
+				var keyWord = oTxt.value;
+				// var fruitList = searchByIndexOf(keyWord,fruits);  
+				var fruitList = searchByRegExp(keyWord, fruits);
+				renderFruits(fruitList);
+			});
+			$('#txt').on('input', function() {
+				if(!cpLock) {
+					console.log("字母搜索")
+					var keyWord = oTxt.value;
+					// var fruitList = searchByIndexOf(keyWord,fruits);
+					var fruitList = searchByRegExp(keyWord, fruits);
+					renderFruits(fruitList);
+				}
+			});
+
+			function renderFruits(list) {
+				if(!(list instanceof Array)) {
+					return;
+				}
+				oList.innerHTML = '';
+				var len = list.length;
+				var item = null;
+				for(var i = 0; i < len; i++) {
+					item = document.createElement('li');
+					item.innerHTML = list[i];
+					oList.appendChild(item);
+				}
+			}
+			//模糊匹配的时候如果不区分大小写，可以使用toLowerCase()或者toUpperCase()转换之后去匹配。  
+			//模糊查询1:利用字符串的indexOf方法    
+			function searchByIndexOf(keyWord, list) {
+				if(!(list instanceof Array)) {
+					return;
+				}
+				var len = list.length;
+				var arr = [];
+				for(var i = 0; i < len; i++) {
+					//如果字符串中不包含目标字符会返回-1   
+					if(list[i].indexOf(keyWord) >= 0) {
+						arr.push(list[i]);
+					}
+				}
+				return arr;
+			}
+			//正则匹配    
+			function searchByRegExp(keyWord, list) {
+				if(!(list instanceof Array)) {
+					return;
+				}
+				var len = list.length;
+				var arr = [];
+				var reg = new RegExp(keyWord);
+				for(var i = 0; i < len; i++) {
+					//如果字符串中不包含目标字符会返回-1    
+					if(list[i].match(reg)) {
+						arr.push(list[i]);
+					}
+				}
+				return arr;
+			}
+			renderFruits(fruits);
+			
 		</script>
 	</body>
 

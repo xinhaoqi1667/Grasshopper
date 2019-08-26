@@ -115,6 +115,20 @@ public class BaseDao {
 				}
 				return null;
 			}
+			//Ìí¼Ó
+			public boolean add(String sql,Object[] param)
+			{		
+				 DataSource dataSource = JDBCUtils.getDataSource();
+				QueryRunner queryRunner = new QueryRunner(dataSource);
+				try {
+					int i = queryRunner.update(sql,param);
+					return i>0?true:false;
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				return false;
+			}	
 }
 
 

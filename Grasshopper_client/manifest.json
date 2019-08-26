@@ -127,9 +127,9 @@
 				"android": {
 					"mdpi": "", /*普通屏启动图片，分辨率：240x282*/
 					"ldpi": "", /*大屏启动图片，分辨率：320x442*/
-					"hdpi": "", /*高分屏启动图片，分辨率：480x762*/
-					"xhdpi": "", /*720P高分屏启动图片，分辨率：720x1242*/
-					"xxhdpi": ""
+					"hdpi": "C:/Users/jiangguanxiao/Desktop/d6e9f18052ed84281613b0e455e4839.png", /*高分屏启动图片，分辨率：480x762*/
+					"xhdpi": "C:/Users/jiangguanxiao/Desktop/d6e9f18052ed84281613b0e455e4839.png", /*720P高分屏启动图片，分辨率：720x1242*/
+					"xxhdpi": "C:/Users/jiangguanxiao/Desktop/d6e9f18052ed84281613b0e455e4839.png"
 				}
 			}
 		},"ads":{"rp":false,"splash":false,"push":false},"adid":""
